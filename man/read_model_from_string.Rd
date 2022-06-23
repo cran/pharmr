@@ -4,20 +4,22 @@
 \alias{read_model_from_string}
 \title{read_model_from_string}
 \usage{
-read_model_from_string(code)
+read_model_from_string(code, path = NULL)
 }
 \arguments{
 \item{code}{(str) Model code to read}
+
+\item{path}{(Path or str) Specified to set the path for the created model}
 }
 \value{
-(Model) Read model object
+(Model) Pharmpy model object
 }
 \description{
 Read model from the model code in a string
 }
 \examples{
 \dontrun{
-s <- '''$PROBLEM
+s <- "$PROBLEM
 $INPUT ID DV TIME
 $DATA file$csv
 $PRED
@@ -25,7 +27,7 @@ Y=THETA(1)+ETA(1)+ERR(1)
 $THETA 1
 $OMEGA 0.1
 $SIGMA 1
-$ESTIMATION METHOD=1'''
+$ESTIMATION METHOD=1"
 read_model_from_string(s)
 }
 }

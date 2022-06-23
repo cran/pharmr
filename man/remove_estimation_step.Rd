@@ -9,7 +9,7 @@ remove_estimation_step(model, idx)
 \arguments{
 \item{model}{(Model) Pharmpy model}
 
-\item{idx}{(integer) index of estimation step to remove}
+\item{idx}{(integer) index of estimation step to remove (starting from 0)}
 }
 \value{
 (Model) Reference to the same model object
@@ -20,11 +20,9 @@ Remove estimation step
 \examples{
 \dontrun{
 model <- load_example_model("pheno")
-opts <- list('NITER'=1000, 'ISAMPLE'=100, 'EONLY'=1)
-add_estimation_step(model, "IMP", options=opts)
-remove_estimation_step(model, 1)
+remove_estimation_step(model, 0)
 ests <- model$estimation_steps
-len(ests)
+length(ests)
 }
 }
 \seealso{
@@ -33,4 +31,10 @@ add_estimation_step
 set_estimation_step
 
 append_estimation_step_options
+
+add_covariance_step
+
+remove_covariance_step
+
+set_evaluation_step
 }

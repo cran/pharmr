@@ -4,20 +4,18 @@
 \alias{unfix_parameters_to}
 \title{unfix_parameters_to}
 \usage{
-unfix_parameters_to(model, parameter_names, values)
+unfix_parameters_to(model, inits)
 }
 \arguments{
 \item{model}{(Model) Pharmpy model}
 
-\item{parameter_names}{(vector or str) one parameter name or a vector of parameter names}
-
-\item{values}{(vector or numeric) one value or a vector of values (must be equal to number of parameter_names)}
+\item{inits}{(list) Inits for all parameters to unfix and change init}
 }
 \value{
 (Model) Reference to the same model object
 }
 \description{
-Unix parameters to
+Unfix parameters to
 
 Unfix all listed parameters to specified value/values
 }
@@ -26,9 +24,19 @@ Unfix all listed parameters to specified value/values
 model <- load_example_model("pheno")
 fix_parameters(model, c('THETA(1)', 'THETA(2)', 'THETA(3)'))
 model$parameters$fix
-unfix_parameters_to(model, 'THETA(1)', 0.5)
+unfix_parameters_to(model, {'THETA(1)': 0.5})
 model$parameters$fix
 model$parameters['THETA(1)']
 }
+}
+\seealso{
+fix_parameters : Fix parameters
 
+fix_or_unfix_parameters : Fix or unfix parameters (given boolean)
+
+unfix_paramaters : Unfixing parameters
+
+fix_paramaters_to : Fixing parameters and setting a new initial estimate in the same
+
+function
 }

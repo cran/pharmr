@@ -1,7 +1,7 @@
 Package: pharmr
 Encoding: UTF-8
-Version: 0.33.1
-Date: 2021-10-13
+Version: 0.73.1
+Date: 2022-06-22
 Title: Interface to the 'Pharmpy' 'Pharmacometrics' Library
 Authors@R: c(
   person("Rikard", "Nordgren", role=c("aut", "cre", "cph"), email="rikard.nordgren@farmaci.uu.se"),
@@ -15,10 +15,10 @@ Authors@R: c(
   person("F. Hoffmann-La Roche Ltd.", role=c("fnd"))
   )
 Maintainer: Rikard Nordgren <rikard.nordgren@farmaci.uu.se>
-Depends: R (>= 3.3.0), altair (>= 4.0.0)
-SystemRequirements: Python (>= 3.6.0)
+Depends: R (>= 3.6.0), altair (>= 4.0.0)
+SystemRequirements: Python (>= 3.7.0)
 Imports: reticulate (>= 1.19), utils
-Suggests: testthat, magrittr, here
+Suggests: testthat, magrittr, here, knitr
 NeedsCompilation: no
 Description: Interface to the 'Pharmpy' 'pharmacometrics' library. The 'Reticulate' package is used to interface Python from R.
 Config/reticulate: list( packages = list( list(package = "altair"),
@@ -26,8 +26,8 @@ Config/reticulate: list( packages = list( list(package = "altair"),
 URL: https://github.com/pharmpy/pharmr
 BugReports: https://github.com/pharmpy/pharmr/issues
 License: BSD_2_clause + file LICENSE
-RoxygenNote: 7.1.2
-Packaged: 2021-10-14 11:49:57 UTC; rikard
+RoxygenNote: 7.2.0
+Packaged: 2022-06-23 08:43:01 UTC; rikard
 Author: Rikard Nordgren [aut, cre, cph],
   Stella Belin [aut, cph],
   Mats O. Karlsson [sad],
@@ -38,4 +38,4 @@ Author: Rikard Nordgren [aut, cre, cph],
   João A. Abrantes [rev],
   F. Hoffmann-La Roche Ltd. [fnd]
 Repository: CRAN
-Date/Publication: 2021-10-15 07:30:02 UTC
+Date/Publication: 2022-06-23 12:20:02 UTC

@@ -4,12 +4,19 @@
 \alias{update_inits}
 \title{update_inits}
 \usage{
-update_inits(model, force_individual_estimates = FALSE)
+update_inits(
+  model,
+  force_individual_estimates = FALSE,
+  move_est_close_to_bounds = FALSE
+)
 }
 \arguments{
 \item{model}{(Model) Pharmpy model to update initial estimates}
 
 \item{force_individual_estimates}{(logical) Update initial individual estimates even if model din't use them previously.}
+
+\item{move_est_close_to_bounds}{(logical) Move estimates that are close to bounds. If correlation >0.99 the correlation will
+be set to 0.9, if variance is <0.001 the variance will be set to 0.01.}
 }
 \value{
 (Model) Reference to the same model
@@ -19,11 +26,12 @@ Update initial parameter estimate for a model
 
 Updates initial estimates of population parameters for a model from
 its modelfit_results. If the model has used initial estimates for
-individual estimates these will also be updated. If initial estimates
+individual estimates these will also be updated. If the new initial estimates
+are out of bounds or NaN this function will raise.
 }
 \examples{
 \dontrun{
-model <- load_example_model("pheno")
+model <- load_example_model("pheno")   # This model was previously fitted to its data
 model$parameters$inits
 update_inits(model)
 model$parameters$inits

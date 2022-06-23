@@ -4,24 +4,16 @@
 \alias{add_estimation_step}
 \title{add_estimation_step}
 \usage{
-add_estimation_step(
-  model,
-  method,
-  interaction = TRUE,
-  options = NULL,
-  idx = NULL
-)
+add_estimation_step(model, method, idx = NULL, ...)
 }
 \arguments{
 \item{model}{(Model) Pharmpy model}
 
 \item{method}{(str) estimation method to change to}
 
-\item{interaction}{(logical) whether to use interaction or not, default is true}
+\item{idx}{(integer) index of estimation step (starting from 0), default is NULL (adds step at the end)}
 
-\item{options}{(list) any additional tool specific options}
-
-\item{idx}{(integer) index of estimation step, default is NULL (adds step at the end)}
+\item{...}{Arguments to pass to EstimationStep (such as interaction, evaluation)}
 }
 \value{
 (Model) Reference to the same model object
@@ -35,10 +27,10 @@ FO, FOCE, ITS, LAPLACE, IMPMAP, IMP, SAEM
 \examples{
 \dontrun{
 model <- load_example_model("pheno")
-opts <- list('NITER'=1000, 'ISAMPLE'=100, 'EONLY'=1)
-add_estimation_step(model, "IMP", options=opts)
+opts <- list('NITER'=1000, 'ISAMPLE'=100)
+add_estimation_step(model, "IMP", tool_options=opts)
 ests <- model$estimation_steps
-len(ests)
+length(ests)
 ests[2]
 }
 }
@@ -48,4 +40,10 @@ set_estimation_step
 remove_estimation_step
 
 append_estimation_step_options
+
+add_covariance_step
+
+remove_covariance_step
+
+set_evaluation_step
 }
