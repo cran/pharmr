@@ -6,7 +6,7 @@
 \usage{
 check_parameters_near_bounds(
   model,
-  values = NULL,
+  values,
   zero_limit = 0.001,
   significant_digits = 2
 )
@@ -14,12 +14,11 @@ check_parameters_near_bounds(
 \arguments{
 \item{model}{(Model) Pharmpy model object}
 
-\item{values}{(data.frame) Series of values with index a subset of parameter names.
-Default is to use all parameter estimates}
+\item{values}{(array) Series of values with index a subset of parameter names.}
 
-\item{zero_limit}{(number) maximum distance to 0 bounds}
+\item{zero_limit}{(numeric) maximum distance to 0 bounds}
 
-\item{significant_digits}{(integer) maximum distance to non-zero bounds in number of significant digits}
+\item{significant_digits}{(numeric) maximum distance to non-zero bounds in number of significant digits}
 }
 \value{
 (data.frame) Logical Series with same index as values
@@ -30,7 +29,8 @@ Check if any estimated parameter value is close to its bounds
 \examples{
 \dontrun{
 model <- load_example_model("pheno")
-check_parameters_near_bounds(model)
+results <- load_example_modelfit_results("pheno")
+check_parameters_near_bounds(model, results$parameter_estimates)
 }
 
 }

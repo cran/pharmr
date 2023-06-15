@@ -4,19 +4,29 @@
 \alias{retrieve_models}
 \title{retrieve_models}
 \usage{
-retrieve_models(path, names = NULL)
+retrieve_models(source, names = NULL)
 }
 \arguments{
-\item{path}{(str or Path) A path to the tool directory}
+\item{source}{(str or Results) Source where to find models. Can be a path (as str or Path), a results object, or a
+ToolDatabase/ModelDatabase}
 
-\item{names}{(vector) List of names of the models to retrieve or NULL for all}
+\item{names}{(array(str) (optional)) List of names of the models to retrieve or NULL for all}
 }
 \value{
 (vector) List of retrieved model objects
 }
 \description{
-Retrieve models after a tool runs
+Retrieve models after a tool run
 
 Any models created and run by the tool can be
 retrieved.
+}
+\examples{
+\dontrun{
+tooldir_path <- 'path/to/tool/directory'
+models <- retrieve_models(tooldir_path, names=c('run1'))
+}
+}
+\seealso{
+retrieve_final_model
 }

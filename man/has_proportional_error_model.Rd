@@ -4,16 +4,21 @@
 \alias{has_proportional_error_model}
 \title{has_proportional_error_model}
 \usage{
-has_proportional_error_model(model)
+has_proportional_error_model(model, dv = NULL)
 }
 \arguments{
 \item{model}{(Model) The model to check}
+
+\item{dv}{(str or numeric (optional)) Name or DVID of dependent variable. NULL for the default (first or only)}
 }
 \value{
 (logical) TRUE if the model has a proportional error model and FALSE otherwise
 }
 \description{
 Check if a model has a proportional error model
+
+Multiple dependent variables are supported. By default the only (in case of one) or the
+first (in case of many) dependent variable is going to be checked.
 }
 \examples{
 \dontrun{
@@ -25,4 +30,6 @@ has_proportional_error_model(model)
 has_additive_error_model : Check if a model has an additive error model
 
 has_combined_error_model : Check if a model has a combined error model
+
+has_weighted_error_model : Check if a model has a weighted error model
 }

@@ -6,21 +6,25 @@
 \usage{
 run_amd(
   input,
+  results = NULL,
   modeltype = "pk_oral",
   cl_init = 0.01,
   vc_init = 1,
   mat_init = 0.1,
   search_space = NULL,
-  lloq = NULL,
+  lloq_method = NULL,
+  lloq_limit = NULL,
   order = NULL,
-  categorical = NULL,
-  continuous = NULL,
   allometric_variable = NULL,
-  occasion = NULL
+  occasion = NULL,
+  path = NULL,
+  resume = FALSE
 )
 }
 \arguments{
-\item{input}{(Model) Read model object/Path to a dataset}
+\item{input}{(Model or str) Read model object/Path to a dataset}
+
+\item{results}{(ModelfitResults (optional)) Reults of input if input is a model}
 
 \item{modeltype}{(str) Type of model to build. Either 'pk_oral' or 'pk_iv'}
 
@@ -30,19 +34,21 @@ run_amd(
 
 \item{mat_init}{(numeric) Initial estimate for the mean absorption time (not for iv models)}
 
-\item{search_space}{(str) MFL for search space for structural model}
+\item{search_space}{(str (optional)) MFL for search space for structural model}
 
-\item{lloq}{(numeric) Lower limit of quantification. LOQ data will be removed.}
+\item{lloq_method}{(str (optional)) Method for how to remove LOQ data. See \code{transform_blq} for vector of available methods}
 
-\item{order}{(vector) Runorder of components}
+\item{lloq_limit}{(str (optional)) Lower limit of quantification. If NULL LLOQ column from dataset will be used}
 
-\item{categorical}{(vector) List of categorical covariates}
+\item{order}{(array(str) (optional)) Runorder of components}
 
-\item{continuous}{(vector) List of continuous covariates}
+\item{allometric_variable}{(str (optional)) Variable to use for allometry}
 
-\item{allometric_variable}{(str or Symbol) Variable to use for allometry}
+\item{occasion}{(str (optional)) Name of occasion column}
 
-\item{occasion}{(str) Name of occasion column}
+\item{path}{(str (optional)) Path to run AMD in}
+
+\item{resume}{(logical (optional)) Whether to allow resuming previous run}
 }
 \value{
 (Model) Reference to the same model object
@@ -50,12 +56,13 @@ run_amd(
 \description{
 Run Automatic Model Development (AMD) tool
 
-Runs structural modelsearch, IIV building, and resmod
+Runs structural modelsearch, IIV building, and ruvsearch
 }
 \examples{
 \dontrun{
 model <- load_example_model("pheno")
-run_amd(model)
+results <- load_example_modelfit_results("pheno")
+run_amd(model, results=results)
 }
 }
 \seealso{

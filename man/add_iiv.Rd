@@ -16,18 +16,18 @@ add_iiv(
 \arguments{
 \item{model}{(Model) Pharmpy model to add new IIVs to.}
 
-\item{list_of_parameters}{(str, vector) Name/names of parameter to add new IIVs to.}
+\item{list_of_parameters}{(array(str) or str) Name/names of parameter to add new IIVs to.}
 
-\item{expression}{(str, vector) Effect/effects on eta. Either abbreviated (see above) or custom.}
+\item{expression}{(array(str) or str) Effect/effects on eta. Either abbreviated (see above) or custom.}
 
-\item{operation}{(str, vector, optional) Whether the new IIV should be added or multiplied (default).}
+\item{operation}{(str) Whether the new IIV should be added or multiplied (default).}
 
 \item{initial_estimate}{(numeric) Value of initial estimate of parameter. Default is 0.09}
 
-\item{eta_names}{(str, vector, optional) Custom name/names of new eta}
+\item{eta_names}{(array(str) (optional)) Custom name/names of new eta}
 }
 \value{
-(Model) Reference to the same model
+(Model) Pharmpy model object
 }
 \description{
 Adds IIVs to :class:\code{pharmpy.model}.
@@ -46,8 +46,8 @@ input is supported. Initial estimates for new etas are 0.09.
 \examples{
 \dontrun{
 model <- load_example_model("pheno")
-remove_iiv(model, "CL")
-add_iiv(model, "CL", "add")
+model <- remove_iiv(model, "CL")
+model <- add_iiv(model, "CL", "add")
 model$statements$find_assignment("CL")
 }
 }

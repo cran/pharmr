@@ -4,19 +4,21 @@
 \alias{set_additive_error_model}
 \title{set_additive_error_model}
 \usage{
-set_additive_error_model(model, data_trans = NULL, series_terms = 2)
+set_additive_error_model(model, dv = NULL, data_trans = NULL, series_terms = 2)
 }
 \arguments{
 \item{model}{(Model) Set error model for this model}
 
-\item{data_trans}{(str or expression) A data transformation expression or NULL (default) to use the transformation
+\item{dv}{(str or numeric (optional)) Name or DVID of dependent variable. NULL for the default (first or only)}
+
+\item{data_trans}{(str (optional)) A data transformation expression or NULL (default) to use the transformation
 specified by the model. Series expansion will be used for approximation.}
 
-\item{series_terms}{(integer) Number of terms to use for the series expansion approximation for data
+\item{series_terms}{(numeric) Number of terms to use for the series expansion approximation for data
 transformation.}
 }
 \value{
-(Model) Reference to the same model object
+(Model) Pharmpy model object
 }
 \description{
 Set an additive error model. Initial estimate for new sigma is :math:\verb{(min(DV)/2)²}.
@@ -36,11 +38,11 @@ some examples.
 \dontrun{
 model <- load_example_model("pheno")
 model$statements$find_assignment("Y")
-set_additive_error_model(model)
+model <- set_additive_error_model(model)
 model$statements$find_assignment("Y")
 model <- load_example_model("pheno")
 model$statements$find_assignment("Y")
-set_additive_error_model(model, data_trans="log(Y)")
+model <- set_additive_error_model(model, data_trans="log(Y)")
 model$statements$find_assignment("Y")
 }
 }

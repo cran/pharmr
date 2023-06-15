@@ -9,10 +9,10 @@ undrop_columns(model, column_names)
 \arguments{
 \item{model}{(Model) Pharmpy model object}
 
-\item{column_names}{(vector or str) List of column names or one column name to undrop}
+\item{column_names}{(array(str) or str) List of column names or one column name to undrop}
 }
 \value{
-(Model) Reference to same model object
+(Model) Pharmpy model object
 }
 \description{
 Undrop columns of model
@@ -20,8 +20,8 @@ Undrop columns of model
 \examples{
 \dontrun{
 model <- load_example_model("pheno")
-drop_columns(model, c('WGT', 'APGR'), mark=TRUE)
-undrop_columns(model, 'WGT')
+model <- drop_columns(model, c('WGT', 'APGR'), mark=TRUE)
+model <- undrop_columns(model, 'WGT')
 }
 }
 \seealso{

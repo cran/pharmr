@@ -4,14 +4,14 @@
 \alias{plot_individual_predictions}
 \title{plot_individual_predictions}
 \usage{
-plot_individual_predictions(model, predictions = NULL, individuals = NULL)
+plot_individual_predictions(model, predictions, individuals = NULL)
 }
 \arguments{
 \item{model}{(Model) Previously run Pharmpy model.}
 
-\item{predictions}{(vector) A vector of names of predictions to plot. NULL for all available}
+\item{predictions}{(data.frame) One column for each type of prediction}
 
-\item{individuals}{(vector) A vector of individuals to include. NULL for all individuals}
+\item{individuals}{(array(numeric) (optional)) A vector of individuals to include. NULL for all individuals}
 }
 \value{
 (alt.Chart) Plot

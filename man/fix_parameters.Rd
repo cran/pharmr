@@ -9,10 +9,10 @@ fix_parameters(model, parameter_names)
 \arguments{
 \item{model}{(Model) Pharmpy model}
 
-\item{parameter_names}{(vector or str) one parameter name or a vector of parameter names}
+\item{parameter_names}{(array(str) or str) one parameter name or a vector of parameter names}
 }
 \value{
-(Model) Reference to the same model object
+(Model) Pharmpy model object
 }
 \description{
 Fix parameters
@@ -22,9 +22,9 @@ Fix all listed parameters
 \examples{
 \dontrun{
 model <- load_example_model("pheno")
-model$parameters['THETA(1)']
-fix_parameters(model, 'THETA(1)')
-model$parameters['THETA(1)']
+model$parameters['PTVCL']
+model <- fix_parameters(model, 'PTVCL')
+model$parameters['PTVCL']
 }
 }
 \seealso{

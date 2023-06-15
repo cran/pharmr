@@ -9,16 +9,16 @@ set_iiv_on_ruv(model, list_of_eps = NULL, same_eta = TRUE, eta_names = NULL)
 \arguments{
 \item{model}{(Model) Pharmpy model to apply IIV on epsilons.}
 
-\item{list_of_eps}{(str, vector) Name/names of epsilons to multiply with exponential etas. If NULL, all epsilons will
+\item{list_of_eps}{(array(str) or str (optional)) Name/names of epsilons to multiply with exponential etas. If NULL, all epsilons will
 be chosen. NULL is default.}
 
 \item{same_eta}{(logical) Boolean of whether all RUVs from input should use the same new ETA or if one ETA
 should be created for each RUV. TRUE is default.}
 
-\item{eta_names}{(str, vector) Custom names of new etas. Must be equal to the number epsilons or 1 if same eta.}
+\item{eta_names}{(array(str) or str (optional)) Custom names of new etas. Must be equal to the number epsilons or 1 if same eta.}
 }
 \value{
-(Model) Reference to same model
+(Model) Pharmpy model object
 }
 \description{
 Multiplies epsilons with exponential (new) etas.
@@ -28,7 +28,7 @@ Initial variance for new etas is 0.09.
 \examples{
 \dontrun{
 model <- load_example_model("pheno")
-set_iiv_on_ruv(model)
+model <- set_iiv_on_ruv(model)
 model$statements$find_assignment("Y")
 }
 }

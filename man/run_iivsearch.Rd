@@ -9,7 +9,9 @@ run_iivsearch(
   iiv_strategy = "no_add",
   rank_type = "bic",
   cutoff = NULL,
-  model = NULL
+  results = NULL,
+  model = NULL,
+  ...
 )
 }
 \arguments{
@@ -20,10 +22,14 @@ or 'fullblock'. Default is 'no_add'}
 
 \item{rank_type}{(str) Which ranking type should be used (OFV, AIC, BIC). Default is BIC}
 
-\item{cutoff}{(numeric) Cutoff for which value of the ranking function that is considered significant. Default
+\item{cutoff}{(numeric (optional)) Cutoff for which value of the ranking function that is considered significant. Default
 is NULL (all models will be ranked)}
 
-\item{model}{(Model) Pharmpy model}
+\item{results}{(ModelfitResults (optional)) Results for model}
+
+\item{model}{(Model (optional)) Pharmpy mode}
+
+\item{...}{Arguments to pass to tool}
 }
 \value{
 (IIVSearchResults) IIVsearch tool result object
@@ -34,7 +40,8 @@ Run IIVsearch tool. For more details, see :ref:\code{iivsearch}.
 \examples{
 \dontrun{
 model <- load_example_model("pheno")
-run_iivsearch('brute_force', model=model)
+results <- load_example_modelfit_results("pheno")
+run_iivsearch('brute_force', results=results, model=model)
 }
 
 }

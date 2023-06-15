@@ -9,11 +9,11 @@ evaluate_eta_gradient(model, etas = NULL, parameters = NULL, dataset = NULL)
 \arguments{
 \item{model}{(Model) Pharmpy model}
 
-\item{etas}{(list) Optional list of eta values}
+\item{etas}{(data.frame (optional)) Optional list of eta values}
 
-\item{parameters}{(list) Optional list of parameters and values}
+\item{parameters}{(list(str=numeric) (optional)) Optional list of parameters and values}
 
-\item{dataset}{(data.frame) Optional dataset}
+\item{dataset}{(data.frame (optional)) Optional dataset}
 }
 \value{
 (data.frame) Gradient
@@ -33,7 +33,9 @@ This function currently only support models without ODE systems
 \examples{
 \dontrun{
 model <- load_example_model("pheno_linear")
-evaluate_eta_gradient(model)
+results <- load_example_modelfit_results("pheno_linear")
+etas <- results$individual_estimates
+evaluate_eta_gradient(model, etas=etas)
 }
 }
 \seealso{

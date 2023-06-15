@@ -4,12 +4,14 @@
 \alias{evaluate_expression}
 \title{evaluate_expression}
 \usage{
-evaluate_expression(model, expression)
+evaluate_expression(model, expression, parameter_estimates = NULL)
 }
 \arguments{
 \item{model}{(Model) Pharmpy model}
 
-\item{expression}{(str or sympy expression) Expression to evaluate}
+\item{expression}{(str) Expression to evaluate}
+
+\item{parameter_estimates}{(list(str=numeric) (optional)) Parameter estimates to use instead of initial estimates}
 }
 \value{
 (data.frame) A series of one evaluated value for each data record
@@ -25,7 +27,9 @@ will be used. Initial estimates will be used for non-estimated parameters.
 \examples{
 \dontrun{
 model <- load_example_model("pheno")
-evaluate_expression(model, "TVCL*1000")
+results <- load_example_modelfit_results("pheno")
+pe <- results$parameter_estimates
+evaluate_expression(model, "TVCL*1000", parameter_estimates=pe)
 }
 
 }

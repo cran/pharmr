@@ -17,10 +17,10 @@ add_iov(
 
 \item{occ}{(str) Name of occasion column.}
 
-\item{list_of_parameters}{(str, vector) List of names of parameters and random variables. Accepts random variable names, parameter
+\item{list_of_parameters}{(array(str) or str (optional)) List of names of parameters and random variables. Accepts random variable names, parameter
 names, or a mix of both.}
 
-\item{eta_names}{(str, vector) Custom names of new etas. Must be equal to the number of input etas times the number of
+\item{eta_names}{(array(str) or str (optional)) Custom names of new etas. Must be equal to the number of input etas times the number of
 categories for occasion.}
 
 \item{distribution}{(str) The distribution that should be used for the new etas. Options are
@@ -29,7 +29,7 @@ distribution, 'explicit' for an explicit mix of joint and disjoint
 distributions, and 'same-as-iiv' for copying the distribution of IIV etas.}
 }
 \value{
-(Model) Reference to the same model
+(Model) Pharmpy model object
 }
 \description{
 Adds IOVs to :class:\code{pharmpy.model}.
@@ -39,7 +39,7 @@ Initial estimate of new IOVs are 10\% of the IIV eta it is based on.
 \examples{
 \dontrun{
 model <- load_example_model("pheno")
-add_iov(model, "TIME", "CL")
+model <- add_iov(model, "TIME", "CL")
 model$statements$find_assignment("CL")
 }
 }

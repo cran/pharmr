@@ -9,12 +9,12 @@ append_estimation_step_options(model, tool_options, idx)
 \arguments{
 \item{model}{(Model) Pharmpy model}
 
-\item{tool_options}{(list) any additional tool specific options}
+\item{tool_options}{(list(str=any)) any additional tool specific options}
 
-\item{idx}{(integer) index of estimation step (starting from 0)}
+\item{idx}{(numeric) index of estimation step (starting from 0)}
 }
 \value{
-(Model) Reference to the same model object
+(Model) Pharmpy model object
 }
 \description{
 Append estimation step options
@@ -25,7 +25,7 @@ Appends options to an existing estimation step.
 \dontrun{
 model <- load_example_model("pheno")
 opts <- list('NITER'=1000, 'ISAMPLE'=100)
-append_estimation_step_options(model, tool_options=opts, idx=0)
+model <- append_estimation_step_options(model, tool_options=opts, idx=0)
 est <- model$estimation_steps[1]
 length(est$tool_options)
 }

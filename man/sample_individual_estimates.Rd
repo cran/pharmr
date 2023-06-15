@@ -6,6 +6,8 @@
 \usage{
 sample_individual_estimates(
   model,
+  individual_estimates,
+  individual_estimates_covariance,
   parameters = NULL,
   samples_per_id = 100,
   rng = NULL
@@ -14,11 +16,15 @@ sample_individual_estimates(
 \arguments{
 \item{model}{(Model) Pharmpy model}
 
-\item{parameters}{(vector) A vector of a subset of individual parameters to sample. Default is NULL, which means all.}
+\item{individual_estimates}{(data.frame) Individual estimates to use}
 
-\item{samples_per_id}{(integer) Number of samples per individual}
+\item{individual_estimates_covariance}{(data.frame) Uncertainty covariance of the individual estimates}
 
-\item{rng}{(rng or integer) Random number generator or seed}
+\item{parameters}{(array(str) (optional)) A vector of a subset of individual parameters to sample. Default is NULL, which means all.}
+
+\item{samples_per_id}{(numeric) Number of samples per individual}
+
+\item{rng}{(numeric (optional)) Random number generator or seed}
 }
 \value{
 (data.frame) Pool of samples in a DataFrame
@@ -29,8 +35,11 @@ Sample individual estimates given their covariance.
 \examples{
 \dontrun{
 model <- load_example_model("pheno")
+results <- load_example_modelfit_results("pheno")
 rng <- create_rng(23)
-sample_individual_estimates(model, samples_per_id=2, rng=rng)
+ie <- results$individual_estimates
+iec <- results$individual_estimates_covariance
+sample_individual_estimates(model, ie, iec, samples_per_id=2, rng=rng)
 }
 }
 \seealso{

@@ -10,7 +10,7 @@ add_time_after_dose(model)
 \item{model}{(Model) Pharmpy model}
 }
 \value{
-(Model) Reference to the same model object
+(Model) Pharmpy model object
 }
 \description{
 Calculate and add a TAD column to the dataset"
@@ -18,7 +18,7 @@ Calculate and add a TAD column to the dataset"
 \examples{
 \dontrun{
 model <- load_example_model("pheno")
-add_time_after_dose(model)
+model <- add_time_after_dose(model)
 }
 
 }

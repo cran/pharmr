@@ -9,7 +9,7 @@ simplify_expression(model, expr)
 \arguments{
 \item{model}{(Model) Pharmpy model object}
 
-\item{expr}{(Expression) Expression to simplify}
+\item{expr}{(numeric or str) Expression to simplify}
 }
 \value{
 (Expression) Simplified expression
@@ -19,10 +19,8 @@ Simplify expression given constraints in model
 }
 \examples{
 \dontrun{
-conf$parameter_names <- c('comment', 'basic')
 model <- load_example_model("pheno")
 simplify_expression(model, "Abs(PTVCL)")
-conf$parameter_names <- c('basic')
 }
 
 }

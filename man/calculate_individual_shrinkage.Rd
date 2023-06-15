@@ -4,10 +4,18 @@
 \alias{calculate_individual_shrinkage}
 \title{calculate_individual_shrinkage}
 \usage{
-calculate_individual_shrinkage(model)
+calculate_individual_shrinkage(
+  model,
+  parameter_estimates,
+  individual_estimates_covariance
+)
 }
 \arguments{
 \item{model}{(Model) Pharmpy model}
+
+\item{parameter_estimates}{(array) Parameter estimates of model}
+
+\item{individual_estimates_covariance}{(data.frame) Uncertainty covariance matrices of individual estimates}
 }
 \value{
 (DataFrame) Shrinkage for each eta and individual
@@ -20,7 +28,10 @@ Definition: ieta_shr = (var(eta) / omega)
 \examples{
 \dontrun{
 model <- load_example_model("pheno")
-calculate_individual_shrinkage(model)
+results <- load_example_modelfit_results("pheno")
+pe <- results$parameter_estimates
+covs <- results$individual_estimates_covariance
+calculate_individual_shrinkage(model, pe, covs)
 }
 }
 \seealso{

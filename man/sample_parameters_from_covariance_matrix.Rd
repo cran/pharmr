@@ -6,8 +6,8 @@
 \usage{
 sample_parameters_from_covariance_matrix(
   model,
-  modelfit_results = NULL,
-  parameters = NULL,
+  parameter_estimates,
+  covariance_matrix,
   force_posdef_samples = NULL,
   force_posdef_covmatrix = FALSE,
   n = 1,
@@ -17,18 +17,18 @@ sample_parameters_from_covariance_matrix(
 \arguments{
 \item{model}{(Model) Input model}
 
-\item{modelfit_results}{(ModelfitResults) Alternative results object. Default is to use the one in model}
+\item{parameter_estimates}{(array) Parameter estimates to use as means in sampling}
 
-\item{parameters}{(vector) Use to only sample a subset of the parameters. NULL means all}
+\item{covariance_matrix}{(data.frame) Parameter uncertainty covariance matrix}
 
-\item{force_posdef_samples}{(integer) Set to how many iterations to do before forcing all samples to be positive definite. NULL is
+\item{force_posdef_samples}{(numeric (optional)) Set to how many iterations to do before forcing all samples to be positive definite. NULL is
 default and means never and 0 means always}
 
 \item{force_posdef_covmatrix}{(logical) Set to TRUE to force the input covariance matrix to be positive definite}
 
-\item{n}{(integer) Number of samples}
+\item{n}{(numeric) Number of samples}
 
-\item{rng}{(Generator) Random number generator}
+\item{rng}{(numeric (optional)) Random number generator}
 }
 \value{
 (data.frame) A dataframe with one sample per row
@@ -36,13 +36,16 @@ default and means never and 0 means always}
 \description{
 Sample parameter vectors using the covariance matrix
 
-If modelfit_results is not provided the results from the model will be used
+If parameters is not provided all estimated parameters will be used
 }
 \examples{
 \dontrun{
 model <- load_example_model("pheno")
+results <- load_example_modelfit_results("pheno")
 rng <- create_rng(23)
-sample_parameters_from_covariance_matrix(model, n=3, rng=rng)
+cov <- results$covariance_matrix
+pe <- results$parameter_estimates
+sample_parameters_from_covariance_matrix(model, pe, cov, n=3, rng=rng)
 }
 }
 \seealso{

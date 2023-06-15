@@ -9,12 +9,12 @@ drop_columns(model, column_names, mark = FALSE)
 \arguments{
 \item{model}{(Model) Pharmpy model object}
 
-\item{column_names}{(vector or str) List of column names or one column name to drop or mark as dropped}
+\item{column_names}{(array(str) or str) List of column names or one column name to drop or mark as dropped}
 
-\item{mark}{(logical) Default is to remove column from dataset set this to TRUE to only mark as dropped}
+\item{mark}{(logical) Default is to remove column from dataset. Set this to TRUE to only mark as dropped}
 }
 \value{
-(Model) Reference to same model object
+(Model) Pharmpy model object
 }
 \description{
 Drop columns from the dataset or mark as dropped
@@ -22,7 +22,7 @@ Drop columns from the dataset or mark as dropped
 \examples{
 \dontrun{
 model <- load_example_model("pheno")
-drop_columns(model, c('WGT', 'APGR'))
+model <- drop_columns(model, c('WGT', 'APGR'))
 vector(model$dataset$columns)
 }
 }

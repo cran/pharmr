@@ -4,15 +4,15 @@
 \alias{fit}
 \title{fit}
 \usage{
-fit(models, tool = NULL)
+fit(model_or_models, tool = NULL)
 }
 \arguments{
-\item{models}{(vector) List of models or one single model}
+\item{model_or_models}{(Model or array(Model)) List of models or one single model}
 
-\item{tool}{(str) Estimation tool to use. NULL to use default}
+\item{tool}{(str (optional)) Estimation tool to use. NULL to use default}
 }
 \value{
-(Model) Reference to same model
+(ModelfitResults | vector of ModelfitResults) ModelfitResults for the model or models
 }
 \description{
 Fit models.
@@ -20,7 +20,7 @@ Fit models.
 \examples{
 \dontrun{
 model <- load_example_model("pheno")
-fit(model)
+results <- fit(model)
 }
 }
 \seealso{

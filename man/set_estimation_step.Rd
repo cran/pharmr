@@ -11,12 +11,12 @@ set_estimation_step(model, method, idx = 0, ...)
 
 \item{method}{(str) estimation method to change to}
 
-\item{idx}{(integer) index of estimation step, default is 0 (first estimation step)}
+\item{idx}{(numeric) index of estimation step, default is 0 (first estimation step)}
 
 \item{...}{Arguments to pass to EstimationStep (such as interaction, evaluation)}
 }
 \value{
-(Model) Reference to the same model object
+(Model) Pharmpy model object
 }
 \description{
 Set estimation step
@@ -28,7 +28,7 @@ FO, FOCE, ITS, LAPLACE, IMPMAP, IMP, SAEM, BAYES
 \dontrun{
 model <- load_example_model("pheno")
 opts <- list('NITER'=1000, 'ISAMPLE'=100)
-set_estimation_step(model, "IMP", evaluation=TRUE, tool_options=opts)
+model <- set_estimation_step(model, "IMP", evaluation=TRUE, tool_options=opts)
 model$estimation_steps[1]
 }
 }

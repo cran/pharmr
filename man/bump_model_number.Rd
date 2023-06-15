@@ -9,10 +9,10 @@ bump_model_number(model, path = NULL)
 \arguments{
 \item{model}{(Model) Pharmpy model object}
 
-\item{path}{(Path in which to find next unique number) Default is to not look for files.}
+\item{path}{(str) Default is to not look for files.}
 }
 \value{
-(Model) Reference to the same model object
+(Model) Pharmpy model object
 }
 \description{
 If the model name ends in a number increase it
@@ -24,8 +24,8 @@ If model name does not end in a number do nothing.
 \examples{
 \dontrun{
 model <- load_example_model("pheno")
-model$name <- "run2"
-bump_model_number(model)
+model <- model$replace(name="run2")
+model <- bump_model_number(model)
 model$name
 }
 

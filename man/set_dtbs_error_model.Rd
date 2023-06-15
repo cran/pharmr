@@ -9,10 +9,10 @@ set_dtbs_error_model(model, fix_to_log = FALSE)
 \arguments{
 \item{model}{(Model) Pharmpy model}
 
-\item{fix_to_log}{(Boolean) Set to TRUE to fix lambda and zeta to 0, i.e. emulating log-transformed data}
+\item{fix_to_log}{(logical) Set to TRUE to fix lambda and zeta to 0, i.e. emulating log-transformed data}
 }
 \value{
-(Model) Reference to the same model
+(Model) Pharmpy model object
 }
 \description{
 Dynamic transform both sides
@@ -20,7 +20,7 @@ Dynamic transform both sides
 \examples{
 \dontrun{
 model <- load_example_model("pheno")
-set_dtbs_error_model(model)
+model <- set_dtbs_error_model(model)
 }
 
 }

@@ -11,12 +11,12 @@ add_estimation_step(model, method, idx = NULL, ...)
 
 \item{method}{(str) estimation method to change to}
 
-\item{idx}{(integer) index of estimation step (starting from 0), default is NULL (adds step at the end)}
+\item{idx}{(numeric (optional)) index of estimation step (starting from 0), default is NULL (adds step at the end)}
 
 \item{...}{Arguments to pass to EstimationStep (such as interaction, evaluation)}
 }
 \value{
-(Model) Reference to the same model object
+(Model) Pharmpy model object
 }
 \description{
 Add estimation step
@@ -28,7 +28,7 @@ FO, FOCE, ITS, LAPLACE, IMPMAP, IMP, SAEM
 \dontrun{
 model <- load_example_model("pheno")
 opts <- list('NITER'=1000, 'ISAMPLE'=100)
-add_estimation_step(model, "IMP", tool_options=opts)
+model <- add_estimation_step(model, "IMP", tool_options=opts)
 ests <- model$estimation_steps
 length(ests)
 ests[2]

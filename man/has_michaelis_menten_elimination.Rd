@@ -16,13 +16,13 @@ has_michaelis_menten_elimination(model)
 Check if the model describes Michaelis-Menten elimination
 
 This function relies on heuristics and will not be able to detect all
-possible ways of coding the Michalis-Menten elimination.
+possible ways of coding the Michaelis-Menten elimination.
 }
 \examples{
 \dontrun{
 model <- load_example_model("pheno")
 has_michaelis_menten_elimination(model)
-set_michaelis_menten_elimination(model)
+model <- set_michaelis_menten_elimination(model)
 has_michaelis_menten_elimination(model)
 }
 

@@ -7,7 +7,7 @@
 summarize_individuals(models)
 }
 \arguments{
-\item{models}{(vector of Models) Input models}
+\item{models}{(array(Model)) Input models}
 }
 \value{
 (data.frame | NULL) The summary as a dataframe
@@ -35,11 +35,11 @@ Content of the various columns:
 \examples{
 \dontrun{
 model <- load_example_model("pheno")
-fit(model)
+fit_results <- fit(model)
 results <- run_tool(
-    model=model,
-    mfl='ABSORPTION(ZO);PERIPHERALS(c(1, 2))',
-    algorithm='reduced_stepwise'
+ model=model,
+ mfl='ABSORPTION(ZO);PERIPHERALS(c(1, 2))',
+ algorithm='reduced_stepwise'
 summarize_individuals([results$start_model, *results$models])
 }
 

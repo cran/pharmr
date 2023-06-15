@@ -4,7 +4,14 @@
 \alias{add_covariate_effect}
 \title{add_covariate_effect}
 \usage{
-add_covariate_effect(model, parameter, covariate, effect, operation = "*")
+add_covariate_effect(
+  model,
+  parameter,
+  covariate,
+  effect,
+  operation = "*",
+  allow_nested = FALSE
+)
 }
 \arguments{
 \item{model}{(Model) Pharmpy model to add covariate effect to.}
@@ -15,10 +22,13 @@ add_covariate_effect(model, parameter, covariate, effect, operation = "*")
 
 \item{effect}{(str) Type of covariate effect. May be abbreviated covariate effect (see above) or custom.}
 
-\item{operation}{(str, optional) Whether the covariate effect should be added or multiplied (default).}
+\item{operation}{(str) Whether the covariate effect should be added or multiplied (default).}
+
+\item{allow_nested}{(logical) Whether to allow adding a covariate effect when one already exists for
+the input parameter-covariate pair.}
 }
 \value{
-(Model) Reference to the same model
+(Model) Pharmpy model object
 }
 \description{
 Adds covariate effect to :class:\code{pharmpy.model}.
@@ -130,7 +140,7 @@ math::
 \examples{
 \dontrun{
 model <- load_example_model("pheno")
-add_covariate_effect(model, "CL", "APGR", "exp")
+model <- add_covariate_effect(model, "CL", "APGR", "exp")
 model$statements$before_odes$full_expression("CL")
 }
 

@@ -4,16 +4,18 @@
 \alias{set_combined_error_model}
 \title{set_combined_error_model}
 \usage{
-set_combined_error_model(model, data_trans = NULL)
+set_combined_error_model(model, dv = NULL, data_trans = NULL)
 }
 \arguments{
 \item{model}{(Model) Set error model for this model}
 
-\item{data_trans}{(str or expression) A data transformation expression or NULL (default) to use the transformation
+\item{dv}{(str or numeric (optional)) Name or DVID of dependent variable. NULL for the default (first or only)}
+
+\item{data_trans}{(str (optional)) A data transformation expression or NULL (default) to use the transformation
 specified by the model.}
 }
 \value{
-(Model) Reference to the same model
+(Model) Pharmpy model object
 }
 \description{
 Set a combined error model. Initial estimates for new sigmas are :math:\verb{(min(DV)/2)²} for
@@ -32,10 +34,10 @@ The error function being applied depends on the data transformation.
 \examples{
 \dontrun{
 model <- remove_error_model(load_example_model("pheno"))
-set_combined_error_model(model)
+model <- set_combined_error_model(model)
 model$statements$find_assignment("Y")
 model <- remove_error_model(load_example_model("pheno"))
-set_combined_error_model(model, data_trans="log(Y)")
+model <- set_combined_error_model(model, data_trans="log(Y)")
 model$statements$find_assignment("Y")
 }
 }

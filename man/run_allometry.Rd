@@ -6,31 +6,37 @@
 \usage{
 run_allometry(
   model = NULL,
+  results = NULL,
   allometric_variable = "WT",
   reference_value = 70,
   parameters = NULL,
   initials = NULL,
   lower_bounds = NULL,
   upper_bounds = NULL,
-  fixed = TRUE
+  fixed = TRUE,
+  ...
 )
 }
 \arguments{
-\item{model}{(Model) Pharmpy model}
+\item{model}{(Model (optional)) Pharmpy model}
+
+\item{results}{(ModelfitResults (optional)) Results for model}
 
 \item{allometric_variable}{(str) Name of the variable to use for allometric scaling (default is WT)}
 
-\item{reference_value}{(numeric) Reference value for the allometric variable (default is 70)}
+\item{reference_value}{(str or numeric) Reference value for the allometric variable (default is 70)}
 
-\item{parameters}{(vector) Parameters to apply scaling to (default is all CL, Q and V parameters)}
+\item{parameters}{(array(str) (optional)) Parameters to apply scaling to (default is all CL, Q and V parameters)}
 
-\item{initials}{(vector) Initial estimates for the exponents. (default is to use 0.75 for CL and Qs and 1 for Vs)}
+\item{initials}{(array(numeric) (optional)) Initial estimates for the exponents. (default is to use 0.75 for CL and Qs and 1 for Vs)}
 
-\item{lower_bounds}{(vector) Lower bounds for the exponents. (default is 0 for all parameters)}
+\item{lower_bounds}{(array(numeric) (optional)) Lower bounds for the exponents. (default is 0 for all parameters)}
 
-\item{upper_bounds}{(vector) Upper bounds for the exponents. (default is 2 for all parameters)}
+\item{upper_bounds}{(array(numeric) (optional)) Upper bounds for the exponents. (default is 2 for all parameters)}
 
-\item{fixed}{(logical) Should the exponents be fixed or not. (default TRUE)}
+\item{fixed}{(logical) Should the exponents be fixed or not. (default TRUE}
+
+\item{...}{Arguments to pass to tool}
 }
 \value{
 (AllometryResults) Allometry tool result object
@@ -41,7 +47,8 @@ Run allometry tool. For more details, see :ref:\code{allometry}.
 \examples{
 \dontrun{
 model <- load_example_model("pheno")
-run_allometry(model=model, allometric_variable='WGT')
+results <- load_example_modelfit_results("pheno")
+run_allometry(model=model, results=results, allometric_variable='WGT')
 }
 
 }

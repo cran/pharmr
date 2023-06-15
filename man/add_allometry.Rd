@@ -18,17 +18,17 @@ add_allometry(
 \arguments{
 \item{model}{(Model) Pharmpy model}
 
-\item{allometric_variable}{(str or Symbol) Variable to use for allometry (X above)}
+\item{allometric_variable}{(str) Value to use for allometry (X above)}
 
-\item{reference_value}{(str, integer, numeric or expression) Reference value (Z above)}
+\item{reference_value}{(str or numeric) Reference value (Z above)}
 
-\item{parameters}{(vector) Parameters to use or NULL (default) for all available CL, Q and V parameters}
+\item{parameters}{(array(str) (optional)) Parameters to use or NULL (default) for all available CL, Q and V parameters}
 
-\item{initials}{(vector) Initial estimates for the exponents. Default is to use 0.75 for CL and Qs and 1 for Vs}
+\item{initials}{(array(numeric) (optional)) Initial estimates for the exponents. Default is to use 0.75 for CL and Qs and 1 for Vs}
 
-\item{lower_bounds}{(vector) Lower bounds for the exponents. Default is 0 for all parameters}
+\item{lower_bounds}{(array(numeric) (optional)) Lower bounds for the exponents. Default is 0 for all parameters}
 
-\item{upper_bounds}{(vector) Upper bounds for the exponents. Default is 2 for all parameters}
+\item{upper_bounds}{(array(numeric) (optional)) Upper bounds for the exponents. Default is 2 for all parameters}
 
 \item{fixed}{(logical) Whether the exponents should be fixed}
 }
@@ -45,7 +45,7 @@ and T is a theta. Default is to automatically use clearance and volume parameter
 \examples{
 \dontrun{
 model <- load_example_model("pheno")
-add_allometry(model, allometric_variable='WGT')
+model <- add_allometry(model, allometric_variable='WGT')
 model$statements$before_odes
 }
 

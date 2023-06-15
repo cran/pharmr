@@ -4,15 +4,26 @@
 \alias{calculate_individual_parameter_statistics}
 \title{calculate_individual_parameter_statistics}
 \usage{
-calculate_individual_parameter_statistics(model, exprs, rng = NULL)
+calculate_individual_parameter_statistics(
+  model,
+  expr_or_exprs,
+  parameter_estimates,
+  covariance_matrix = NULL,
+  rng = NULL
+)
 }
 \arguments{
 \item{model}{(Model) A previously estimated model}
 
-\item{exprs}{(str, sympy expression or iterable of str or sympy expressions) Expressions or equations for parameters of interest. If equations are used
+\item{expr_or_exprs}{(array(str) or str) Parameter estimates}
+
+\item{parameter_estimates}{(array) Parameter uncertainty covariance matrix}
+
+\item{covariance_matrix}{(data.frame (optional)) sympy expression or iterable of str or sympy expressions
+Expressions or equations for parameters of interest. If equations are used
 the names of the left hand sides will be used as the names of the parameters.}
 
-\item{rng}{(Generator or integer) Random number generator or integer seed}
+\item{rng}{(numeric (optional)) Random number generator or integer seed}
 }
 \value{
 (data.frame) A DataFrame of statistics indexed on parameter and covariate value.
@@ -33,8 +44,11 @@ for the model the standard error will not be calculated.
 \examples{
 \dontrun{
 model <- load_example_model("pheno")
+results <- load_example_modelfit_results("pheno")
 rng <- create_rng(23)
-calculate_individual_parameter_statistics(model, "K=CL/V", rng=rng)
+pe <- results$parameter_estimates
+cov <- results$covariance_matrix
+calculate_individual_parameter_statistics(model, "K=CL/V", pe, cov, rng=rng)
 }
 
 }

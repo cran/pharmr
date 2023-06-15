@@ -9,10 +9,10 @@ set_upper_bounds(model, bounds)
 \arguments{
 \item{model}{(Model) Pharmpy model}
 
-\item{bounds}{(list) A list of parameter bounds for parameters to change}
+\item{bounds}{(list(str=numeric)) A list of parameter bounds for parameters to change}
 }
 \value{
-(Model) Reference to the same model object
+(Model) Pharmpy model object
 }
 \description{
 Set parameter upper bounds
@@ -20,8 +20,8 @@ Set parameter upper bounds
 \examples{
 \dontrun{
 model <- load_example_model("pheno")
-set_upper_bounds(model, list('THETA(1)'=10))
-model$parameters['THETA(1)']
+model <- set_upper_bounds(model, list('PTVCL'=10))
+model$parameters['PTVCL']
 }
 }
 \seealso{

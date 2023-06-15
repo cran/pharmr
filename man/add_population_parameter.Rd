@@ -20,14 +20,14 @@ add_population_parameter(
 
 \item{init}{(numeric) Initial estimate of the new parameter}
 
-\item{lower}{(numeric) Lower bound of the new parameter}
+\item{lower}{(numeric (optional)) Lower bound of the new parameter}
 
-\item{upper}{(numeric) Upper bound of the new parameter}
+\item{upper}{(numeric (optional)) Upper bound of the new parameter}
 
 \item{fix}{(logical) Should the new parameter be fixed?}
 }
 \value{
-(Model) Reference to the same model object
+(Model) Pharmpy model object
 }
 \description{
 Add a new population parameter to the model
@@ -35,7 +35,7 @@ Add a new population parameter to the model
 \examples{
 \dontrun{
 model <- load_example_model("pheno")
-add_population_parameter(model, 'POP_KA', 2)
+model <- add_population_parameter(model, 'POP_KA', 2)
 model$parameters
 }
 

@@ -7,7 +7,7 @@
 rank_models(
   base_model,
   models,
-  strictness = NULL,
+  errors_allowed = NULL,
   rank_type = "ofv",
   cutoff = NULL,
   bic_type = "mixed"
@@ -16,19 +16,19 @@ rank_models(
 \arguments{
 \item{base_model}{(Model) Base model to compare to}
 
-\item{models}{(vector) List of models}
+\item{models}{(array(Model)) List of models}
 
-\item{strictness}{(vector or NULL) List of strictness criteria to be fulfilled, currently only minimization successful.
-Default is NULL}
+\item{errors_allowed}{(array(str) (optional)) List of errors that are allowed for ranking. Currently available is: rounding_errors and
+maxevals_exceeded. Default is NULL}
 
 \item{rank_type}{(str) Name of ranking type. Available options are 'ofv', 'aic', 'bic', 'lrt' (OFV with LRT)}
 
-\item{cutoff}{(numeric or NULL) Value to use as cutoff. If using LRT, cutoff denotes p-value. Default is NULL}
+\item{cutoff}{(numeric (optional)) Value to use as cutoff. If using LRT, cutoff denotes p-value. Default is NULL}
 
 \item{bic_type}{(str) Type of BIC to calculate. Default is the mixed effects.}
 }
 \value{
-((data.frame, vector)) A tuple with a DataFrame of the ranked models and a vector of ranked models sorted by rank
+(data.frame) DataFrame of the ranked models
 }
 \description{
 Ranks a vector of models
@@ -40,8 +40,8 @@ Ranks a vector of models with a given ranking function
 model_1 <- load_example_model("pheno")
 model_2 <- load_example_model("pheno_linear")
 rank_models(model_1, c(model_2),
-            strictness=c('minimization_successful'),
-            rank_type='lrt')
+ errors_allowed=c('rounding_errors'),
+ rank_type='lrt')
 }
 
 }

@@ -4,10 +4,19 @@
 \alias{calculate_eta_shrinkage}
 \title{calculate_eta_shrinkage}
 \usage{
-calculate_eta_shrinkage(model, sd = FALSE)
+calculate_eta_shrinkage(
+  model,
+  parameter_estimates,
+  individual_estimates,
+  sd = FALSE
+)
 }
 \arguments{
 \item{model}{(Model) Pharmpy model}
+
+\item{parameter_estimates}{(array) Parameter estimates}
+
+\item{individual_estimates}{(data.frame) Table of individual (eta) estimates}
 
 \item{sd}{(logical) Calculate shrinkage on the standard deviation scale (default is to calculate on the
 variance scale)}
@@ -21,8 +30,11 @@ Calculate eta shrinkage for each eta
 \examples{
 \dontrun{
 model <- load_example_model("pheno")
-calculate_eta_shrinkage(model)
-calculate_eta_shrinkage(model, sd=TRUE)
+results <- load_example_modelfit_results("pheno")
+pe <- results$parameter_estimates
+ie <- results$individual_estimates
+calculate_eta_shrinkage(model, pe, ie)
+calculate_eta_shrinkage(model, pe, ie, sd=TRUE)
 }
 }
 \seealso{
