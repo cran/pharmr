@@ -17,6 +17,9 @@ Set or change to first order absorption rate.
 
 Initial estimate for absorption rate is set to
 the previous rate if available, otherwise it is set to the time of first observation/2.
+
+If multiple doses is set to the affected compartment, currently only iv+oral
+doses (one of each) is supported
 }
 \examples{
 \dontrun{
@@ -26,7 +29,7 @@ model$statements$ode_system
 }
 }
 \seealso{
-set_bolus_order_absorption
+set_instantaneous_absorption
 
 set_zero_order_absorption
 }

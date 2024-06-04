@@ -12,15 +12,15 @@ get_rv_parameters(model, rv)
 \item{rv}{(str) Name of random variable to retrieve}
 }
 \value{
-(vector\link{str}) A vector of parameter names for the given random variable
+(vectorc(str)) A vector of parameter names for the given random variable
 }
 \description{
-Retrieves parameters in :class:\code{pharmpy.model} given a random variable.
+Retrieves parameters in :class:\code{pharmpy.model.Model} given a random variable.
 }
 \examples{
 \dontrun{
 model <- load_example_model("pheno")
-get_rv_parameters(model, 'ETA_1')
+get_rv_parameters(model, 'ETA_CL')
 }
 }
 \seealso{

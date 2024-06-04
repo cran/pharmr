@@ -12,15 +12,17 @@ run_iovsearch(
   distribution = "same-as-iiv",
   results = NULL,
   model = NULL,
+  strictness = "minimization_successful or (rounding_errors and sigdigs>=0.1)",
+  E = NULL,
   ...
 )
 }
 \arguments{
 \item{column}{(str) Name of column in dataset to use as occasion column (default is 'OCC')}
 
-\item{list_of_parameters}{(array(str) (optional)) List of parameters to test IOV on, if none all parameters with IIV will be tested (default)}
+\item{list_of_parameters}{(array(str or array(str)) (optional)) List of parameters to test IOV on, if none all parameters with IIV will be tested (default)}
 
-\item{rank_type}{(str) Which ranking type should be used (OFV, AIC, BIC). Default is BIC}
+\item{rank_type}{(str) Which ranking type should be used. Default is BIC.}
 
 \item{cutoff}{(numeric (optional)) Cutoff for which value of the ranking type that is considered significant. Default
 is NULL (all models will be ranked)}
@@ -29,7 +31,11 @@ is NULL (all models will be ranked)}
 
 \item{results}{(ModelfitResults (optional)) Results for model}
 
-\item{model}{(Model (optional)) Pharmpy mode}
+\item{model}{(Model (optional)) Pharmpy model}
+
+\item{strictness}{(str (optional)) Strictness criteria}
+
+\item{E}{(numeric (optional)) Expected number of predictors (used for mBIC). Must be set when using mBI}
 
 \item{...}{Arguments to pass to tool}
 }

@@ -9,9 +9,9 @@ set_additive_error_model(model, dv = NULL, data_trans = NULL, series_terms = 2)
 \arguments{
 \item{model}{(Model) Set error model for this model}
 
-\item{dv}{(str or numeric (optional)) Name or DVID of dependent variable. NULL for the default (first or only)}
+\item{dv}{(str or Expr or numeric (optional)) Name or DVID of dependent variable. NULL for the default (first or only)}
 
-\item{data_trans}{(str (optional)) A data transformation expression or NULL (default) to use the transformation
+\item{data_trans}{(numeric or str or Expr (optional)) A data transformation expression or NULL (default) to use the transformation
 specified by the model. Series expansion will be used for approximation.}
 
 \item{series_terms}{(numeric) Number of terms to use for the series expansion approximation for data
@@ -21,7 +21,7 @@ transformation.}
 (Model) Pharmpy model object
 }
 \description{
-Set an additive error model. Initial estimate for new sigma is :math:\verb{(min(DV)/2)²}.
+Set an additive error model. Initial estimate for new sigma is (equation could not be rendered, see API doc on website)
 
 The error function being applied depends on the data transformation. The table displays
 some examples.
@@ -29,9 +29,9 @@ some examples.
 +------------------------+----------------------------------------+
 | Data transformation    | Additive error                         |
 +========================+========================================+
-| :math:\code{y}              | :math:\code{f + epsilon_1}                 |
+| (equation could not be rendered, see API doc on website)
 +------------------------+----------------------------------------+
-| :math:\code{log(y)}         | :math:\verb{log(f) + frac\{epsilon_1\}\{f\}} |
+| (equation could not be rendered, see API doc on website)
 +------------------------+----------------------------------------+
 }
 \examples{

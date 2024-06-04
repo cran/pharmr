@@ -9,16 +9,16 @@ set_combined_error_model(model, dv = NULL, data_trans = NULL)
 \arguments{
 \item{model}{(Model) Set error model for this model}
 
-\item{dv}{(str or numeric (optional)) Name or DVID of dependent variable. NULL for the default (first or only)}
+\item{dv}{(str or Expr or numeric (optional)) Name or DVID of dependent variable. NULL for the default (first or only)}
 
-\item{data_trans}{(str (optional)) A data transformation expression or NULL (default) to use the transformation
+\item{data_trans}{(numeric or str or Expr (optional)) A data transformation expression or NULL (default) to use the transformation
 specified by the model.}
 }
 \value{
 (Model) Pharmpy model object
 }
 \description{
-Set a combined error model. Initial estimates for new sigmas are :math:\verb{(min(DV)/2)²} for
+Set a combined error model. Initial estimates for new sigmas are (equation could not be rendered, see API doc on website)
 proportional and 0.09 for additive.
 
 The error function being applied depends on the data transformation.
@@ -26,9 +26,9 @@ The error function being applied depends on the data transformation.
 +------------------------+-----------------------------------------------------+
 | Data transformation    | Combined error                                      |
 +========================+=====================================================+
-| :math:\code{y}              | :math:\verb{f + f epsilon_1 + epsilon_2}               |
+| (equation could not be rendered, see API doc on website)
 +------------------------+-----------------------------------------------------+
-| :math:\code{log(y)}         | :math:\verb{log(f) + epsilon_1 + frac\{epsilon_2\}\{f\}} |
+| (equation could not be rendered, see API doc on website)
 +------------------------+-----------------------------------------------------+
 }
 \examples{

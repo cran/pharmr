@@ -19,12 +19,70 @@ transform_blq(model, method = "m4", lloq = NULL)
 \description{
 Transform for BLQ data
 
-Transform a given model, methods available are m1, m3, and m4 (1). Current limits of the
-m3 and m4 method:
+Transform a given model, methods available are m1, m3, m4, m5, m6 and m7 (1).
+The blq information can come from the dataset, the lloq option or a combination. Both LLOQ and BLQ
+columns are supported. The table below explains which columns are used for the various cases:
+
++-------------+-------------+------------+-------------------+---------------+-------------------+
+| lloq option | LLOQ column | BLQ column | Used as indicator | Used as level | Note              |
++=============+=============+============+===================+===============+===================+
+| Available   | NA          | NA         | DV < lloq         | lloq          |                   |
++-------------+-------------+------------+-------------------+---------------+-------------------+
+| NA          | Available   | NA         | DV < LLOQ         | LLOQ          |                   |
++-------------+-------------+------------+-------------------+---------------+-------------------+
+| NA          | NA          | Available  | BLQ               | nothing       | Only for M1 and M7|
++-------------+-------------+------------+-------------------+---------------+-------------------+
+| NA          | NA          | NA         | NA                | NA            | No BLQ handling   |
++-------------+-------------+------------+-------------------+---------------+-------------------+
+| NA          | Available   | Available  | BLQ               | LLOQ          | DV column not used|
++-------------+-------------+------------+-------------------+---------------+-------------------+
+| Available   | NA          | Available  | BLQ               | lloq          |                   |
++-------------+-------------+------------+-------------------+---------------+-------------------+
+| Available   | Available   | NA         | DV < lloq         | lloq          | Column overridden |
++-------------+-------------+------------+-------------------+---------------+-------------------+
+| Available   | Available   | Available  | DV < lloq         | lloq          | Columns overridden|
++-------------+-------------+------------+-------------------+---------------+-------------------+
+
+BLQ observations are defined as shown in the table above.
+If both a BLQ and an LLOQ column exist in the dataset and no lloq is specified then all dv values in
+rows with BLQ = 1 are counted as BLQ observations. If instead an lloq value is specified then all rows with
+dv values below the lloq value are counted as BLQ observations.
+If no lloq is specified and no BLQ column exists in the dataset then all rows with dv values below the value
+specified in the DV column are counted as BLQ observations.
+
+M1 method:
+All BLQ observations are discarded.
+This may affect the size of the dataset.
+M3 method:
+Including the probability that the BLQ observations are below the LLOQ
+as part of the maximum likelihood estimation.
+For more details see :ref:\verb{(1)<ref_article>}.
+This method modifies the Y statement of the model (see examples below).
+M4 method:
+Including the probability that the BLQ observations are below the LLOQ and positive
+as part of the maximum likelihood estimation.
+For more details see :ref:\verb{(1)<ref_article>}.
+This method modifies the Y statement of the model (see examples below).
+M5 method:
+All BLQ observations are replaced by level/2, where level = lloq if lloq is specified.
+Else level = value specified in LLOQ column (see table above).
+This method may change entries in the dataset.
+M6 method:
+Every BLQ observation in a consecutive series of BLQ observations is discarded except for the first one.
+The remaining BLQ observations are replaced by level/2, where level = lloq if lloq is specified.
+Else level = value specified in LLOQ column (see table above).
+This method may change entries in the dataset as well as the size of the dataset.
+M7 method:
+All BLQ observations are replaced by 0.
+This method may change entries in the dataset.
+
+Current limitations of the m3 and m4 method:
 \itemize{
 \item Does not support covariance between epsilons
-\item Only supports additive, proportional, and combined error model
+\item Supports additive, proportional, combined, and power error model
 }
+
+_ref_article:
 
 (1) Beal SL. Ways to fit a PK model with some data below the quantification
 limit. J Pharmacokinet Pharmacodyn. 2001 Oct;28(5):481-504. doi: 10.1023/a:1012299115260.
@@ -39,4 +97,6 @@ model$statements$find_assignment("Y")
 }
 \seealso{
 remove_loq_data
+
+set_lloq_data
 }

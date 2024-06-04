@@ -5,18 +5,22 @@
 \title{run_covsearch}
 \usage{
 run_covsearch(
-  effects,
-  p_forward = 0.05,
-  p_backward = 0.01,
+  search_space,
+  p_forward = 0.01,
+  p_backward = 0.001,
   max_steps = -1,
   algorithm = "scm-forward-then-backward",
   results = NULL,
   model = NULL,
+  max_eval = FALSE,
+  adaptive_scope_reduction = FALSE,
+  strictness = "minimization_successful or (rounding_errors and sigdigs>=0.1)",
+  naming_index_offset = 0,
   ...
 )
 }
 \arguments{
-\item{effects}{(str or array(array(str or array(str)))) MFL of covariate effects to try}
+\item{search_space}{(str or ModelFeatures) MFL of covariate effects to try}
 
 \item{p_forward}{(numeric) The p-value to use in the likelihood ratio test for forward steps}
 
@@ -24,12 +28,24 @@ run_covsearch(
 
 \item{max_steps}{(numeric) The maximum number of search steps to make}
 
-\item{algorithm}{(str) The search algorithm to use. Currently 'scm-forward' and
+\item{algorithm}{(str) The search algorithm to use. Currently, 'scm-forward' and
 'scm-forward-then-backward' are supported.}
 
 \item{results}{(ModelfitResults (optional)) Results of model}
 
-\item{model}{(Model (optional)) Pharmpy mode}
+\item{model}{(Model (optional)) Pharmpy model}
+
+\item{max_eval}{(logical) Limit the number of function evaluations to 3.1 times that of the
+base model. Default is FALSE.}
+
+\item{adaptive_scope_reduction}{(logical) Stash all non-significant parameter-covariate effects to be tested
+after all significant effects have been tested. Once all these have been
+tested, try adding the stashed effects once more with a regular forward approach.
+Default is FALSE}
+
+\item{strictness}{(str (optional)) Strictness criteria}
+
+\item{naming_index_offset}{(numeric (optional)) index offset for naming of runs. Default is 0}
 
 \item{...}{Arguments to pass to tool}
 }
@@ -43,8 +59,8 @@ Run COVsearch tool. For more details, see :ref:\code{covsearch}.
 \dontrun{
 model <- load_example_model("pheno")
 results <- load_example_modelfit_results("pheno")
-effects <- 'COVARIATE(c(CL, V), c(AGE, WT), EXP)'
-res <- run_covsearch(effects, model=model, results=results)
+search_space <- 'COVARIATE(c(CL, V), c(AGE, WT), EXP)'
+res <- run_covsearch(search_space, model=model, results=results)
 }
 
 }

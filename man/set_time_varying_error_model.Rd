@@ -4,14 +4,16 @@
 \alias{set_time_varying_error_model}
 \title{set_time_varying_error_model}
 \usage{
-set_time_varying_error_model(model, cutoff, idv = "TIME")
+set_time_varying_error_model(model, cutoff, idv = "TIME", dv = NULL)
 }
 \arguments{
 \item{model}{(Model) Pharmpy model}
 
-\item{cutoff}{(numeric) A value at the given quantile over idv column}
+\item{cutoff}{(numeric) A cutoff value for idv column}
 
 \item{idv}{(str) Time or time after dose, default is Time}
+
+\item{dv}{(str or Expr or numeric (optional)) Name or DVID of dependent variable. NULL for the default (first or only)}
 }
 \value{
 (Model) Pharmpy model object

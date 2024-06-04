@@ -4,14 +4,14 @@
 \alias{calculate_bic}
 \title{calculate_bic}
 \usage{
-calculate_bic(model, likelihood, type = NULL)
+calculate_bic(model, likelihood, type = "mixed")
 }
 \arguments{
 \item{model}{(Model) Pharmpy model object}
 
 \item{likelihood}{(numeric) -2LL to use}
 
-\item{type}{(str (optional)) Type of BIC to calculate. Default is the mixed effects.}
+\item{type}{(str) Type of BIC to calculate. Default is the mixed effects.}
 }
 \value{
 (numeric) BIC of model fit
@@ -27,9 +27,9 @@ Different variations of the BIC can be calculated:
 \item | fixed
 | BIC = -2LL + n_estimated_parameters * log(n_observations)
 \item | random
-| BIC = -2LL + n_estimated_parameters * log(n_individals)
+| BIC = -2LL + n_estimated_parameters * log(n_individuals)
 \item | iiv
-| BIC = -2LL + n_estimated_iiv_omega_parameters * log(n_individals)
+| BIC = -2LL + n_estimated_iiv_omega_parameters * log(n_individuals)
 }
 }
 \examples{

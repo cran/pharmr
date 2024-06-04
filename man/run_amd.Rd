@@ -7,18 +7,30 @@
 run_amd(
   input,
   results = NULL,
-  modeltype = "pk_oral",
-  cl_init = 0.01,
-  vc_init = 1,
-  mat_init = 0.1,
+  modeltype = "basic_pk",
+  administration = "oral",
+  strategy = "default",
+  cl_init = NULL,
+  vc_init = NULL,
+  mat_init = NULL,
+  b_init = NULL,
+  emax_init = NULL,
+  ec50_init = NULL,
+  met_init = NULL,
   search_space = NULL,
   lloq_method = NULL,
   lloq_limit = NULL,
-  order = NULL,
   allometric_variable = NULL,
   occasion = NULL,
   path = NULL,
-  resume = FALSE
+  resume = FALSE,
+  strictness = "minimization_successful or (rounding_errors and sigdigs>=0.1)",
+  dv_types = NULL,
+  mechanistic_covariates = NULL,
+  retries_strategy = "all_final",
+  seed = NULL,
+  parameter_uncertainty_method = NULL,
+  ignore_datainfo_fallback = FALSE
 )
 }
 \arguments{
@@ -26,37 +38,62 @@ run_amd(
 
 \item{results}{(ModelfitResults (optional)) Reults of input if input is a model}
 
-\item{modeltype}{(str) Type of model to build. Either 'pk_oral' or 'pk_iv'}
+\item{modeltype}{(str) Type of model to build. Valid strings are 'basic_pk', 'pkpd', 'drug_metabolite' and 'tmdd'}
 
-\item{cl_init}{(numeric) Initial estimate for the population clearance}
+\item{administration}{(str) Route of administration. Either 'iv', 'oral' or 'ivoral'}
 
-\item{vc_init}{(numeric) Initial estimate for the central compartment population volume}
+\item{strategy}{(str) Run algorithm for AMD procedure. Valid options are 'default', 'reevaluation'. Default is 'default'}
 
-\item{mat_init}{(numeric) Initial estimate for the mean absorption time (not for iv models)}
+\item{cl_init}{(numeric (optional)) Initial estimate for the population clearance}
 
-\item{search_space}{(str (optional)) MFL for search space for structural model}
+\item{vc_init}{(numeric (optional)) Initial estimate for the central compartment population volume}
+
+\item{mat_init}{(numeric (optional)) Initial estimate for the mean absorption time (not for iv models)}
+
+\item{b_init}{(numeric (optional)) Initial estimate for the baseline (PKPD model)}
+
+\item{emax_init}{(numeric (optional)) Initial estimate for E_max (PKPD model)}
+
+\item{ec50_init}{(numeric (optional)) Initial estimate for EC_50 (PKPD model)}
+
+\item{met_init}{(numeric (optional)) Initial estimate for mean equilibration time (PKPD model)}
+
+\item{search_space}{(str (optional)) MFL for search space for structural and covariate model}
 
 \item{lloq_method}{(str (optional)) Method for how to remove LOQ data. See \code{transform_blq} for vector of available methods}
 
-\item{lloq_limit}{(str (optional)) Lower limit of quantification. If NULL LLOQ column from dataset will be used}
+\item{lloq_limit}{(numeric (optional)) Lower limit of quantification. If NULL LLOQ column from dataset will be used}
 
-\item{order}{(array(str) (optional)) Runorder of components}
-
-\item{allometric_variable}{(str (optional)) Variable to use for allometry}
+\item{allometric_variable}{(str or Expr (optional)) Variable to use for allometry}
 
 \item{occasion}{(str (optional)) Name of occasion column}
 
 \item{path}{(str (optional)) Path to run AMD in}
 
-\item{resume}{(logical (optional)) Whether to allow resuming previous run}
+\item{resume}{(logical) Whether to allow resuming previous run}
+
+\item{strictness}{(str (optional)) Strictness criteria}
+
+\item{dv_types}{(list(str=numeric) (optional)) Dictionary of DV types for TMDD models with multiple DVs.}
+
+\item{mechanistic_covariates}{(array(str or list(str)) (optional)) List of covariates or tuple of covariate and parameter combination to run in a
+separate proioritized covsearch run. For instance c("WT", ("CRCL", "CL")).
+The effects are extracted from the search space for covsearch.}
+
+\item{retries_strategy}{(str) Whether or not to run retries tool. Valid options are 'skip', 'all_final' or 'final'.
+Default is 'final'.}
+
+\item{seed}{(numeric (optional)) Random number generator or seed to be used.}
+
+\item{parameter_uncertainty_method}{(str (optional)) Parameter uncertainty method.}
+
+\item{ignore_datainfo_fallback}{(logical) Ignore using datainfo to get information not given by the user. Default is FALSE}
 }
 \value{
 (Model) Reference to the same model object
 }
 \description{
 Run Automatic Model Development (AMD) tool
-
-Runs structural modelsearch, IIV building, and ruvsearch
 }
 \examples{
 \dontrun{

@@ -12,7 +12,7 @@ get_unit_of(model, variable)
 \item{variable}{(str) Find physical unit of this variable}
 }
 \value{
-(unit expression) A sympy physics.units expression
+(Unit) A unit expression
 }
 \description{
 Derive the physical unit of a variable in the model
@@ -25,7 +25,7 @@ or a random variable.
 \dontrun{
 model <- load_example_model("pheno")
 get_unit_of(model, "Y")
-get_unit_of(model, "V")
+get_unit_of(model, "VC")
 get_unit_of(model, "WGT")
 }
 

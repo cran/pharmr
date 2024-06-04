@@ -12,25 +12,30 @@ run_modelsearch(
   cutoff = NULL,
   results = NULL,
   model = NULL,
+  strictness = "minimization_successful or (rounding_errors and sigdigs >= 0.1)",
+  E = NULL,
   ...
 )
 }
 \arguments{
-\item{search_space}{(str) Search space to test}
+\item{search_space}{(str or ModelFeatures) Search space to test. Either as a string or a ModelFeatures object.}
 
-\item{algorithm}{(str) Algorithm to use (e.g. exhaustive)}
+\item{algorithm}{(str) Algorithm to use.}
 
-\item{iiv_strategy}{(str) If/how IIV should be added to candidate models. Possible strategies are 'no_add',
-'add_diagonal', 'fullblock', or 'absorption_delay'. Default is 'absorption_delay'}
+\item{iiv_strategy}{(str) If/how IIV should be added to candidate models. Default is 'absorption_delay'.}
 
-\item{rank_type}{(str) Which ranking type should be used (OFV, AIC, BIC). Default is BIC}
+\item{rank_type}{(str) Which ranking type should be used. Default is BIC.}
 
 \item{cutoff}{(numeric (optional)) Cutoff for which value of the ranking function that is considered significant. Default
 is NULL (all models will be ranked)}
 
 \item{results}{(ModelfitResults (optional)) Results for model}
 
-\item{model}{(Model (optional)) Pharmpy mode}
+\item{model}{(Model (optional)) Pharmpy model}
+
+\item{strictness}{(str (optional)) Strictness criteria}
+
+\item{E}{(numeric (optional)) Expected number of predictors (used for mBIC). Must be set when using mBI}
 
 \item{...}{Arguments to pass to tool}
 }

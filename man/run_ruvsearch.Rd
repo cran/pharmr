@@ -8,8 +8,11 @@ run_ruvsearch(
   model = NULL,
   results = NULL,
   groups = 4,
-  p_value = 0.05,
+  p_value = 0.001,
   skip = NULL,
+  max_iter = 3,
+  dv = NULL,
+  strictness = "minimization_successful or (rounding_errors and sigdigs>=0.1)",
   ...
 )
 }
@@ -22,7 +25,13 @@ run_ruvsearch(
 
 \item{p_value}{(numeric) The p-value to use for the likelihood ratio test}
 
-\item{skip}{(array(str) (optional)) A vector of models to not attempt}
+\item{skip}{(array(str) (optional)) A vector of models to not attempt.}
+
+\item{max_iter}{(numeric) Number of iterations to run (1, 2, or 3). For models with BLQ only one iteration is supported.}
+
+\item{dv}{(numeric (optional)) Which DV to assess the error model for.}
+
+\item{strictness}{(str (optional)) Strictness criteri}
 
 \item{...}{Arguments to pass to tool}
 }

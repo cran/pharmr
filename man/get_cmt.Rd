@@ -16,5 +16,7 @@ get_cmt(model)
 Get the cmt (compartment) column from the model dataset
 
 If a cmt column is present this will be extracted otherwise
-a cmt column will be created.
+a cmt column will be created. If created, multiple dose compartments are
+dependent on the presence of an admid type column, otherwise, dose/non-dose
+will be considered.
 }

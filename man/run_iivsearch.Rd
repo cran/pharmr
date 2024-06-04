@@ -5,29 +5,49 @@
 \title{run_iivsearch}
 \usage{
 run_iivsearch(
-  algorithm,
+  algorithm = "top_down_exhaustive",
   iiv_strategy = "no_add",
   rank_type = "bic",
+  linearize = FALSE,
   cutoff = NULL,
   results = NULL,
   model = NULL,
+  keep = c("CL"),
+  strictness = "minimization_successful or (rounding_errors and sigdigs>=0.1)",
+  correlation_algorithm = NULL,
+  E_p = NULL,
+  E_q = NULL,
   ...
 )
 }
 \arguments{
-\item{algorithm}{(str) Which algorithm to run (brute_force, brute_force_no_of_etas, brute_force_block_structure)}
+\item{algorithm}{(str) Which algorithm to run when determining number of IIVs.}
 
-\item{iiv_strategy}{(str) If/how IIV should be added to start model. Possible strategies are 'no_add', 'add_diagonal',
-or 'fullblock'. Default is 'no_add'}
+\item{iiv_strategy}{(str) If/how IIV should be added to start model. Default is 'no_add'.}
 
-\item{rank_type}{(str) Which ranking type should be used (OFV, AIC, BIC). Default is BIC}
+\item{rank_type}{(str) Which ranking type should be used. Default is BIC.}
+
+\item{linearize}{(logical) Wheter or not use linearization when running the tool.}
 
 \item{cutoff}{(numeric (optional)) Cutoff for which value of the ranking function that is considered significant. Default
 is NULL (all models will be ranked)}
 
 \item{results}{(ModelfitResults (optional)) Results for model}
 
-\item{model}{(Model (optional)) Pharmpy mode}
+\item{model}{(Model (optional)) Pharmpy model}
+
+\item{keep}{(array(str) (optional)) List of IIVs to keep. Default is "CL"}
+
+\item{strictness}{(str (optional)) Strictness criteria}
+
+\item{correlation_algorithm}{(str (optional)) Which algorithm to run for the determining block structure of added IIVs. If NULL, the
+algorithm is determined based on the 'algorithm' argument}
+
+\item{E_p}{(numeric (optional)) Expected number of predictors for diagonal elements (used for mBIC). Must be set when using mBIC and
+when the argument 'algorithm' is not 'skip'}
+
+\item{E_q}{(numeric (optional)) Expected number of predictors for off-diagonal elements (used for mBIC). Must be set when using mBIC
+and when the argument \code{correlation_algorithm} is not \code{skip} or Non}
 
 \item{...}{Arguments to pass to tool}
 }
@@ -41,7 +61,7 @@ Run IIVsearch tool. For more details, see :ref:\code{iivsearch}.
 \dontrun{
 model <- load_example_model("pheno")
 results <- load_example_modelfit_results("pheno")
-run_iivsearch('brute_force', results=results, model=model)
+run_iivsearch('td_brute_force', results=results, model=model)
 }
 
 }

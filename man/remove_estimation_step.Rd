@@ -21,7 +21,7 @@ Remove estimation step
 \dontrun{
 model <- load_example_model("pheno")
 model <- remove_estimation_step(model, 0)
-ests <- model$estimation_steps
+ests <- model$execution_steps
 length(ests)
 }
 }
@@ -32,9 +32,9 @@ set_estimation_step
 
 append_estimation_step_options
 
-add_covariance_step
+add_parameter_uncertainty_step
 
-remove_covariance_step
+remove_parameter_uncertainty_step
 
 set_evaluation_step
 }

@@ -4,10 +4,12 @@
 \alias{remove_peripheral_compartment}
 \title{remove_peripheral_compartment}
 \usage{
-remove_peripheral_compartment(model)
+remove_peripheral_compartment(model, name = NULL)
 }
 \arguments{
 \item{model}{(Model) Pharmpy model}
+
+\item{name}{(str) Name of compartment to remove peripheral compartment from.}
 }
 \value{
 (Model) Pharmpy model object
@@ -15,15 +17,16 @@ remove_peripheral_compartment(model)
 \description{
 Remove a peripheral distribution compartment from model
 
+If name is set, a peripheral compartment will be removed from the compartment
+with the specified name.
+
 Initial estimates:
 
 ==  ===================================================
 n
 ==  ===================================================
-2   :math:\verb{\{CL\} = \{CL'\}},
-:math:\verb{\{QP1\} = \{CL'\}} and :math:\verb{\{VP1\} = \{VC'\} * 0.05}
-3   :math:\verb{\{QP1\} = (\{QP1'\} + \{QP2'\}) / 2},
-:math:\verb{\{VP1\} = \{VP1'\} + \{VP2'\}}
+2   (equation could not be rendered, see API doc on website)
+3   (equation could not be rendered, see API doc on website)
 ==  ===================================================
 }
 \examples{

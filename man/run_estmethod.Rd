@@ -8,6 +8,8 @@ run_estmethod(
   algorithm,
   methods = NULL,
   solvers = NULL,
+  parameter_uncertainty_methods = NULL,
+  compare_ofv = TRUE,
   results = NULL,
   model = NULL,
   ...
@@ -16,11 +18,16 @@ run_estmethod(
 \arguments{
 \item{algorithm}{(str) The algorithm to use (can be 'exhaustive', 'exhaustive_with_update' or 'exhaustive_only_eval')}
 
-\item{methods}{(array(str) or str (optional)) List of estimation methods to test. Can be specified as 'all', a vector of methods, or
-NULL (to not test any estimation method)}
+\item{methods}{(array(str) or str (optional)) List of estimation methods to test.
+Can be specified as 'all', a vector of estimation methods, or NULL (to not test any estimation method)}
 
-\item{solvers}{(array(str) or str (optional)) List of solver to test. Can be specified as 'all', a vector of solvers, or NULL (to
+\item{solvers}{(array(str) or str (optional)) List of solvers to test. Can be specified as 'all', a vector of solvers, or NULL (to
 not test any solver)}
+
+\item{parameter_uncertainty_methods}{(array(str) or str (optional)) List of parameter uncertainty methods to test.
+Can be specified as 'all', a vector of uncertainty methods, or NULL (to not evaluate any uncertainty)}
+
+\item{compare_ofv}{(logical) Whether to compare the OFV between candidates. Comparison is made by evaluating using IMP}
 
 \item{results}{(ModelfitResults (optional)) Results for model}
 
@@ -38,8 +45,12 @@ Run estmethod tool.
 \dontrun{
 model <- load_example_model("pheno")
 results <- load_example_modelfit_results("pheno")
-methods <- c('imp', 'saem')
-run_estmethod('reduced', methods=methods, solvers='all', results=results, model=model)
+methods <- c('IMP', 'SAEM')
+parameter_uncertainty_methods <- NULL
+run_estmethod(
+ 'reduced', methods=methods, solvers='all',
+ parameter_uncertainty_methods=parameter_uncertainty_methods, results=results, model=model
+)
 }
 
 }

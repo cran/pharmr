@@ -4,10 +4,12 @@
 \alias{add_peripheral_compartment}
 \title{add_peripheral_compartment}
 \usage{
-add_peripheral_compartment(model)
+add_peripheral_compartment(model, name = NULL)
 }
 \arguments{
 \item{model}{(Model) Pharmpy model}
+
+\item{name}{(str) Name of compartment to add peripheral to.}
 }
 \value{
 (Model) Pharmpy model object
@@ -21,15 +23,16 @@ The rate of flow from the peripheral to the central compartment
 will be parameterized as QPn / VPn where VPn is the volumne of the added peripheral
 compartment.
 
+If name is set, the peripheral compartment will be added to the compartment
+with the specified name instead.
+
 Initial estimates:
 
 ==  ===================================================
 n
 ==  ===================================================
-1   :math:\verb{\{CL\} = \{CL'\}}, :math:\verb{\{VC\} = \{VC'\}},
-:math:\verb{\{QP1\} = \{CL'\}} and :math:\verb{\{VP1\} = \{VC'\} * 0.05}
-2   :math:\verb{\{QP1\} = \{QP1' * 0.1\}}, :math:\verb{\{VP1\} = \{VP1'\}},
-:math:\verb{\{QP2\} = \{QP1' * 0.9\}} and :math:\verb{\{VP2\} = \{VP1'\}}
+1   (equation could not be rendered, see API doc on website)
+2   (equation could not be rendered, see API doc on website)
 ==  ===================================================
 }
 \examples{
