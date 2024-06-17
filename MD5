@@ -1,7 +1,7 @@
-1f2eede7a6fa57b787b2b43ee08f1cf7 *DESCRIPTION
+aeda715679bddf9552549f5d6b4b0c7f *DESCRIPTION
 ce9798eda2783746a191f0eeaec9706f *NAMESPACE
 24334c918df07689e85ee0b6c1bc91d3 *R/check_pharmpy.R
-7dc3b77bbe6a0e8ba7f186012dc3a1d4 *R/functions_wrapper.R
+fa1e63be1de3d52236663e91264503f7 *R/functions_wrapper.R
 b05948b3e7b7a2625fe362ad8e3be481 *R/install.R
 6cb09c16d0e5ea66a3a5a42b3aa6e40d *R/internals.R
 c13f82db2a6bb31c383ee1d9ef4c9eca *R/printing.R
@@ -228,7 +228,7 @@ e091431b38fb6bf7b5ced37791816ad9 *man/set_dtbs_error_model.Rd
 fa48263d9193789c4e6f228dd73ee83e *man/set_instantaneous_absorption.Rd
 5eda6ec26221beac08ebbb28fa6ebd13 *man/set_lloq_data.Rd
 6515a52c709acc215fb2ee8d4aef47a0 *man/set_lower_bounds.Rd
-608db310f9f47f5360c07d6d301e4dc5 *man/set_michaelis_menten_elimination.Rd
+f583fe013e27e666272eedfb492d3cff *man/set_michaelis_menten_elimination.Rd
 596259161a2dd07d7b2be9dbfeb94f4d *man/set_mixed_mm_fo_elimination.Rd
 186e0d51a7656cfa90147bbead713fcc *man/set_name.Rd
 4cdc095ca267df3daddb55c330c7448f *man/set_ode_solver.Rd
