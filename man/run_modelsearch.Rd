@@ -6,7 +6,7 @@
 \usage{
 run_modelsearch(
   search_space,
-  algorithm,
+  algorithm = "reduced_stepwise",
   iiv_strategy = "absorption_delay",
   rank_type = "bic",
   cutoff = NULL,
@@ -35,7 +35,7 @@ is NULL (all models will be ranked)}
 
 \item{strictness}{(str (optional)) Strictness criteria}
 
-\item{E}{(numeric (optional)) Expected number of predictors (used for mBIC). Must be set when using mBI}
+\item{E}{(numeric or str (optional)) Expected number of predictors (used for mBIC). Must be set when using mBI}
 
 \item{...}{Arguments to pass to tool}
 }

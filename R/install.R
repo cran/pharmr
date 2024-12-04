@@ -24,16 +24,20 @@ install_pharmpy <- function(envname='r-reticulate', method='auto') {
 #' @param version (str) which pharmpy version to use (use 'same' for most cases)
 #' 
 #' @importFrom utils packageVersion
-install_pharmpy_devel <- function(envname='r-reticulate', method='auto', version='same') {
+install_pharmpy_devel <- function(envname='r-reticulate', method='auto', version='devel') {
+  ignore_installed <- FALSE
   if (version == 'latest') {
     pharmpy_to_install <- 'pharmpy-core'
-  }
-  else { 
+  } else if (version == 'devel') {
+    PHARMPY_COMMIT <- "3d57d9a7e9d7ae01de4010a02cc1a2daded8b165"
+    pharmpy_to_install <- paste0('git+https://github.com/pharmpy/pharmpy.git@', PHARMPY_COMMIT)
+    ignore_installed <- TRUE
+  } else { 
     if (version == 'same') {
       version <- packageVersion('pharmr')
     }
     pharmpy_to_install <- paste('pharmpy-core', version, sep='==')
   }
-  reticulate::py_install(pharmpy_to_install, envname=envname, method=method, pip=T)
+  reticulate::py_install(pharmpy_to_install, envname=envname, method=method, pip=T, pip_ignore_installed=ignore_installed)
 }
 

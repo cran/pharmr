@@ -4,12 +4,14 @@
 \alias{unfix_parameters_to}
 \title{unfix_parameters_to}
 \usage{
-unfix_parameters_to(model, inits)
+unfix_parameters_to(model, inits, strict = TRUE)
 }
 \arguments{
 \item{model}{(Model) Pharmpy model}
 
 \item{inits}{(list(str=numeric)) Inits for all parameters to unfix and change init}
+
+\item{strict}{(logical) Whether all parameters in input need to exist in the model. Default is TRUE}
 }
 \value{
 (Model) Pharmpy model object
@@ -24,7 +26,7 @@ Unfix all listed parameters to specified value/values
 model <- load_example_model("pheno")
 model <- fix_parameters(model, c('POP_CL', 'POP_VC'))
 model$parameters$fix
-model <- unfix_parameters_to(model, {'POP_CL': 0.5})
+model <- unfix_parameters_to(model, list('POP_CL'=0.5))
 model$parameters$fix
 model$parameters['POP_CL']
 }

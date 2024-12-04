@@ -4,12 +4,14 @@
 \alias{fix_parameters_to}
 \title{fix_parameters_to}
 \usage{
-fix_parameters_to(model, inits)
+fix_parameters_to(model, inits, strict = TRUE)
 }
 \arguments{
 \item{model}{(Model) Pharmpy model}
 
 \item{inits}{(list(str=numeric)) Inits for all parameters to fix and set init}
+
+\item{strict}{(logical) Whether all parameters in input need to exist in the model. Default is TRUE}
 }
 \value{
 (Model) Pharmpy model object
@@ -23,7 +25,7 @@ Fix all listed parameters to specified value/values
 \dontrun{
 model <- load_example_model("pheno")
 model$parameters['POP_CL']
-model <- fix_parameters_to(model, {'POP_CL': 0.5})
+model <- fix_parameters_to(model, list('POP_CL'=0.5))
 model$parameters['POP_CL']
 }
 }
