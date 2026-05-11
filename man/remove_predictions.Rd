@@ -12,12 +12,12 @@ remove_predictions(model, to_remove = NULL)
 \item{to_remove}{(array(str) (optional)) Predictions to remove}
 }
 \value{
-(Model) Pharmpy model object
+(Model) Updated Pharmpy model
 }
 \description{
 Remove predictions and/or residuals
 
-Remove predictions from estimation step.
+Remove predictions from estimation step. Default is to remove all predictions.
 }
 \examples{
 \dontrun{

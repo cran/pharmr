@@ -4,16 +4,26 @@
 \alias{run_bootstrap}
 \title{run_bootstrap}
 \usage{
-run_bootstrap(model, results = NULL, resamples = 1, dofv = FALSE, ...)
+run_bootstrap(
+  model,
+  results = NULL,
+  samples = 1,
+  dofv = FALSE,
+  strictness = "",
+  ...
+)
 }
 \arguments{
 \item{model}{(Model) Pharmpy model}
 
 \item{results}{(ModelfitResults (optional)) Results for model}
 
-\item{resamples}{(numeric) Number of bootstrap resamples}
+\item{samples}{(numeric) Number of bootstrap resamples}
 
-\item{dofv}{(logical) Will evaluate bootstrap models with original dataset if se}
+\item{dofv}{(logical) Will evaluate bootstrap models with original dataset if set}
+
+\item{strictness}{(str) Strictness expression for which models should be used in the
+calculations. Default is all models}
 
 \item{...}{Arguments to pass to tool}
 }
@@ -27,7 +37,7 @@ Run bootstrap tool
 \dontrun{
 model <- load_example_model("pheno")
 results <- load_example_modelfit_results("pheno")
-run_bootstrap(model, res, resamples=500)
+run_bootstrap(model, res, samples=500)
 }
 
 }

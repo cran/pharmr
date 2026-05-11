@@ -14,7 +14,7 @@ transform_blq(model, method = "m4", lloq = NULL)
 \item{lloq}{(numeric (optional)) LLOQ limit to use, if NULL Pharmpy will use the BLQ/LLOQ column in the dataset}
 }
 \value{
-(Model) Pharmpy model object
+(Model) Updated Pharmpy model
 }
 \description{
 Transform for BLQ data
@@ -48,7 +48,7 @@ If both a BLQ and an LLOQ column exist in the dataset and no lloq is specified t
 rows with BLQ = 1 are counted as BLQ observations. If instead an lloq value is specified then all rows with
 dv values below the lloq value are counted as BLQ observations.
 If no lloq is specified and no BLQ column exists in the dataset then all rows with dv values below the value
-specified in the DV column are counted as BLQ observations.
+specified in the LLOQ column are counted as BLQ observations.
 
 M1 method:
 All BLQ observations are discarded.

@@ -9,10 +9,10 @@ set_covariates(model, covariates)
 \arguments{
 \item{model}{(Model) Pharmpy model}
 
-\item{covariates}{(array(str)) List of column names}
+\item{covariates}{(array(str)) Column names}
 }
 \value{
-(Model) Pharmpy model object
+(Model) Updated Pharmpy model
 }
 \description{
 Set columns in the dataset to be covariates in the datainfo

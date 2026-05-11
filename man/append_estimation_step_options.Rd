@@ -4,17 +4,17 @@
 \alias{append_estimation_step_options}
 \title{append_estimation_step_options}
 \usage{
-append_estimation_step_options(model, tool_options, idx)
+append_estimation_step_options(model, tool_options, idx = -1)
 }
 \arguments{
 \item{model}{(Model) Pharmpy model}
 
 \item{tool_options}{(list(str=any)) any additional tool specific options}
 
-\item{idx}{(numeric) index of estimation step (starting from 0)}
+\item{idx}{(numeric) index of estimation step (starting from 0). Default is the last step}
 }
 \value{
-(Model) Pharmpy model object
+(Model) Updated Pharmpy model
 }
 \description{
 Append estimation step options

@@ -14,10 +14,13 @@ write_model(model, path = "", force = TRUE)
 \item{force}{(logical) Force overwrite, default is TRUE}
 }
 \value{
-(Model) Pharmpy model object
+(Model) Updated Pharmpy model
 }
 \description{
 Write model code to file
+
+An updated Pharmpy model is returned. This will have a new name based on the filename
+and it might have updates to the model code (e.g. for $DATA in NONMEM models).
 }
 \examples{
 \dontrun{

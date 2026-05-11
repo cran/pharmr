@@ -7,7 +7,7 @@
 plot_individual_predictions(model, predictions, individuals = NULL)
 }
 \arguments{
-\item{model}{(Model) Previously run Pharmpy model.}
+\item{model}{(Model) Pharmpy model}
 
 \item{predictions}{(data.frame) One column for each type of prediction}
 
@@ -18,6 +18,12 @@ plot_individual_predictions(model, predictions, individuals = NULL)
 }
 \description{
 Plot DV and predictions grouped on individuals
+
+The predictions would normally be taken from the modelfit results, but any data frame of
+appropriate format can be used. It should have one column per type of prediction where
+the column name is the type (e.g. "PRED" or "IPRED"), one row for each record of the dataset
+in the model. A predictions table containing only some of the individuals is ok to use,
+but then care needs to be taken to get match the row index of the original dataset.
 }
 \examples{
 \dontrun{

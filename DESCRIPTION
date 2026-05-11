@@ -1,7 +1,7 @@
 Package: pharmr
 Encoding: UTF-8
-Version: 1.7.2
-Date: 2025-05-21
+Version: 2.1.0
+Date: 2026-05-10
 Title: Interface to the 'Pharmpy' 'Pharmacometrics' Library
 Authors@R: c(
   person("Rikard", "Nordgren", role=c("aut", "cre", "cph"), email="rikard.nordgren@uu.se"),
@@ -17,7 +17,7 @@ Authors@R: c(
   person("Bayer AG", role=c("fnd"))
   )
 Maintainer: Rikard Nordgren <rikard.nordgren@uu.se>
-Depends: R (>= 3.6.0), altair (>= 4.0.0)
+Depends: R (>= 3.6.0), vegawidget (>= 0.5.0)
 SystemRequirements: Python (>= 3.11.0)
 Imports: reticulate (>= 1.38), cli, utils
 Suggests: testthat, magrittr, here, knitr
@@ -26,8 +26,8 @@ Description: Interface to the 'Pharmpy' 'pharmacometrics' library. The 'Reticula
 URL: https://github.com/pharmpy/pharmr
 BugReports: https://github.com/pharmpy/pharmr/issues
 License: LGPL (>= 3)
-RoxygenNote: 7.3.2
-Packaged: 2025-05-21 12:22:33 UTC; rikard
+Config/roxygen2/version: 8.0.0
+Packaged: 2026-05-10 02:52:32 UTC; runner
 Author: Rikard Nordgren [aut, cre, cph],
   Stella Belin [aut, cph],
   Mats O. Karlsson [sad],
@@ -41,4 +41,4 @@ Author: Rikard Nordgren [aut, cre, cph],
   F. Hoffmann-La Roche Ltd. [fnd],
   Bayer AG [fnd]
 Repository: CRAN
-Date/Publication: 2025-05-22 14:00:04 UTC
+Date/Publication: 2026-05-11 16:30:02 UTC

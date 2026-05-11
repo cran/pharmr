@@ -12,28 +12,13 @@ set_ode_solver(model, solver)
 \item{solver}{(str) Solver to use or NULL for no preference}
 }
 \value{
-(Model) Pharmpy model object
+(Model) Updated Pharmpy model
 }
 \description{
 Sets ODE solver to use for model
 
-Recognized solvers and their corresponding NONMEM advans:
-
-+----------------------------+------------------+
-| Solver                     | NONMEM ADVAN     |
-+============================+==================+
-| CVODES                     | ADVAN14          |
-+----------------------------+------------------+
-| DGEAR                      | ADVAN8           |
-+----------------------------+------------------+
-| DVERK                      | ADVAN6           |
-+----------------------------+------------------+
-| IDA                        | ADVAN15          |
-+----------------------------+------------------+
-| LSODA                      | ADVAN13          |
-+----------------------------+------------------+
-| LSODI                      | ADVAN9           |
-+----------------------------+------------------+
+The recognized solvers are CVODS, DGEAR, DVERK, IDA, LSODA and LSODI.
+To see the corresponding NONMEM ADVANs see :ref:\code{ADVANS}.
 }
 \examples{
 \dontrun{

@@ -10,7 +10,7 @@ add_time_after_dose(model)
 \item{model}{(Model) Pharmpy model}
 }
 \value{
-(Model) Pharmpy model object
+(Model) Updated Pharmpy model
 }
 \description{
 Calculate and add a TAD column to the dataset
@@ -20,5 +20,7 @@ Calculate and add a TAD column to the dataset
 model <- load_example_model("pheno")
 model <- add_time_after_dose(model)
 }
-
+}
+\seealso{
+add_time_of_last_dose : Add time of last dose to model
 }
