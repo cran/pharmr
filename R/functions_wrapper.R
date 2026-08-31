@@ -22,7 +22,41 @@
 add_admid <- function(model) {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$modeling$add_admid(model)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
+}
+
+#' @title
+#' add_administration
+#' 
+#' @description
+#' Add observations to an arm in a trial design
+#' 
+#' @param td (TrialDesign) TrialDesign to add to
+#' @param arm (str) Name of the arm
+#' @param variable (str) Name of the dose variable (e.g. AMT)
+#' @param amount (numeric) The dose amount
+#' @param time_points (array(numeric)) List of the time points for the administration
+#' @param start_time (numeric) Set a start_time to offset the time_points. Default 0.0
+#'  
+#' @return (TrialDesign) An updated TrialDesign
+#' 
+#' @examples
+#' \dontrun{
+#' td <- create_trial_design()
+#' td <- add_arm(td, name="Drug", size=100)
+#' td <- add_observations(td, arm="Drug", variable="DV", time_points=[0.0, 1.0, 2.0, 4.0, 16.0])
+#' td <- add_administration(td, arm="Drug", variable="AMT", amount=10.0, time_points=[0.0, 8.0])
+#' td
+#' }
+#' 
+#' @export
+add_administration <- function(td, arm, variable, amount, time_points, start_time=0.0) {
+	reticulate::py_clear_last_error()
+	time_points <- convert_input(time_points, "list")
+	func_out <- pharmpy$modeling$add_administration(td, arm, variable, amount, time_points, start_time=start_time)
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -69,7 +103,36 @@ add_allometry <- function(model, allometric_variable=NULL, reference_value=70, p
 	lower_bounds <- convert_input(lower_bounds, "list")
 	upper_bounds <- convert_input(upper_bounds, "list")
 	func_out <- pharmpy$modeling$add_allometry(model, allometric_variable=allometric_variable, reference_value=reference_value, parameters=parameters, initials=initials, lower_bounds=lower_bounds, upper_bounds=upper_bounds, fixed=fixed)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
+}
+
+#' @title
+#' add_arm
+#' 
+#' @description
+#' Add an empty arm to a trial design
+#' 
+#' @param td (TrialDesign) TrialDesign to add to
+#' @param name (str) Name of the arm
+#' @param size (numeric) Size of the arm (number of subjects)
+#'  
+#' @return (TrialDesign) An updated TrialDesign
+#' 
+#' @examples
+#' \dontrun{
+#' td <- create_trial_design()
+#' td <- add_arm(td, name="Placebo", size=100)
+#' td
+#' }
+#' 
+#' @export
+add_arm <- function(td, name, size) {
+	reticulate::py_clear_last_error()
+	size <- convert_input(size, "int")
+	func_out <- pharmpy$modeling$add_arm(td, name, size)
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -99,7 +162,8 @@ add_allometry <- function(model, allometric_variable=NULL, reference_value=70, p
 add_bioavailability <- function(model, add_parameter=TRUE, logit_transform=FALSE) {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$modeling$add_bioavailability(model, add_parameter=add_parameter, logit_transform=logit_transform)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -128,7 +192,8 @@ add_bioavailability <- function(model, add_parameter=TRUE, logit_transform=FALSE
 add_cmt <- function(model) {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$modeling$add_cmt(model)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -246,7 +311,8 @@ add_cmt <- function(model) {
 add_covariate_effect <- function(model, parameter, covariate, effect, operation='*', allow_nested=FALSE) {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$modeling$add_covariate_effect(model, parameter, covariate, effect, operation=operation, allow_nested=allow_nested)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -276,7 +342,8 @@ add_covariate_effect <- function(model, parameter, covariate, effect, operation=
 add_derivative <- function(model, with_respect_to=NULL) {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$modeling$add_derivative(model, with_respect_to=with_respect_to)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -326,7 +393,8 @@ add_derivative <- function(model, with_respect_to=NULL) {
 add_effect_compartment <- function(model, expr) {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$modeling$add_effect_compartment(model, expr)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -399,7 +467,8 @@ add_estimation_step <- function(model, method, idx=NULL, interaction=FALSE, para
 	tool_options <- convert_input(tool_options, "Mapping")
 	derivatives <- convert_input(derivatives, "list")
 	func_out <- pharmpy$modeling$add_estimation_step(model, method, idx=idx, interaction=interaction, parameter_uncertainty_method=parameter_uncertainty_method, evaluation=evaluation, maximum_evaluations=maximum_evaluations, laplace=laplace, isample=isample, niter=niter, auto=auto, keep_every_nth_iter=keep_every_nth_iter, residuals=residuals, predictions=predictions, solver=solver, solver_rtol=solver_rtol, solver_atol=solver_atol, tool_options=tool_options, derivatives=derivatives, individual_eta_samples=individual_eta_samples)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -461,7 +530,8 @@ add_iiv <- function(model, list_of_parameters, expression, operation='*', initia
 	reticulate::py_clear_last_error()
 	eta_names <- convert_input(eta_names, "list")
 	func_out <- pharmpy$modeling$add_iiv(model, list_of_parameters, expression, operation=operation, initial_estimate=initial_estimate, eta_names=eta_names)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -515,7 +585,8 @@ add_iiv <- function(model, list_of_parameters, expression, operation='*', initia
 add_indirect_effect <- function(model, expr, prod=TRUE, variable=NULL) {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$modeling$add_indirect_effect(model, expr, prod=prod, variable=variable)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -542,7 +613,8 @@ add_indirect_effect <- function(model, expr, prod=TRUE, variable=NULL) {
 add_individual_parameter <- function(model, name, init=0.1, lower=0.0) {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$modeling$add_individual_parameter(model, name, init=init, lower=lower)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -586,7 +658,8 @@ add_individual_parameter <- function(model, name, init=0.1, lower=0.0) {
 add_iov <- function(model, occ, list_of_parameters=NULL, eta_names=NULL, distribution='disjoint') {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$modeling$add_iov(model, occ, list_of_parameters=list_of_parameters, eta_names=eta_names, distribution=distribution)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -617,7 +690,8 @@ add_iov <- function(model, occ, list_of_parameters=NULL, eta_names=NULL, distrib
 add_lag_time <- function(model) {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$modeling$add_lag_time(model)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -650,7 +724,39 @@ add_metabolite <- function(model, drug_dvid=1, presystemic=FALSE) {
 	reticulate::py_clear_last_error()
 	drug_dvid <- convert_input(drug_dvid, "int")
 	func_out <- pharmpy$modeling$add_metabolite(model, drug_dvid=drug_dvid, presystemic=presystemic)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
+}
+
+#' @title
+#' add_observations
+#' 
+#' @description
+#' Add observations to an arm in a trial design
+#' 
+#' @param td (TrialDesign) TrialDesign to add to
+#' @param arm (str) Name of the arm
+#' @param variable (str) Name of the variable to observe
+#' @param time_points (array(numeric)) List of the time points for the observations
+#' @param start_time (numeric) Set a start_time to offset the time_points. Default 0.0
+#'  
+#' @return (TrialDesign) An updated TrialDesign
+#' 
+#' @examples
+#' \dontrun{
+#' td <- create_trial_design()
+#' td <- add_arm(td, name="Placebo", size=100)
+#' td <- add_observations(td, arm="Placebo", variable="DV", time_points=[0.0, 1.0, 2.0, 4.0, 16.0])
+#' td
+#' }
+#' 
+#' @export
+add_observations <- function(td, arm, variable, time_points, start_time=0.0) {
+	reticulate::py_clear_last_error()
+	time_points <- convert_input(time_points, "list")
+	func_out <- pharmpy$modeling$add_observations(td, arm, variable, time_points, start_time=start_time)
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -687,7 +793,8 @@ add_output_variables <- function(model, variables, append=TRUE) {
 	reticulate::py_clear_last_error()
 	variables <- convert_input(variables, "list")
 	func_out <- pharmpy$modeling$add_output_variables(model, variables, append=append)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -727,7 +834,8 @@ add_output_variables <- function(model, variables, append=TRUE) {
 add_parameter_uncertainty_step <- function(model, parameter_uncertainty_method) {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$modeling$add_parameter_uncertainty_step(model, parameter_uncertainty_method)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -763,7 +871,8 @@ add_parameter_uncertainty_step <- function(model, parameter_uncertainty_method) 
 add_pd_iiv <- function(model, initial_estimate=0.09) {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$modeling$add_pd_iiv(model, initial_estimate=initial_estimate)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -811,7 +920,8 @@ add_pd_iiv <- function(model, initial_estimate=0.09) {
 add_peripheral_compartment <- function(model, name=NULL) {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$modeling$add_peripheral_compartment(model, name=name)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -849,7 +959,8 @@ add_peripheral_compartment <- function(model, name=NULL) {
 add_pk_iiv <- function(model, initial_estimate=0.09) {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$modeling$add_pk_iiv(model, initial_estimate=initial_estimate)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -878,7 +989,8 @@ add_pk_iiv <- function(model, initial_estimate=0.09) {
 add_population_parameter <- function(model, name, init, lower=NULL, upper=NULL, fix=FALSE) {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$modeling$add_population_parameter(model, name, init, lower=lower, upper=upper, fix=fix)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -924,7 +1036,8 @@ add_predictions <- function(model, pred) {
 	reticulate::py_clear_last_error()
 	pred <- convert_input(pred, "list")
 	func_out <- pharmpy$modeling$add_predictions(model, pred)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -973,7 +1086,8 @@ add_residuals <- function(model, res) {
 	reticulate::py_clear_last_error()
 	res <- convert_input(res, "list")
 	func_out <- pharmpy$modeling$add_residuals(model, res)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -999,7 +1113,8 @@ add_residuals <- function(model, res) {
 add_time_after_dose <- function(model) {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$modeling$add_time_after_dose(model)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -1021,7 +1136,43 @@ add_time_after_dose <- function(model) {
 add_time_of_last_dose <- function(model, name='TDOSE') {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$modeling$add_time_of_last_dose(model, name=name)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
+}
+
+#' @title
+#' annotate_unit
+#' 
+#' @description
+#' Specify the unit of a data column
+#' 
+#' Note that no conversion of units will happen if the unit was already set.
+#' 
+#' @param model_or_datainfo (Model or DataInfo) Model object or DataInfo object
+#' @param column (str) Name of a column. If the column contains multiple variables, e.g. DV
+#' with multiple DVs, the ID can be specified with a colon. For example "DV:1"
+#' will mean the DV column only when DVID is 1.
+#' @param unit (str) The unit
+#'  
+#' @return (Model | DataInfo) An updated Model or DataInfo object
+#' 
+#' @examples
+#' \dontrun{
+#' model <- load_example_model("pheno")
+#' model <- annotate_unit(model, "WGT", "kg")
+#' }
+#' @seealso
+#' 
+#' 
+#' convert_unit - Convert between units for a variable
+#' 
+#' 
+#' @export
+annotate_unit <- function(model_or_datainfo, column, unit) {
+	reticulate::py_clear_last_error()
+	func_out <- pharmpy$modeling$annotate_unit(model_or_datainfo, column, unit)
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -1066,7 +1217,8 @@ append_estimation_step_options <- function(model, tool_options, idx=-1) {
 	tool_options <- convert_input(tool_options, "Mapping")
 	idx <- convert_input(idx, "int")
 	func_out <- pharmpy$modeling$append_estimation_step_options(model, tool_options, idx=idx)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -1104,8 +1256,8 @@ bin_observations <- function(model, method, nbins) {
 	reticulate::py_clear_last_error()
 	nbins <- convert_input(nbins, "int")
 	func_out <- pharmpy$modeling$bin_observations(model, method, nbins)
-	func_out <- reset_index_df(func_out)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -1138,7 +1290,8 @@ binarize_dataset <- function(model, columns, keep=FALSE, all_levels=FALSE) {
 	reticulate::py_clear_last_error()
 	columns <- convert_input(columns, "list")
 	func_out <- pharmpy$modeling$binarize_dataset(model, columns, keep=keep, all_levels=all_levels)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -1168,7 +1321,8 @@ binarize_dataset <- function(model, columns, keep=FALSE, all_levels=FALSE) {
 bump_model_number <- function(model, path=NULL) {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$modeling$bump_model_number(model, path=path)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -1189,7 +1343,8 @@ bump_model_number <- function(model, path=NULL) {
 calculate_aic <- function(model, likelihood) {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$modeling$calculate_aic(model, likelihood)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -1200,15 +1355,23 @@ calculate_aic <- function(model, likelihood) {
 #' 
 #' Different variations of the BIC can be calculated:
 #' 
-#' * | mixed (default)
+#' * | mixed :footcite:p:`delattre_2014` (default)
 #' | BIC = -2LL + n_random_parameters * log(n_individuals) +
 #' |       n_fixed_parameters * log(n_observations)
-#' * | fixed
+#' * | fixed :footcite:p:`delattre_2020`
 #' | BIC = -2LL + n_estimated_parameters * log(n_observations)
 #' * | random
 #' | BIC = -2LL + n_estimated_parameters * log(n_individuals)
 #' * | iiv
 #' | BIC = -2LL + n_estimated_iiv_omega_parameters * log(n_individuals)
+#' 
+#' note::
+#' 
+#' Note that for the mixed BIC sigmas are always counted as fixed parameters and thetas
+#' can be counted as random if it associated with an eta. See :footcite:p:`delattre_2014`
+#' for details.
+#' 
+#' footbibliography::
 #' 
 #' @param model (Model) Pharmpy model
 #' @param likelihood (numeric) -2LL to use
@@ -1231,7 +1394,8 @@ calculate_aic <- function(model, likelihood) {
 calculate_bic <- function(model, likelihood, type='mixed') {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$modeling$calculate_bic(model, likelihood, type=type)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -1272,8 +1436,8 @@ calculate_corr_from_cov <- function(cov) {
 	reticulate::py_clear_last_error()
 	cov <- convert_input(cov, "pd.DataFrame")
 	func_out <- pharmpy$modeling$calculate_corr_from_cov(cov)
-	func_out <- reset_index_df(func_out)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -1314,8 +1478,8 @@ calculate_corr_from_prec <- function(precision_matrix) {
 	reticulate::py_clear_last_error()
 	precision_matrix <- convert_input(precision_matrix, "pd.DataFrame")
 	func_out <- pharmpy$modeling$calculate_corr_from_prec(precision_matrix)
-	func_out <- reset_index_df(func_out)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -1359,8 +1523,8 @@ calculate_cov_from_corrse <- function(corr, se) {
 	corr <- convert_input(corr, "pd.DataFrame")
 	se <- convert_input(se, "pd.Series")
 	func_out <- pharmpy$modeling$calculate_cov_from_corrse(corr, se)
-	func_out <- reset_index_df(func_out)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -1401,8 +1565,8 @@ calculate_cov_from_prec <- function(precision_matrix) {
 	reticulate::py_clear_last_error()
 	precision_matrix <- convert_input(precision_matrix, "pd.DataFrame")
 	func_out <- pharmpy$modeling$calculate_cov_from_prec(precision_matrix)
-	func_out <- reset_index_df(func_out)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -1415,7 +1579,7 @@ calculate_cov_from_prec <- function(precision_matrix) {
 #' 
 #' @param model (Model) Pharmpy model
 #'  
-#' @return (Expression) Symbolic expression
+#' @return (vectorc(Expr)) List of symbolic expressions
 #' 
 #' @examples
 #' \dontrun{
@@ -1430,7 +1594,8 @@ calculate_cov_from_prec <- function(precision_matrix) {
 calculate_epsilon_gradient_expression <- function(model) {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$modeling$calculate_epsilon_gradient_expression(model)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -1443,7 +1608,7 @@ calculate_epsilon_gradient_expression <- function(model) {
 #' 
 #' @param model (Model) Pharmpy model
 #'  
-#' @return (Expression) Symbolic expression
+#' @return (vectorc(Expr)) List of symbolic expressions
 #' 
 #' @examples
 #' \dontrun{
@@ -1458,7 +1623,8 @@ calculate_epsilon_gradient_expression <- function(model) {
 calculate_eta_gradient_expression <- function(model) {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$modeling$calculate_eta_gradient_expression(model)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -1494,8 +1660,8 @@ calculate_eta_shrinkage <- function(model, parameter_estimates, individual_estim
 	parameter_estimates <- convert_input(parameter_estimates, "pd.Series")
 	individual_estimates <- convert_input(individual_estimates, "pd.DataFrame")
 	func_out <- pharmpy$modeling$calculate_eta_shrinkage(model, parameter_estimates, individual_estimates, sd=sd)
-	func_out <- reset_index_df(func_out)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -1541,8 +1707,8 @@ calculate_individual_parameter_statistics <- function(model, expr_or_exprs, para
 	covariance_matrix <- convert_input(covariance_matrix, "pd.DataFrame")
 	seed <- convert_input(seed, "int")
 	func_out <- pharmpy$modeling$calculate_individual_parameter_statistics(model, expr_or_exprs, parameter_estimates, covariance_matrix=covariance_matrix, seed=seed)
-	func_out <- reset_index_df(func_out)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -1577,8 +1743,8 @@ calculate_individual_shrinkage <- function(model, parameter_estimates, individua
 	parameter_estimates <- convert_input(parameter_estimates, "pd.Series")
 	individual_estimates_covariance <- convert_input(individual_estimates_covariance, "pd.DataFrame")
 	func_out <- pharmpy$modeling$calculate_individual_shrinkage(model, parameter_estimates, individual_estimates_covariance)
-	func_out <- reset_index_df(func_out)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -1608,8 +1774,8 @@ calculate_individual_shrinkage <- function(model, parameter_estimates, individua
 calculate_parameters_from_ucp <- function(model, scale, ucps) {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$modeling$calculate_parameters_from_ucp(model, scale, ucps)
-	func_out <- reset_index_df(func_out)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -1649,8 +1815,8 @@ calculate_pk_parameters_statistics <- function(model, parameter_estimates, covar
 	covariance_matrix <- convert_input(covariance_matrix, "pd.DataFrame")
 	seed <- convert_input(seed, "int")
 	func_out <- pharmpy$modeling$calculate_pk_parameters_statistics(model, parameter_estimates, covariance_matrix=covariance_matrix, seed=seed)
-	func_out <- reset_index_df(func_out)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -1694,8 +1860,8 @@ calculate_prec_from_corrse <- function(corr, se) {
 	corr <- convert_input(corr, "pd.DataFrame")
 	se <- convert_input(se, "pd.Series")
 	func_out <- pharmpy$modeling$calculate_prec_from_corrse(corr, se)
-	func_out <- reset_index_df(func_out)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -1736,8 +1902,8 @@ calculate_prec_from_cov <- function(cov) {
 	reticulate::py_clear_last_error()
 	cov <- convert_input(cov, "pd.DataFrame")
 	func_out <- pharmpy$modeling$calculate_prec_from_cov(cov)
-	func_out <- reset_index_df(func_out)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -1778,8 +1944,8 @@ calculate_se_from_cov <- function(cov) {
 	reticulate::py_clear_last_error()
 	cov <- convert_input(cov, "pd.DataFrame")
 	func_out <- pharmpy$modeling$calculate_se_from_cov(cov)
-	func_out <- reset_index_df(func_out)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -1820,8 +1986,8 @@ calculate_se_from_prec <- function(precision_matrix) {
 	reticulate::py_clear_last_error()
 	precision_matrix <- convert_input(precision_matrix, "pd.DataFrame")
 	func_out <- pharmpy$modeling$calculate_se_from_prec(precision_matrix)
-	func_out <- reset_index_df(func_out)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -1854,7 +2020,8 @@ calculate_se_from_prec <- function(precision_matrix) {
 calculate_summary_statistic <- function(model, stat, expr, default=NULL) {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$modeling$calculate_summary_statistic(model, stat, expr, default=default)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -1885,7 +2052,8 @@ calculate_summary_statistic <- function(model, stat, expr, default=NULL) {
 calculate_ucp_scale <- function(model) {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$modeling$calculate_ucp_scale(model)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -1905,8 +2073,8 @@ calculate_ucp_scale <- function(model) {
 check_dataset <- function(model, dataframe=FALSE, verbose=FALSE) {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$modeling$check_dataset(model, dataframe=dataframe, verbose=verbose)
-	func_out <- reset_index_df(func_out)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -1934,8 +2102,8 @@ check_high_correlations <- function(model, cor, limit=0.9) {
 	reticulate::py_clear_last_error()
 	cor <- convert_input(cor, "pd.DataFrame")
 	func_out <- pharmpy$modeling$check_high_correlations(model, cor, limit=limit)
-	func_out <- reset_index_df(func_out)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -1964,8 +2132,8 @@ check_parameters_near_bounds <- function(model, values, zero_limit=0.001, signif
 	values <- convert_input(values, "pd.Series")
 	significant_digits <- convert_input(significant_digits, "int")
 	func_out <- pharmpy$modeling$check_parameters_near_bounds(model, values, zero_limit=zero_limit, significant_digits=significant_digits)
-	func_out <- reset_index_df(func_out)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -1991,7 +2159,8 @@ check_parameters_near_bounds <- function(model, values, zero_limit=0.001, signif
 cholesky_decompose <- function(model, rvs=NULL) {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$modeling$cholesky_decompose(model, rvs=rvs)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -2026,7 +2195,8 @@ cholesky_decompose <- function(model, rvs=NULL) {
 cleanup_model <- function(model) {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$modeling$cleanup_model(model)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -2052,7 +2222,8 @@ cleanup_model <- function(model) {
 convert_model <- function(model, to_format) {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$modeling$convert_model(model, to_format)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -2062,6 +2233,10 @@ convert_model <- function(model, to_format) {
 #' Convert between units for a data variable
 #' 
 #' The conversion could either be handled in the model code or optionally in the dataset (if applicable).
+#' Note that when doing the conversion in the model the unit of the data variable itself will not
+#' change. The change will affect the unit of relevant parameters in the model.
+#' 
+#' Note that only ratio units are supported (i.e. not interval scale units like °C).
 #' 
 #' @param model (Model) Pharmpy model
 #' @param variable (str) Which variable in the dataset or the model code to convert
@@ -2081,7 +2256,8 @@ convert_model <- function(model, to_format) {
 convert_unit <- function(model, variable, unit, original_unit=NULL, in_dataset=FALSE) {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$modeling$convert_unit(model, variable, unit, original_unit=original_unit, in_dataset=in_dataset)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -2106,7 +2282,8 @@ convert_unit <- function(model, variable, unit, original_unit=NULL, in_dataset=F
 create_basic_kpd_model <- function(dataset_path=NULL, driver='ir') {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$modeling$create_basic_kpd_model(dataset_path=dataset_path, driver=driver)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -2131,7 +2308,8 @@ create_basic_kpd_model <- function(dataset_path=NULL, driver='ir') {
 create_basic_pd_model <- function(dataset_path=NULL) {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$modeling$create_basic_pd_model(dataset_path=dataset_path)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -2159,7 +2337,8 @@ create_basic_pd_model <- function(dataset_path=NULL) {
 create_basic_pk_model <- function(administration='iv', dataset_path=NULL, cl_init=0.01, vc_init=1.0, mat_init=0.1) {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$modeling$create_basic_pk_model(administration=administration, dataset_path=dataset_path, cl_init=cl_init, vc_init=vc_init, mat_init=mat_init)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -2179,6 +2358,56 @@ create_basic_pk_model <- function(administration='iv', dataset_path=NULL, cl_ini
 create_config_template <- function() {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$modeling$create_config_template()
+	func_out <- convert_output(func_out)
+}
+
+#' @title
+#' create_datainfo
+#' 
+#' @description
+#' Create a DataInfo
+#' 
+#' Will assume NONMEM names of columns
+#' 
+#' @param path_or_df (str or data.frame) A path to a dataset or a dataset
+#'  
+#' @return (DataInfo) DataInfo object
+#' 
+#' 
+#' @export
+create_datainfo <- function(path_or_df) {
+	reticulate::py_clear_last_error()
+	func_out <- pharmpy$modeling$create_datainfo(path_or_df)
+	func_out <- convert_output(func_out)
+	return(func_out)
+}
+
+#' @title
+#' create_dataset_from_design
+#' 
+#' @description
+#' Create a dataset matching a design
+#' 
+#' @param td (TrialDesign) TrialDesign to add to
+#'  
+#' @return (data.frame) A dataset
+#' 
+#' @examples
+#' \dontrun{
+#' td <- create_trial_design()
+#' td <- add_arm(td, name="Drug", size=100)
+#' td <- add_observations(td, arm="Drug", variable="DV", time_points=[0.0, 1.0, 2.0, 4.0, 16.0])
+#' td <- add_administration(td, arm="Drug", variable="AMT", amount=10.0, time_points=[0.0, 8.0])
+#' df <- create_dataset_from_design(td)
+#' df
+#' }
+#' 
+#' @export
+create_dataset_from_design <- function(td) {
+	reticulate::py_clear_last_error()
+	func_out <- pharmpy$modeling$create_dataset_from_design(td)
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -2216,7 +2445,8 @@ create_joint_distribution <- function(model, rvs=NULL, individual_estimates=NULL
 	rvs <- convert_input(rvs, "list")
 	individual_estimates <- convert_input(individual_estimates, "pd.DataFrame")
 	func_out <- pharmpy$modeling$create_joint_distribution(model, rvs=rvs, individual_estimates=individual_estimates)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -2244,7 +2474,8 @@ create_rng <- function(seed=1234) {
 	reticulate::py_clear_last_error()
 	seed <- convert_input(seed, "int")
 	func_out <- pharmpy$modeling$create_rng(seed=seed)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -2258,7 +2489,7 @@ create_rng <- function(seed=1234) {
 #' @param force_numbering (logical) Forces addition of number to name even if variable does not exist, e.g.
 #' COVEFF → COVEFF1
 #'  
-#' @return (Symbol) Created symbol with unique name
+#' @return (Expr) Created symbol with unique name
 #' 
 #' @examples
 #' \dontrun{
@@ -2272,7 +2503,33 @@ create_rng <- function(seed=1234) {
 create_symbol <- function(model, stem, force_numbering=FALSE) {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$modeling$create_symbol(model, stem, force_numbering=force_numbering)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
+}
+
+#' @title
+#' create_trial_design
+#' 
+#' @description
+#' Create an empty trial design
+#' 
+#' @param idv_name (str) Optional name of the independent variable. Default is TIME
+#'  
+#' @return (TrialDesign) An empty trial design
+#' 
+#' @examples
+#' \dontrun{
+#' td <- create_trial_design()
+#' td$is_empty
+#' td
+#' }
+#' 
+#' @export
+create_trial_design <- function(idv_name='TIME') {
+	reticulate::py_clear_last_error()
+	func_out <- pharmpy$modeling$create_trial_design(idv_name=idv_name)
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -2304,8 +2561,8 @@ deidentify_data <- function(df, id_column='ID', date_columns=NULL) {
 	df <- convert_input(df, "pd.DataFrame")
 	date_columns <- convert_input(date_columns, "list")
 	func_out <- pharmpy$modeling$deidentify_data(df, id_column=id_column, date_columns=date_columns)
-	func_out <- reset_index_df(func_out)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -2328,7 +2585,8 @@ deidentify_data <- function(df, id_column='ID', date_columns=NULL) {
 display_odes <- function(model) {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$modeling$display_odes(model)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -2359,7 +2617,8 @@ display_odes <- function(model) {
 drop_columns <- function(model, column_names, mark=FALSE) {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$modeling$drop_columns(model, column_names, mark=mark)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -2391,7 +2650,8 @@ drop_columns <- function(model, column_names, mark=FALSE) {
 drop_dropped_columns <- function(model) {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$modeling$drop_dropped_columns(model)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -2434,8 +2694,8 @@ evaluate_epsilon_gradient <- function(model, etas=NULL, parameters=NULL, dataset
 	parameters <- convert_input(parameters, "Mapping")
 	dataset <- convert_input(dataset, "pd.DataFrame")
 	func_out <- pharmpy$modeling$evaluate_epsilon_gradient(model, etas=etas, parameters=parameters, dataset=dataset)
-	func_out <- reset_index_df(func_out)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -2478,8 +2738,8 @@ evaluate_eta_gradient <- function(model, etas=NULL, parameters=NULL, dataset=NUL
 	parameters <- convert_input(parameters, "Mapping")
 	dataset <- convert_input(dataset, "pd.DataFrame")
 	func_out <- pharmpy$modeling$evaluate_eta_gradient(model, etas=etas, parameters=parameters, dataset=dataset)
-	func_out <- reset_index_df(func_out)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -2512,8 +2772,8 @@ evaluate_expression <- function(model, expression, parameter_estimates=NULL) {
 	reticulate::py_clear_last_error()
 	parameter_estimates <- convert_input(parameter_estimates, "Mapping")
 	func_out <- pharmpy$modeling$evaluate_expression(model, expression, parameter_estimates=parameter_estimates)
-	func_out <- reset_index_df(func_out)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -2556,8 +2816,8 @@ evaluate_individual_prediction <- function(model, etas=NULL, parameters=NULL, da
 	parameters <- convert_input(parameters, "Mapping")
 	dataset <- convert_input(dataset, "pd.DataFrame")
 	func_out <- pharmpy$modeling$evaluate_individual_prediction(model, etas=etas, parameters=parameters, dataset=dataset)
-	func_out <- reset_index_df(func_out)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -2596,8 +2856,8 @@ evaluate_population_prediction <- function(model, parameters=NULL, dataset=NULL)
 	parameters <- convert_input(parameters, "Mapping")
 	dataset <- convert_input(dataset, "pd.DataFrame")
 	func_out <- pharmpy$modeling$evaluate_population_prediction(model, parameters=parameters, dataset=dataset)
-	func_out <- reset_index_df(func_out)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -2633,8 +2893,8 @@ evaluate_weighted_residuals <- function(model, parameters=NULL, dataset=NULL) {
 	parameters <- convert_input(parameters, "Mapping")
 	dataset <- convert_input(dataset, "pd.DataFrame")
 	func_out <- pharmpy$modeling$evaluate_weighted_residuals(model, parameters=parameters, dataset=dataset)
-	func_out <- reset_index_df(func_out)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -2655,7 +2915,8 @@ evaluate_weighted_residuals <- function(model, parameters=NULL, dataset=NULL) {
 expand_additional_doses <- function(model, flag=FALSE) {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$modeling$expand_additional_doses(model, flag=flag)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -2683,7 +2944,8 @@ expand_additional_doses <- function(model, flag=FALSE) {
 filter_dataset <- function(model, expr) {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$modeling$filter_dataset(model, expr)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -2706,7 +2968,8 @@ filter_dataset <- function(model, expr) {
 find_clearance_parameters <- function(model) {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$modeling$find_clearance_parameters(model)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -2729,7 +2992,8 @@ find_clearance_parameters <- function(model) {
 find_volume_parameters <- function(model) {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$modeling$find_volume_parameters(model)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -2772,7 +3036,8 @@ fix_or_unfix_parameters <- function(model, parameters, strict=TRUE) {
 	reticulate::py_clear_last_error()
 	parameters <- convert_input(parameters, "Mapping")
 	func_out <- pharmpy$modeling$fix_or_unfix_parameters(model, parameters, strict=strict)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -2812,7 +3077,8 @@ fix_or_unfix_parameters <- function(model, parameters, strict=TRUE) {
 fix_parameters <- function(model, parameter_names, strict=TRUE) {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$modeling$fix_parameters(model, parameter_names, strict=strict)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -2853,7 +3119,8 @@ fix_parameters_to <- function(model, inits, strict=TRUE) {
 	reticulate::py_clear_last_error()
 	inits <- convert_input(inits, "Mapping")
 	func_out <- pharmpy$modeling$fix_parameters_to(model, inits, strict=strict)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -2878,8 +3145,8 @@ fix_parameters_to <- function(model, inits, strict=TRUE) {
 get_admid <- function(model) {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$modeling$get_admid(model)
-	func_out <- reset_index_df(func_out)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -2904,8 +3171,8 @@ get_admid <- function(model) {
 get_baselines <- function(model) {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$modeling$get_baselines(model)
-	func_out <- reset_index_df(func_out)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -2923,7 +3190,8 @@ get_baselines <- function(model) {
 get_bioavailability <- function(model) {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$modeling$get_bioavailability(model)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -2935,7 +3203,7 @@ get_bioavailability <- function(model) {
 #' @param model (Model) Pharmpy model
 #' 
 #'  
-#' @return (sympy.Symbol) Volume symbol sympy.Symbol Clearance symbol
+#' @return (Expr) Volume symbol Expr Clearance symbol
 #' 
 #' @examples
 #' \dontrun{
@@ -2947,7 +3215,8 @@ get_bioavailability <- function(model) {
 get_central_volume_and_clearance <- function(model) {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$modeling$get_central_volume_and_clearance(model)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -2970,8 +3239,8 @@ get_central_volume_and_clearance <- function(model) {
 get_cmt <- function(model) {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$modeling$get_cmt(model)
-	func_out <- reset_index_df(func_out)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -2997,7 +3266,8 @@ get_cmt <- function(model) {
 get_column_name <- function(model, type) {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$modeling$get_column_name(model, type)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -3022,8 +3292,8 @@ get_column_name <- function(model, type) {
 get_concentration_parameters_from_data <- function(model) {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$modeling$get_concentration_parameters_from_data(model)
-	func_out <- reset_index_df(func_out)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -3043,7 +3313,8 @@ get_concentration_parameters_from_data <- function(model) {
 get_config_path <- function() {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$modeling$get_config_path()
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -3074,8 +3345,8 @@ get_config_path <- function() {
 get_covariate_baselines <- function(model) {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$modeling$get_covariate_baselines(model)
-	func_out <- reset_index_df(func_out)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -3096,7 +3367,8 @@ get_covariate_baselines <- function(model) {
 get_covariate_effects <- function(model) {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$modeling$get_covariate_effects(model)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -3122,8 +3394,8 @@ get_covariate_effects <- function(model) {
 get_doseid <- function(model) {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$modeling$get_doseid(model)
-	func_out <- reset_index_df(func_out)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -3148,8 +3420,8 @@ get_doseid <- function(model) {
 get_doses <- function(model) {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$modeling$get_doses(model)
-	func_out <- reset_index_df(func_out)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -3176,7 +3448,8 @@ get_dv_symbol <- function(model, dv=NULL) {
 	reticulate::py_clear_last_error()
 	dv <- convert_input(dv, "int")
 	func_out <- pharmpy$modeling$get_dv_symbol(model, dv=dv)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -3197,8 +3470,8 @@ get_dv_symbol <- function(model, dv=NULL) {
 get_evid <- function(model) {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$modeling$get_evid(model)
-	func_out <- reset_index_df(func_out)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -3221,7 +3494,8 @@ get_evid <- function(model) {
 get_ids <- function(model) {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$modeling$get_ids(model)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -3263,7 +3537,8 @@ get_individual_parameters <- function(model, level='all', dv=NULL) {
 	reticulate::py_clear_last_error()
 	dv <- convert_input(dv, "int")
 	func_out <- pharmpy$modeling$get_individual_parameters(model, level=level, dv=dv)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -3276,7 +3551,7 @@ get_individual_parameters <- function(model, level='all', dv=NULL) {
 #' 
 #' @param model (Model) Pharmpy model
 #'  
-#' @return (Expression) Symbolic expression
+#' @return (Expr) Symbolic expression
 #' 
 #' @examples
 #' \dontrun{
@@ -3291,7 +3566,8 @@ get_individual_parameters <- function(model, level='all', dv=NULL) {
 get_individual_prediction_expression <- function(model) {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$modeling$get_individual_prediction_expression(model)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -3318,7 +3594,8 @@ get_individual_prediction_expression <- function(model) {
 get_initial_conditions <- function(model, dosing=FALSE) {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$modeling$get_initial_conditions(model, dosing=dosing)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -3336,7 +3613,8 @@ get_initial_conditions <- function(model, dosing=FALSE) {
 get_lag_times <- function(model) {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$modeling$get_lag_times(model)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -3354,8 +3632,8 @@ get_lag_times <- function(model) {
 get_mdv <- function(model) {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$modeling$get_mdv(model)
-	func_out <- reset_index_df(func_out)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -3378,7 +3656,8 @@ get_mdv <- function(model) {
 get_model_code <- function(model) {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$modeling$get_model_code(model)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -3407,7 +3686,8 @@ get_model_code <- function(model) {
 get_model_covariates <- function(model, strings=FALSE) {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$modeling$get_model_covariates(model, strings=strings)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -3428,7 +3708,8 @@ get_model_covariates <- function(model, strings=FALSE) {
 get_mu_connected_to_parameter <- function(model, parameter) {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$modeling$get_mu_connected_to_parameter(model, parameter)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -3469,7 +3750,8 @@ get_mu_connected_to_parameter <- function(model, parameter) {
 get_nested_model <- function(model_1, model_2) {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$modeling$get_nested_model(model_1, model_2)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -3502,7 +3784,8 @@ get_nested_model <- function(model_1, model_2) {
 get_number_of_individuals <- function(model) {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$modeling$get_number_of_individuals(model)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -3535,7 +3818,8 @@ get_number_of_individuals <- function(model) {
 get_number_of_observations <- function(model) {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$modeling$get_number_of_observations(model)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -3568,8 +3852,8 @@ get_number_of_observations <- function(model) {
 get_number_of_observations_per_individual <- function(model) {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$modeling$get_number_of_observations_per_individual(model)
-	func_out <- reset_index_df(func_out)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -3588,7 +3872,8 @@ get_number_of_observations_per_individual <- function(model) {
 get_number_of_peripheral_compartments <- function(model) {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$modeling$get_number_of_peripheral_compartments(model)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -3606,7 +3891,8 @@ get_number_of_peripheral_compartments <- function(model) {
 get_number_of_transit_compartments <- function(model) {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$modeling$get_number_of_transit_compartments(model)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -3619,7 +3905,7 @@ get_number_of_transit_compartments <- function(model) {
 #' 
 #' @param model (Model) Pharmpy model
 #'  
-#' @return (Expression) Symbolic expression
+#' @return (Expr) Symbolic expression
 #' 
 #' @examples
 #' \dontrun{
@@ -3632,7 +3918,8 @@ get_number_of_transit_compartments <- function(model) {
 get_observation_expression <- function(model) {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$modeling$get_observation_expression(model)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -3664,8 +3951,8 @@ get_observations <- function(model, keep_index=FALSE, dv=NULL) {
 	reticulate::py_clear_last_error()
 	dv <- convert_input(dv, "int")
 	func_out <- pharmpy$modeling$get_observations(model, keep_index=keep_index, dv=dv)
-	func_out <- reset_index_df(func_out)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -3676,7 +3963,7 @@ get_observations <- function(model, keep_index=FALSE, dv=NULL) {
 #' 
 #' @param model (Model) Pharmpy model
 #'  
-#' @return (Parameters) A copy of all omega parameters
+#' @return (Parameters) All omega parameters
 #' 
 #' @examples
 #' \dontrun{
@@ -3693,7 +3980,8 @@ get_observations <- function(model, keep_index=FALSE, dv=NULL) {
 get_omegas <- function(model) {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$modeling$get_omegas(model)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -3727,7 +4015,8 @@ get_omegas <- function(model) {
 get_parameter_rv <- function(model, parameter, var_type='iiv') {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$modeling$get_parameter_rv(model, parameter, var_type=var_type)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -3754,7 +4043,8 @@ get_parameter_rv <- function(model, parameter, var_type='iiv') {
 get_pd_parameters <- function(model) {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$modeling$get_pd_parameters(model)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -3787,7 +4077,8 @@ get_pd_parameters <- function(model) {
 get_pk_parameters <- function(model, kind='all') {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$modeling$get_pk_parameters(model, kind=kind)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -3800,7 +4091,7 @@ get_pk_parameters <- function(model, kind='all') {
 #' 
 #' @param model (Model) Pharmpy model
 #'  
-#' @return (Expression) Symbolic expression
+#' @return (Expr) Symbolic expression
 #' 
 #' @examples
 #' \dontrun{
@@ -3815,7 +4106,8 @@ get_pk_parameters <- function(model, kind='all') {
 get_population_prediction_expression <- function(model) {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$modeling$get_population_prediction_expression(model)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -3846,7 +4138,8 @@ get_population_prediction_expression <- function(model) {
 get_rv_parameters <- function(model, rv) {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$modeling$get_rv_parameters(model, rv)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -3857,7 +4150,7 @@ get_rv_parameters <- function(model, rv) {
 #' 
 #' @param model (Model) Pharmpy model
 #'  
-#' @return (Parameters) A copy of all sigma parameters
+#' @return (Parameters) All sigma parameters
 #' 
 #' @examples
 #' \dontrun{
@@ -3874,7 +4167,8 @@ get_rv_parameters <- function(model, rv) {
 get_sigmas <- function(model) {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$modeling$get_sigmas(model)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -3885,7 +4179,7 @@ get_sigmas <- function(model) {
 #' 
 #' @param model (Model) Pharmpy model
 #'  
-#' @return (Parameters) A copy of all theta parameters
+#' @return (Parameters) All theta parameters
 #' 
 #' @examples
 #' \dontrun{
@@ -3902,7 +4196,8 @@ get_sigmas <- function(model) {
 get_thetas <- function(model) {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$modeling$get_thetas(model)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -3934,7 +4229,8 @@ get_thetas <- function(model) {
 get_unit_of <- function(model, variable=NULL) {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$modeling$get_unit_of(model, variable=variable)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -3957,7 +4253,8 @@ get_unit_of <- function(model, variable=NULL) {
 get_zero_order_inputs <- function(model) {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$modeling$get_zero_order_inputs(model)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -3983,7 +4280,8 @@ get_zero_order_inputs <- function(model) {
 greekify_model <- function(model, named_subscripts=FALSE) {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$modeling$greekify_model(model, named_subscripts=named_subscripts)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -4018,7 +4316,8 @@ has_additive_error_model <- function(model, dv=NULL) {
 	reticulate::py_clear_last_error()
 	dv <- convert_input(dv, "int")
 	func_out <- pharmpy$modeling$has_additive_error_model(model, dv=dv)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -4053,7 +4352,8 @@ has_combined_error_model <- function(model, dv=NULL) {
 	reticulate::py_clear_last_error()
 	dv <- convert_input(dv, "int")
 	func_out <- pharmpy$modeling$has_combined_error_model(model, dv=dv)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -4079,7 +4379,8 @@ has_combined_error_model <- function(model, dv=NULL) {
 has_covariate_effect <- function(model, parameter, covariate) {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$modeling$has_covariate_effect(model, parameter, covariate)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -4100,7 +4401,8 @@ has_covariate_effect <- function(model, parameter, covariate) {
 has_first_order_absorption <- function(model) {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$modeling$has_first_order_absorption(model)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -4126,7 +4428,8 @@ has_first_order_absorption <- function(model) {
 has_first_order_elimination <- function(model) {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$modeling$has_first_order_elimination(model)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -4146,7 +4449,8 @@ has_first_order_elimination <- function(model) {
 has_instantaneous_absorption <- function(model) {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$modeling$has_instantaneous_absorption(model)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -4176,7 +4480,8 @@ has_instantaneous_absorption <- function(model) {
 has_linear_odes <- function(model) {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$modeling$has_linear_odes(model)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -4206,7 +4511,8 @@ has_linear_odes <- function(model) {
 has_linear_odes_with_real_eigenvalues <- function(model) {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$modeling$has_linear_odes_with_real_eigenvalues(model)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -4234,7 +4540,8 @@ has_linear_odes_with_real_eigenvalues <- function(model) {
 has_michaelis_menten_elimination <- function(model) {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$modeling$has_michaelis_menten_elimination(model)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -4262,7 +4569,8 @@ has_michaelis_menten_elimination <- function(model) {
 has_mixed_mm_fo_elimination <- function(model) {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$modeling$has_mixed_mm_fo_elimination(model)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -4282,7 +4590,8 @@ has_mixed_mm_fo_elimination <- function(model) {
 has_mu_reference <- function(model) {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$modeling$has_mu_reference(model)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -4312,7 +4621,8 @@ has_mu_reference <- function(model) {
 has_odes <- function(model) {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$modeling$has_odes(model)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -4339,7 +4649,8 @@ has_odes <- function(model) {
 has_presystemic_metabolite <- function(model) {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$modeling$has_presystemic_metabolite(model)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -4374,7 +4685,8 @@ has_proportional_error_model <- function(model, dv=NULL) {
 	reticulate::py_clear_last_error()
 	dv <- convert_input(dv, "int")
 	func_out <- pharmpy$modeling$has_proportional_error_model(model, dv=dv)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -4407,7 +4719,8 @@ has_proportional_error_model <- function(model, dv=NULL) {
 has_random_effect <- function(model, parameter, level='all') {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$modeling$has_random_effect(model, parameter, level=level)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -4432,7 +4745,8 @@ has_random_effect <- function(model, parameter, level='all') {
 has_seq_zo_fo_absorption <- function(model) {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$modeling$has_seq_zo_fo_absorption(model)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -4450,7 +4764,8 @@ has_seq_zo_fo_absorption <- function(model) {
 has_weibull_absorption <- function(model) {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$modeling$has_weibull_absorption(model)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -4480,7 +4795,8 @@ has_weibull_absorption <- function(model) {
 has_weighted_error_model <- function(model) {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$modeling$has_weighted_error_model(model)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -4505,7 +4821,8 @@ has_weighted_error_model <- function(model) {
 has_zero_order_absorption <- function(model) {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$modeling$has_zero_order_absorption(model)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -4533,7 +4850,8 @@ has_zero_order_absorption <- function(model) {
 has_zero_order_elimination <- function(model) {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$modeling$has_zero_order_elimination(model)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -4562,7 +4880,8 @@ has_zero_order_elimination <- function(model) {
 infer_datatypes <- function(model, columns=NULL) {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$modeling$infer_datatypes(model, columns=columns)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -4593,7 +4912,8 @@ insert_ebes_into_dataset <- function(model, individual_estimates, individual_est
 	individual_estimates <- convert_input(individual_estimates, "pd.DataFrame")
 	individual_estimates_covariance <- convert_input(individual_estimates_covariance, "pd.DataFrame")
 	func_out <- pharmpy$modeling$insert_ebes_into_dataset(model, individual_estimates, individual_estimates_covariance=individual_estimates_covariance)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -4618,7 +4938,8 @@ insert_ebes_into_dataset <- function(model, individual_estimates, individual_est
 is_binary <- function(model, expr) {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$modeling$is_binary(model, expr)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -4643,7 +4964,8 @@ is_binary <- function(model, expr) {
 is_linearized <- function(model) {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$modeling$is_linearized(model)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -4667,7 +4989,8 @@ is_linearized <- function(model) {
 is_real <- function(model, expr) {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$modeling$is_real(model, expr)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -4690,7 +5013,8 @@ is_real <- function(model, expr) {
 is_simulation_model <- function(model) {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$modeling$is_simulation_model(model)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -4718,7 +5042,8 @@ is_simulation_model <- function(model) {
 list_time_varying_covariates <- function(model) {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$modeling$list_time_varying_covariates(model)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -4744,7 +5069,8 @@ list_time_varying_covariates <- function(model) {
 load_dataset <- function(model) {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$modeling$load_dataset(model)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -4769,7 +5095,8 @@ load_dataset <- function(model) {
 load_example_model <- function(name) {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$modeling$load_example_model(name)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -4796,7 +5123,8 @@ load_example_model <- function(name) {
 make_declarative <- function(model) {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$modeling$make_declarative(model)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -4824,7 +5152,8 @@ make_declarative <- function(model) {
 map_eta_parameters <- function(model, keys, values, level='iiv') {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$modeling$map_eta_parameters(model, keys, values, level=level)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -4853,7 +5182,8 @@ map_eta_parameters <- function(model, keys, values, level='iiv') {
 mu_reference_model <- function(model) {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$modeling$mu_reference_model(model)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -4873,7 +5203,8 @@ mu_reference_model <- function(model) {
 omit_data <- function(dataset_or_model, group, name_pattern='omitted_{}') {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$modeling$omit_data(dataset_or_model, group, name_pattern=name_pattern)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -4907,7 +5238,8 @@ plot_abs_cwres_vs_ipred <- function(model, predictions, residuals, stratify_on=N
 	residuals <- convert_input(residuals, "pd.DataFrame")
 	bins <- convert_input(bins, "int")
 	func_out <- pharmpy$modeling$plot_abs_cwres_vs_ipred(model, predictions, residuals, stratify_on=stratify_on, bins=bins)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -4939,7 +5271,8 @@ plot_cwres_vs_idv <- function(model, residuals, stratify_on=NULL, bins=8) {
 	residuals <- convert_input(residuals, "pd.DataFrame")
 	bins <- convert_input(bins, "int")
 	func_out <- pharmpy$modeling$plot_cwres_vs_idv(model, residuals, stratify_on=stratify_on, bins=bins)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -4971,7 +5304,8 @@ plot_dv_vs_ipred <- function(model, predictions, stratify_on=NULL, bins=8) {
 	predictions <- convert_input(predictions, "pd.DataFrame")
 	bins <- convert_input(bins, "int")
 	func_out <- pharmpy$modeling$plot_dv_vs_ipred(model, predictions, stratify_on=stratify_on, bins=bins)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -5003,7 +5337,8 @@ plot_dv_vs_pred <- function(model, predictions, stratify_on=NULL, bins=8) {
 	predictions <- convert_input(predictions, "pd.DataFrame")
 	bins <- convert_input(bins, "int")
 	func_out <- pharmpy$modeling$plot_dv_vs_pred(model, predictions, stratify_on=stratify_on, bins=bins)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -5029,7 +5364,8 @@ plot_eta_distributions <- function(model, individual_estimates) {
 	reticulate::py_clear_last_error()
 	individual_estimates <- convert_input(individual_estimates, "pd.DataFrame")
 	func_out <- pharmpy$modeling$plot_eta_distributions(model, individual_estimates)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -5062,7 +5398,8 @@ plot_individual_predictions <- function(model, predictions, individuals=NULL) {
 	reticulate::py_clear_last_error()
 	predictions <- convert_input(predictions, "pd.DataFrame")
 	func_out <- pharmpy$modeling$plot_individual_predictions(model, predictions, individuals=individuals)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -5091,7 +5428,8 @@ plot_iofv_vs_iofv <- function(iofv1, iofv2, name1, name2) {
 	iofv1 <- convert_input(iofv1, "pd.Series")
 	iofv2 <- convert_input(iofv2, "pd.Series")
 	func_out <- pharmpy$modeling$plot_iofv_vs_iofv(iofv1, iofv2, name1, name2)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -5116,7 +5454,8 @@ plot_transformed_eta_distributions <- function(model, parameter_estimates, indiv
 	individual_estimates <- convert_input(individual_estimates, "pd.DataFrame")
 	seed <- convert_input(seed, "int")
 	func_out <- pharmpy$modeling$plot_transformed_eta_distributions(model, parameter_estimates, individual_estimates, parameter_estimates_untransformed, seed=seed)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -5151,7 +5490,8 @@ plot_vpc <- function(model, simulations, binning='equal_number', nbins=8, qi=0.9
 	reticulate::py_clear_last_error()
 	nbins <- convert_input(nbins, "int")
 	func_out <- pharmpy$modeling$plot_vpc(model, simulations, binning=binning, nbins=nbins, qi=qi, ci=ci, stratify_on=stratify_on)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -5172,6 +5512,7 @@ plot_vpc <- function(model, simulations, binning='equal_number', nbins=8, qi=0.9
 print_model_code <- function(model) {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$modeling$print_model_code(model)
+	func_out <- convert_output(func_out)
 }
 
 #' @title
@@ -5195,6 +5536,26 @@ print_model_code <- function(model) {
 print_model_symbols <- function(model) {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$modeling$print_model_symbols(model)
+	func_out <- convert_output(func_out)
+}
+
+#' @title
+#' read_datainfo
+#' 
+#' @description
+#' Read a datainfo file
+#' 
+#' @param path (str) A path to a datainfo file
+#'  
+#' @return (DataInfo) DataInfo object
+#' 
+#' 
+#' @export
+read_datainfo <- function(path) {
+	reticulate::py_clear_last_error()
+	func_out <- pharmpy$modeling$read_datainfo(path)
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -5213,8 +5574,8 @@ print_model_symbols <- function(model) {
 read_dataset_from_datainfo <- function(datainfo, datatype=NULL) {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$modeling$read_dataset_from_datainfo(datainfo, datatype=datatype)
-	func_out <- reset_index_df(func_out)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -5243,7 +5604,8 @@ read_dataset_from_datainfo <- function(datainfo, datatype=NULL) {
 read_model <- function(path, missing_data_token=NULL) {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$modeling$read_model(path, missing_data_token=missing_data_token)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -5279,7 +5641,8 @@ read_model <- function(path, missing_data_token=NULL) {
 read_model_from_string <- function(code) {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$modeling$read_model_from_string(code)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -5305,7 +5668,8 @@ read_model_from_string <- function(code) {
 remove_bioavailability <- function(model) {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$modeling$remove_bioavailability(model)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -5333,7 +5697,8 @@ remove_bioavailability <- function(model) {
 remove_covariate_effect <- function(model, parameter, covariate, keep_fixed=TRUE) {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$modeling$remove_covariate_effect(model, parameter, covariate, keep_fixed=keep_fixed)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -5363,7 +5728,8 @@ remove_covariate_effect <- function(model, parameter, covariate, keep_fixed=TRUE
 remove_derivative <- function(model, with_respect_to=NULL) {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$modeling$remove_derivative(model, with_respect_to=with_respect_to)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -5388,7 +5754,8 @@ remove_derivative <- function(model, with_respect_to=NULL) {
 remove_error_model <- function(model) {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$modeling$remove_error_model(model)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -5428,7 +5795,8 @@ remove_estimation_step <- function(model, idx) {
 	reticulate::py_clear_last_error()
 	idx <- convert_input(idx, "int")
 	func_out <- pharmpy$modeling$remove_estimation_step(model, idx)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -5466,7 +5834,8 @@ remove_estimation_step <- function(model, idx) {
 remove_iiv <- function(model, to_remove=NULL) {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$modeling$remove_iiv(model, to_remove=to_remove)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -5500,7 +5869,8 @@ remove_iiv <- function(model, to_remove=NULL) {
 remove_iov <- function(model, to_remove=NULL) {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$modeling$remove_iov(model, to_remove=to_remove)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -5528,7 +5898,8 @@ remove_iov <- function(model, to_remove=NULL) {
 remove_lag_time <- function(model) {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$modeling$remove_lag_time(model)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -5565,7 +5936,8 @@ remove_loq_data <- function(model, lloq=NULL, uloq=NULL, blq=NULL, alq=NULL, kee
 	reticulate::py_clear_last_error()
 	keep <- convert_input(keep, "int")
 	func_out <- pharmpy$modeling$remove_loq_data(model, lloq=lloq, uloq=uloq, blq=blq, alq=alq, keep=keep)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -5603,7 +5975,8 @@ remove_loq_data <- function(model, lloq=NULL, uloq=NULL, blq=NULL, alq=NULL, kee
 remove_parameter_uncertainty_step <- function(model) {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$modeling$remove_parameter_uncertainty_step(model)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -5646,7 +6019,8 @@ remove_parameter_uncertainty_step <- function(model) {
 remove_peripheral_compartment <- function(model, name=NULL) {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$modeling$remove_peripheral_compartment(model, name=name)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -5691,7 +6065,8 @@ remove_predictions <- function(model, to_remove=NULL) {
 	reticulate::py_clear_last_error()
 	to_remove <- convert_input(to_remove, "list")
 	func_out <- pharmpy$modeling$remove_predictions(model, to_remove=to_remove)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -5736,7 +6111,8 @@ remove_residuals <- function(model, to_remove=NULL) {
 	reticulate::py_clear_last_error()
 	to_remove <- convert_input(to_remove, "list")
 	func_out <- pharmpy$modeling$remove_residuals(model, to_remove=to_remove)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -5767,7 +6143,8 @@ remove_residuals <- function(model, to_remove=NULL) {
 remove_unused_columns <- function(model) {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$modeling$remove_unused_columns(model)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -5785,7 +6162,8 @@ remove_unused_columns <- function(model) {
 remove_unused_parameters_and_rvs <- function(model) {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$modeling$remove_unused_parameters_and_rvs(model)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -5807,7 +6185,8 @@ rename_symbols <- function(model, new_names) {
 	reticulate::py_clear_last_error()
 	new_names <- convert_input(new_names, "Mapping")
 	func_out <- pharmpy$modeling$rename_symbols(model, new_names)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -5825,7 +6204,8 @@ rename_symbols <- function(model, new_names) {
 replace_fixed_thetas <- function(model) {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$modeling$replace_fixed_thetas(model)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -5848,7 +6228,8 @@ replace_fixed_thetas <- function(model) {
 replace_non_random_rvs <- function(model) {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$modeling$replace_non_random_rvs(model)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -5887,7 +6268,39 @@ resample_data <- function(dataset_or_model, group, resamples=1, stratify=NULL, s
 	resamples <- convert_input(resamples, "int")
 	sample_size <- convert_input(sample_size, "int")
 	func_out <- pharmpy$modeling$resample_data(dataset_or_model, group, resamples=resamples, stratify=stratify, sample_size=sample_size, replace=replace, name_pattern=name_pattern, name=name)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
+}
+
+#' @title
+#' reset_dataset
+#' 
+#' @description
+#' Use Pharmpy dataset instead of original file
+#' 
+#' The parsed dataset will be written down when doing e.g. estimation or writing files
+#' instead of the original dataset file
+#' 
+#' Removes path and provenance from DataInfo.
+#' 
+#' Note: Use this to get same behavior as Pharmpy<=2.1.1
+#' 
+#' @param model (Model) Pharmpy model
+#'  
+#' @return (Model) Updated Pharmpy model
+#' 
+#' @examples
+#' \dontrun{
+#' model <- load_example_model("pheno")
+#' model <- reset_dataset(model)
+#' }
+#' 
+#' @export
+reset_dataset <- function(model) {
+	reticulate::py_clear_last_error()
+	func_out <- pharmpy$modeling$reset_dataset(model)
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -5931,8 +6344,8 @@ sample_individual_estimates <- function(model, individual_estimates, individual_
 	samples_per_id <- convert_input(samples_per_id, "int")
 	seed <- convert_input(seed, "int")
 	func_out <- pharmpy$modeling$sample_individual_estimates(model, individual_estimates, individual_estimates_covariance, parameters=parameters, samples_per_id=samples_per_id, seed=seed)
-	func_out <- reset_index_df(func_out)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -5978,8 +6391,8 @@ sample_parameters_from_covariance_matrix <- function(model, parameter_estimates,
 	n <- convert_input(n, "int")
 	seed <- convert_input(seed, "int")
 	func_out <- pharmpy$modeling$sample_parameters_from_covariance_matrix(model, parameter_estimates, covariance_matrix, force_posdef_samples=force_posdef_samples, force_posdef_covmatrix=force_posdef_covmatrix, n=n, seed=seed)
-	func_out <- reset_index_df(func_out)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -6026,8 +6439,8 @@ sample_parameters_uniformly <- function(model, parameter_estimates, fraction=0.1
 	n <- convert_input(n, "int")
 	seed <- convert_input(seed, "int")
 	func_out <- pharmpy$modeling$sample_parameters_uniformly(model, parameter_estimates, fraction=fraction, force_posdef_samples=force_posdef_samples, n=n, seed=seed, scale=scale)
-	func_out <- reset_index_df(func_out)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -6079,7 +6492,8 @@ set_additive_error_model <- function(model, dv=NULL, data_trans=NULL, series_ter
 	dv <- convert_input(dv, "int")
 	series_terms <- convert_input(series_terms, "int")
 	func_out <- pharmpy$modeling$set_additive_error_model(model, dv=dv, data_trans=data_trans, series_terms=series_terms)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -6110,7 +6524,8 @@ set_additive_error_model <- function(model, dv=NULL, data_trans=NULL, series_ter
 set_baseline_effect <- function(model, expr='const') {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$modeling$set_baseline_effect(model, expr=expr)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -6157,7 +6572,8 @@ set_combined_error_model <- function(model, dv=NULL, data_trans=NULL) {
 	reticulate::py_clear_last_error()
 	dv <- convert_input(dv, "int")
 	func_out <- pharmpy$modeling$set_combined_error_model(model, dv=dv, data_trans=data_trans)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -6166,17 +6582,18 @@ set_combined_error_model <- function(model, dv=NULL, data_trans=NULL) {
 #' @description
 #' Set columns in the dataset to be covariates in the datainfo
 #' 
-#' @param model (Model) Pharmpy model
+#' @param model (Model or DataInfo) Pharmpy model or a DataInfo object
 #' @param covariates (array(str)) Column names
 #'  
-#' @return (Model) Updated Pharmpy model
+#' @return (Model) Updated Pharmpy model or DataInfo object
 #' 
 #' 
 #' @export
 set_covariates <- function(model, covariates) {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$modeling$set_covariates(model, covariates)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -6187,7 +6604,8 @@ set_covariates <- function(model, covariates) {
 #' 
 #' @param model (Model) Pharmpy model
 #' @param path_or_df (str or data.frame) Dataset path or dataframe
-#' @param datatype (str (optional)) Type of dataset (optional)
+#' @param format (str (optional)) File format of dataset (default csv. Can also be set to 'nonmem')
+#' @param datatype (any) Deprecated. Use format instead
 #'  
 #' @return (Model) Updated Pharmpy model
 #' 
@@ -6197,15 +6615,16 @@ set_covariates <- function(model, covariates) {
 #' model <- unload_dataset(model)
 #' dataset_path <- model$datainfo$path
 #' model$dataset is NULL
-#' model <- set_dataset(model, dataset_path, datatype='nonmem')
+#' model <- set_dataset(model, dataset_path, format='nonmem')
 #' model$dataset
 #' }
 #' 
 #' @export
-set_dataset <- function(model, path_or_df, datatype=NULL) {
+set_dataset <- function(model, path_or_df, format=NULL, datatype=NULL) {
 	reticulate::py_clear_last_error()
-	func_out <- pharmpy$modeling$set_dataset(model, path_or_df, datatype=datatype)
-	return(py_to_r(func_out))
+	func_out <- pharmpy$modeling$set_dataset(model, path_or_df, format=format, datatype=datatype)
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -6231,7 +6650,8 @@ set_dataset <- function(model, path_or_df, datatype=NULL) {
 set_description <- function(model, new_description) {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$modeling$set_description(model, new_description)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -6283,7 +6703,8 @@ set_description <- function(model, new_description) {
 set_direct_effect <- function(model, expr, variable=NULL) {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$modeling$set_direct_effect(model, expr, variable=variable)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -6307,7 +6728,8 @@ set_direct_effect <- function(model, expr, variable=NULL) {
 set_dtbs_error_model <- function(model, fix_to_log=FALSE) {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$modeling$set_dtbs_error_model(model, fix_to_log=fix_to_log)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -6326,7 +6748,8 @@ set_dtbs_error_model <- function(model, fix_to_log=FALSE) {
 set_dvid <- function(model, name) {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$modeling$set_dvid(model, name)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -6371,7 +6794,8 @@ set_estimation_step <- function(model, method, idx=0, ...) {
 	reticulate::py_clear_last_error()
 	idx <- convert_input(idx, "int")
 	func_out <- pharmpy$modeling$set_estimation_step(model, method, idx=idx, ...)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -6412,7 +6836,8 @@ set_evaluation_step <- function(model, idx=-1) {
 	reticulate::py_clear_last_error()
 	idx <- convert_input(idx, "int")
 	func_out <- pharmpy$modeling$set_evaluation_step(model, idx=idx)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -6447,7 +6872,8 @@ set_evaluation_step <- function(model, idx=-1) {
 set_first_order_absorption <- function(model) {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$modeling$set_first_order_absorption(model)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -6476,7 +6902,8 @@ set_first_order_absorption <- function(model) {
 set_first_order_elimination <- function(model) {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$modeling$set_first_order_elimination(model)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -6512,7 +6939,8 @@ set_iiv_on_ruv <- function(model, dv=NULL, list_of_eps=NULL, same_eta=TRUE, eta_
 	reticulate::py_clear_last_error()
 	dv <- convert_input(dv, "int")
 	func_out <- pharmpy$modeling$set_iiv_on_ruv(model, dv=dv, list_of_eps=list_of_eps, same_eta=same_eta, eta_names=eta_names)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -6542,7 +6970,8 @@ set_iiv_on_ruv <- function(model, dv=NULL, list_of_eps=NULL, same_eta=TRUE, eta_
 set_initial_condition <- function(model, compartment, expression, time=0) {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$modeling$set_initial_condition(model, compartment, expression, time=time)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -6586,7 +7015,8 @@ set_initial_estimates <- function(model, inits, move_est_close_to_bounds=FALSE, 
 	reticulate::py_clear_last_error()
 	inits <- convert_input(inits, "Mapping")
 	func_out <- pharmpy$modeling$set_initial_estimates(model, inits, move_est_close_to_bounds=move_est_close_to_bounds, strict=strict)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -6617,7 +7047,8 @@ set_initial_estimates <- function(model, inits, move_est_close_to_bounds=FALSE, 
 set_instantaneous_absorption <- function(model) {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$modeling$set_instantaneous_absorption(model)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -6648,7 +7079,8 @@ set_instantaneous_absorption <- function(model) {
 set_lloq_data <- function(model, value, lloq=NULL, blq=NULL) {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$modeling$set_lloq_data(model, value, lloq=lloq, blq=blq)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -6680,7 +7112,8 @@ set_lower_bounds <- function(model, bounds, strict=TRUE) {
 	reticulate::py_clear_last_error()
 	bounds <- convert_input(bounds, "Mapping")
 	func_out <- pharmpy$modeling$set_lower_bounds(model, bounds, strict=strict)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -6713,7 +7146,8 @@ set_lower_bounds <- function(model, bounds, strict=TRUE) {
 set_michaelis_menten_elimination <- function(model) {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$modeling$set_michaelis_menten_elimination(model)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -6746,7 +7180,8 @@ set_michaelis_menten_elimination <- function(model) {
 set_mixed_mm_fo_elimination <- function(model) {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$modeling$set_mixed_mm_fo_elimination(model)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -6795,7 +7230,8 @@ set_mixed_mm_fo_elimination <- function(model) {
 set_n_transit_compartments <- function(model, keep_depot=TRUE) {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$modeling$set_n_transit_compartments(model, keep_depot=keep_depot)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -6821,7 +7257,8 @@ set_n_transit_compartments <- function(model, keep_depot=TRUE) {
 set_name <- function(model, new_name) {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$modeling$set_name(model, new_name)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -6848,7 +7285,8 @@ set_name <- function(model, new_name) {
 set_ode_solver <- function(model, solver) {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$modeling$set_ode_solver(model, solver)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -6883,7 +7321,8 @@ set_peripheral_compartments <- function(model, n, name=NULL) {
 	reticulate::py_clear_last_error()
 	n <- convert_input(n, "int")
 	func_out <- pharmpy$modeling$set_peripheral_compartments(model, n, name=name)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -6929,7 +7368,8 @@ set_peripheral_compartments <- function(model, n, name=NULL) {
 set_placebo_model <- function(model, expr, operator='*') {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$modeling$set_placebo_model(model, expr, operator=operator)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -6972,7 +7412,8 @@ set_power_on_ruv <- function(model, list_of_eps=NULL, dv=NULL, lower_limit=0.01,
 	reticulate::py_clear_last_error()
 	dv <- convert_input(dv, "int")
 	func_out <- pharmpy$modeling$set_power_on_ruv(model, list_of_eps=list_of_eps, dv=dv, lower_limit=lower_limit, ipred=ipred, zero_protection=zero_protection)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -7000,14 +7441,15 @@ set_power_on_ruv <- function(model, list_of_eps=NULL, dv=NULL, lower_limit=0.01,
 #' @seealso
 #' 
 #' 
-#' set_unit - Set unit of a data variable
+#' annotate_unit - Annotate the unit of a data variable
 #' 
 #' 
 #' @export
 set_property <- function(model_or_datainfo, column, property, value) {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$modeling$set_property(model_or_datainfo, column, property, value)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -7056,7 +7498,8 @@ set_proportional_error_model <- function(model, dv=NULL, data_trans=NULL, zero_p
 	reticulate::py_clear_last_error()
 	dv <- convert_input(dv, "int")
 	func_out <- pharmpy$modeling$set_proportional_error_model(model, dv=dv, data_trans=data_trans, zero_protection=zero_protection)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -7084,7 +7527,8 @@ set_proportional_error_model <- function(model, dv=NULL, data_trans=NULL, zero_p
 set_reference_values <- function(model, refs) {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$modeling$set_reference_values(model, refs)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -7122,7 +7566,8 @@ set_reference_values <- function(model, refs) {
 set_seq_zo_fo_absorption <- function(model) {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$modeling$set_seq_zo_fo_absorption(model)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -7151,7 +7596,8 @@ set_simulation <- function(model, n=1, seed=1234) {
 	n <- convert_input(n, "int")
 	seed <- convert_input(seed, "int")
 	func_out <- pharmpy$modeling$set_simulation(model, n=n, seed=seed)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -7179,7 +7625,8 @@ set_time_varying_error_model <- function(model, cutoff, idv='TIME', dv=NULL) {
 	reticulate::py_clear_last_error()
 	dv <- convert_input(dv, "int")
 	func_out <- pharmpy$modeling$set_time_varying_error_model(model, cutoff, idv=idv, dv=dv)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -7218,7 +7665,8 @@ set_time_varying_error_model <- function(model, cutoff, idv='TIME', dv=NULL) {
 set_tmdd <- function(model, type, dv_types=NULL) {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$modeling$set_tmdd(model, type, dv_types=dv_types)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -7253,41 +7701,8 @@ set_transit_compartments <- function(model, n, keep_depot=TRUE) {
 	reticulate::py_clear_last_error()
 	n <- convert_input(n, "int")
 	func_out <- pharmpy$modeling$set_transit_compartments(model, n, keep_depot=keep_depot)
-	return(py_to_r(func_out))
-}
-
-#' @title
-#' set_unit
-#' 
-#' @description
-#' Specify the unit of a column
-#' 
-#' Note that no conversion of units will happen if the unit was already set.
-#' 
-#' @param model_or_datainfo (Model or DataInfo) Model object or DataInfo object
-#' @param column (str) Name of a column. If the column contains multiple variables, e.g. DV
-#' with multiple DVs, the ID can be specified with a colon. For example "DV:1"
-#' will mean the DV column only when DVID is 1.
-#' @param unit (str) The unit
-#'  
-#' @return (Model | DataInfo) An updated Model or DataInfo object
-#' 
-#' @examples
-#' \dontrun{
-#' model <- load_example_model("pheno")
-#' model <- set_unit(model, "WGT", "kg")
-#' }
-#' @seealso
-#' 
-#' 
-#' convert_unit - Convert between units for a variable
-#' 
-#' 
-#' @export
-set_unit <- function(model_or_datainfo, column, unit) {
-	reticulate::py_clear_last_error()
-	func_out <- pharmpy$modeling$set_unit(model_or_datainfo, column, unit)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -7319,7 +7734,8 @@ set_upper_bounds <- function(model, bounds, strict=TRUE) {
 	reticulate::py_clear_last_error()
 	bounds <- convert_input(bounds, "Mapping")
 	func_out <- pharmpy$modeling$set_upper_bounds(model, bounds, strict=strict)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -7370,7 +7786,8 @@ set_upper_bounds <- function(model, bounds, strict=TRUE) {
 set_weibull_absorption <- function(model) {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$modeling$set_weibull_absorption(model)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -7396,7 +7813,8 @@ set_weibull_absorption <- function(model) {
 set_weighted_error_model <- function(model) {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$modeling$set_weighted_error_model(model)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -7428,7 +7846,8 @@ set_weighted_error_model <- function(model) {
 set_zero_order_absorption <- function(model) {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$modeling$set_zero_order_absorption(model)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -7459,7 +7878,8 @@ set_zero_order_absorption <- function(model) {
 set_zero_order_elimination <- function(model) {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$modeling$set_zero_order_elimination(model)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -7487,7 +7907,8 @@ set_zero_order_elimination <- function(model) {
 set_zero_order_input <- function(model, compartment, expression) {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$modeling$set_zero_order_input(model, compartment, expression)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -7511,7 +7932,8 @@ set_zero_order_input <- function(model, compartment, expression) {
 simplify_expression <- function(model, expr) {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$modeling$simplify_expression(model, expr)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -7538,7 +7960,8 @@ simplify_expression <- function(model, expr) {
 solve_ode_system <- function(model) {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$modeling$solve_ode_system(model)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -7569,7 +7992,8 @@ solve_ode_system <- function(model) {
 split_joint_distribution <- function(model, rvs=NULL) {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$modeling$split_joint_distribution(model, rvs=rvs)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -7671,7 +8095,8 @@ split_joint_distribution <- function(model, rvs=NULL) {
 transform_blq <- function(model, method='m4', lloq=NULL) {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$modeling$transform_blq(model, method=method, lloq=lloq)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -7703,7 +8128,8 @@ transform_blq <- function(model, method='m4', lloq=NULL) {
 transform_etas_boxcox <- function(model, list_of_etas=NULL) {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$modeling$transform_etas_boxcox(model, list_of_etas=list_of_etas)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -7741,7 +8167,8 @@ transform_etas_boxcox <- function(model, list_of_etas=NULL) {
 transform_etas_john_draper <- function(model, list_of_etas=NULL) {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$modeling$transform_etas_john_draper(model, list_of_etas=list_of_etas)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -7773,7 +8200,8 @@ transform_etas_john_draper <- function(model, list_of_etas=NULL) {
 transform_etas_tdist <- function(model, list_of_etas=NULL) {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$modeling$transform_etas_tdist(model, list_of_etas=list_of_etas)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -7797,7 +8225,8 @@ transform_etas_tdist <- function(model, list_of_etas=NULL) {
 translate_nmtran_time <- function(model) {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$modeling$translate_nmtran_time(model)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -7832,7 +8261,8 @@ unconstrain_parameters <- function(model, parameter_names, strict=TRUE) {
 	reticulate::py_clear_last_error()
 	parameter_names <- convert_input(parameter_names, "list")
 	func_out <- pharmpy$modeling$unconstrain_parameters(model, parameter_names, strict=strict)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -7862,7 +8292,8 @@ unconstrain_parameters <- function(model, parameter_names, strict=TRUE) {
 undrop_columns <- function(model, column_names) {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$modeling$undrop_columns(model, column_names)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -7905,7 +8336,8 @@ undrop_columns <- function(model, column_names) {
 unfix_parameters <- function(model, parameter_names, strict=TRUE) {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$modeling$unfix_parameters(model, parameter_names, strict=strict)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -7948,7 +8380,8 @@ unfix_parameters_to <- function(model, inits, strict=TRUE) {
 	reticulate::py_clear_last_error()
 	inits <- convert_input(inits, "Mapping")
 	func_out <- pharmpy$modeling$unfix_parameters_to(model, inits, strict=strict)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -7972,7 +8405,8 @@ unfix_parameters_to <- function(model, inits, strict=TRUE) {
 unload_dataset <- function(model) {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$modeling$unload_dataset(model)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -8002,7 +8436,8 @@ update_initial_individual_estimates <- function(model, individual_estimates, for
 	reticulate::py_clear_last_error()
 	individual_estimates <- convert_input(individual_estimates, "pd.Series")
 	func_out <- pharmpy$modeling$update_initial_individual_estimates(model, individual_estimates, force=force)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -8023,7 +8458,8 @@ update_initial_individual_estimates <- function(model, individual_estimates, for
 use_thetas_for_error_stdev <- function(model) {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$modeling$use_thetas_for_error_stdev(model)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -8048,7 +8484,26 @@ use_thetas_for_error_stdev <- function(model) {
 write_csv <- function(model, path=NULL, force=FALSE) {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$modeling$write_csv(model, path=path, force=force)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
+}
+
+#' @title
+#' write_datainfo
+#' 
+#' @description
+#' Write a DataInfo object to a datainfo file
+#' 
+#' @param di (DataInfo) DataInfo object
+#' @param path (str) Path to write the datainfo file
+#' @param force (logical) Force overwrite if file already exists 
+#' 
+#' @export
+write_datainfo <- function(di, path, force=FALSE) {
+	reticulate::py_clear_last_error()
+	func_out <- pharmpy$modeling$write_datainfo(di, path, force=force)
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -8076,7 +8531,8 @@ write_csv <- function(model, path=NULL, force=FALSE) {
 write_dataset <- function(model, path=NULL, force=FALSE, type='csv') {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$modeling$write_dataset(model, path=path, force=force, type=type)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -8104,7 +8560,8 @@ write_dataset <- function(model, path=NULL, force=FALSE, type='csv') {
 write_model <- function(model, path='', force=TRUE) {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$modeling$write_model(model, path=path, force=force)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -8123,7 +8580,8 @@ write_model <- function(model, path='', force=TRUE) {
 broadcast_log <- function(context, broadcaster=NULL) {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$tools$broadcast_log(context, broadcaster=broadcaster)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -8141,7 +8599,8 @@ broadcast_log <- function(context, broadcaster=NULL) {
 create_report <- function(results, path) {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$tools$create_report(results, path)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -8169,7 +8628,8 @@ create_report <- function(results, path) {
 export_model_files <- function(context, destination_path=NULL, force=FALSE) {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$tools$export_model_files(context, destination_path=destination_path, force=force)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -8183,6 +8643,7 @@ export_model_files <- function(context, destination_path=NULL, force=FALSE) {
 #' @param name (str (optional)) Name of run
 #' @param context (Context (optional)) Run in this context
 #' @param ncores (numeric) Number of cores to use for estimation
+#' @param validate_dataset (logical) Whether to validate Pharmpy dataset against FDATA file (relevant for NONMEM models)
 #'  
 #' @return (ModelfitResults | vector of ModelfitResults) ModelfitResults for the model or models
 #' 
@@ -8196,11 +8657,12 @@ export_model_files <- function(context, destination_path=NULL, force=FALSE) {
 #' 
 #' 
 #' @export
-fit <- function(model_or_models, esttool=NULL, name=NULL, context=NULL, ncores=1) {
+fit <- function(model_or_models, esttool=NULL, name=NULL, context=NULL, ncores=1, validate_dataset=FALSE) {
 	reticulate::py_clear_last_error()
 	ncores <- convert_input(ncores, "int")
-	func_out <- pharmpy$tools$fit(model_or_models, esttool=esttool, name=name, context=context, ncores=ncores)
-	return(py_to_r(func_out))
+	func_out <- pharmpy$tools$fit(model_or_models, esttool=esttool, name=name, context=context, ncores=ncores, validate_dataset=validate_dataset)
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -8227,7 +8689,8 @@ fit <- function(model_or_models, esttool=NULL, name=NULL, context=NULL, ncores=1
 is_strictness_fulfilled <- function(model, results, strictness) {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$tools$is_strictness_fulfilled(model, results, strictness)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -8250,7 +8713,8 @@ is_strictness_fulfilled <- function(model, results, strictness) {
 list_models <- function(context, recursive=FALSE) {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$tools$list_models(context, recursive=recursive)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -8275,7 +8739,8 @@ list_models <- function(context, recursive=FALSE) {
 load_example_modelfit_results <- function(name) {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$tools$load_example_modelfit_results(name)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -8296,7 +8761,8 @@ load_example_modelfit_results <- function(name) {
 open_context <- function(name, ref=NULL) {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$tools$open_context(name, ref=ref)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -8324,8 +8790,8 @@ open_context <- function(name, ref=NULL) {
 predict_influential_individuals <- function(model, results, cutoff=3.84) {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$tools$predict_influential_individuals(model, results, cutoff=cutoff)
-	func_out <- reset_index_df(func_out)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -8354,8 +8820,8 @@ predict_influential_individuals <- function(model, results, cutoff=3.84) {
 predict_influential_outliers <- function(model, results, outlier_cutoff=3.0, influential_cutoff=3.84) {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$tools$predict_influential_outliers(model, results, outlier_cutoff=outlier_cutoff, influential_cutoff=influential_cutoff)
-	func_out <- reset_index_df(func_out)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -8391,8 +8857,8 @@ predict_influential_outliers <- function(model, results, outlier_cutoff=3.0, inf
 predict_outliers <- function(model, results, cutoff=3.0) {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$tools$predict_outliers(model, results, cutoff=cutoff)
-	func_out <- reset_index_df(func_out)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -8408,7 +8874,8 @@ predict_outliers <- function(model, results, cutoff=3.0) {
 print_fit_summary <- function(model, modelfit_results) {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$tools$print_fit_summary(model, modelfit_results)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -8423,7 +8890,8 @@ print_fit_summary <- function(model, modelfit_results) {
 print_log <- function(context) {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$tools$print_log(context)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -8442,7 +8910,8 @@ print_log <- function(context) {
 read_modelfit_results <- function(path, esttool=NULL) {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$tools$read_modelfit_results(path, esttool=esttool)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -8467,7 +8936,8 @@ read_modelfit_results <- function(path, esttool=NULL) {
 read_results <- function(path) {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$tools$read_results(path)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -8494,7 +8964,8 @@ read_results <- function(path) {
 retrieve_model <- function(context, name) {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$tools$retrieve_model(context, name)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -8518,7 +8989,8 @@ retrieve_model <- function(context, name) {
 retrieve_modelfit_results <- function(context, name) {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$tools$retrieve_modelfit_results(context, name)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -8547,7 +9019,8 @@ retrieve_models <- function(source, names=NULL) {
 	reticulate::py_clear_last_error()
 	names <- convert_input(names, "list")
 	func_out <- pharmpy$tools$retrieve_models(source, names=names)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -8579,51 +9052,13 @@ retrieve_models <- function(source, names=NULL) {
 #' @export
 run_allometry <- function(model, results, allometric_variable='WT', reference_value=70, parameters=NULL, initials=NULL, lower_bounds=NULL, upper_bounds=NULL, fixed=TRUE, ...) {
 	reticulate::py_clear_last_error()
-	tryCatch(
-	{
-		parameters <- convert_input(parameters, "list")
-		initials <- convert_input(initials, "list")
-		lower_bounds <- convert_input(lower_bounds, "list")
-		upper_bounds <- convert_input(upper_bounds, "list")
-		func_out <- pharmpy$tools$run_allometry(model, results, allometric_variable=allometric_variable, reference_value=reference_value, parameters=parameters, initials=initials, lower_bounds=lower_bounds, upper_bounds=upper_bounds, fixed=fixed, ...)
-		if ('pharmpy.workflows.results.Results' %in% class(func_out)) {
-			func_out <- reset_indices_results(func_out)
-		}
-		return(py_to_r(func_out))
-	},
-	error=function(cond) {
-		err <- reticulate::py_last_error()
-		if (is.null(err)) {
-			    message(cond)
-		} else if (err$type %in% c("InputValidationError", "DispatchingError")) {
-			    message(err$value)
-		} else {
-			    message('Python stack:')
-			    message(err)
-			    message("pharmr version: ", packageVersion("pharmr"))
-			    message("Pharmpy version: ", print_pharmpy_version())
-			    message("Pharmpy has crashed!")
-			    message("This is caused by a BUG! What you see above is NOT AN INTENTIONAL error message. Please report it at https://github.com/pharmpy/pharmpy/issues. Thanks!")
-		}
-		return(invisible())
-	},
-	warning=function(cond) {
-		err <- reticulate::py_last_error()
-		if (is.null(err)) {
-			    message(cond)
-		} else if (err$type %in% c("InputValidationError", "DispatchingError")) {
-			    message(err$value)
-		} else {
-			    message('Python stack:')
-			    message(err)
-			    message("pharmr version: ", packageVersion("pharmr"))
-			    message("Pharmpy version: ", print_pharmpy_version())
-			    message("Pharmpy has crashed!")
-			    message("This is caused by a BUG! What you see above is NOT AN INTENTIONAL error message. Please report it at https://github.com/pharmpy/pharmpy/issues. Thanks!")
-		}
-		return(invisible())
-	}
-	)
+	parameters <- convert_input(parameters, "list")
+	initials <- convert_input(initials, "list")
+	lower_bounds <- convert_input(lower_bounds, "list")
+	upper_bounds <- convert_input(upper_bounds, "list")
+	func_out <- pharmpy$tools$run_allometry(model, results, allometric_variable=allometric_variable, reference_value=reference_value, parameters=parameters, initials=initials, lower_bounds=lower_bounds, upper_bounds=upper_bounds, fixed=fixed, ...)
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -8632,8 +9067,8 @@ run_allometry <- function(model, results, allometric_variable='WT', reference_va
 #' @description
 #' Run Automatic Model Development (AMD) tool
 #' 
-#' @param input (Model or str) Starting model or dataset
-#' @param results (ModelfitResults (optional)) Reults of input if input is a model
+#' @param input (Model or str or DataInfo) Starting model or dataset
+#' @param results (ModelfitResults (optional)) Results of input if input is a model
 #' @param modeltype (str) Type of model to build. Valid strings are 'basic_pk', 'pkpd', 'drug_metabolite' and 'tmdd'
 #' @param administration (str) Route of administration. Either 'iv', 'oral' or 'ivoral'
 #' @param strategy (str) Run algorithm for AMD procedure. Valid options are 'default', 'reevaluation', 'SIR', 'SRI', and 'RSI'.
@@ -8658,6 +9093,7 @@ run_allometry <- function(model, results, allometric_variable='WT', reference_va
 #' @param retries_strategy (str) Whether or not to run retries tool. Valid options are 'skip', 'all_final' or 'final'.
 #' Default is 'final'.
 #' @param parameter_uncertainty_method (str (optional)) Parameter uncertainty method.
+#' @param units (list(str=str)) Specify units to use for DV or AMT. For example list('DV'= 'mg/L')
 #' @param ignore_datainfo_fallback (logical) Ignore using datainfo to get information not given by the user. Default is FALSE
 #' @param .E (list(str=numeric or str) (optional)) EXPERIMENTAL FEATURE. Dictionary of different E-values used in mBIC
 #' @param ... Arguments to pass to tool
@@ -8677,50 +9113,13 @@ run_allometry <- function(model, results, allometric_variable='WT', reference_va
 #' 
 #' 
 #' @export
-run_amd <- function(input, results=NULL, modeltype='basic_pk', administration='oral', strategy='default', cl_init=NULL, vc_init=NULL, mat_init=NULL, b_init=NULL, emax_init=NULL, ec50_init=NULL, met_init=NULL, search_space=NULL, lloq_method=NULL, lloq_limit=NULL, allometric_variable=NULL, occasion=NULL, strictness='minimization_successful or (rounding_errors and sigdigs>=0.1)', dv_types=NULL, mechanistic_covariates=NULL, retries_strategy='all_final', parameter_uncertainty_method=NULL, ignore_datainfo_fallback=FALSE, .E=NULL, ...) {
+run_amd <- function(input, results=NULL, modeltype='basic_pk', administration='oral', strategy='default', cl_init=NULL, vc_init=NULL, mat_init=NULL, b_init=NULL, emax_init=NULL, ec50_init=NULL, met_init=NULL, search_space=NULL, lloq_method=NULL, lloq_limit=NULL, allometric_variable=NULL, occasion=NULL, strictness='minimization_successful or (rounding_errors and sigdigs>=0.1)', dv_types=NULL, mechanistic_covariates=NULL, retries_strategy='all_final', parameter_uncertainty_method=NULL, units={}, ignore_datainfo_fallback=FALSE, .E=NULL, ...) {
 	reticulate::py_clear_last_error()
-	tryCatch(
-	{
-		mechanistic_covariates <- convert_input(mechanistic_covariates, "list")
-		func_out <- pharmpy$tools$run_amd(input, results=results, modeltype=modeltype, administration=administration, strategy=strategy, cl_init=cl_init, vc_init=vc_init, mat_init=mat_init, b_init=b_init, emax_init=emax_init, ec50_init=ec50_init, met_init=met_init, search_space=search_space, lloq_method=lloq_method, lloq_limit=lloq_limit, allometric_variable=allometric_variable, occasion=occasion, strictness=strictness, dv_types=dv_types, mechanistic_covariates=mechanistic_covariates, retries_strategy=retries_strategy, parameter_uncertainty_method=parameter_uncertainty_method, ignore_datainfo_fallback=ignore_datainfo_fallback, `_E`=.E, ...)
-		if ('pharmpy.workflows.results.Results' %in% class(func_out)) {
-			func_out <- reset_indices_results(func_out)
-		}
-		return(py_to_r(func_out))
-	},
-	error=function(cond) {
-		err <- reticulate::py_last_error()
-		if (is.null(err)) {
-			    message(cond)
-		} else if (err$type %in% c("InputValidationError", "DispatchingError")) {
-			    message(err$value)
-		} else {
-			    message('Python stack:')
-			    message(err)
-			    message("pharmr version: ", packageVersion("pharmr"))
-			    message("Pharmpy version: ", print_pharmpy_version())
-			    message("Pharmpy has crashed!")
-			    message("This is caused by a BUG! What you see above is NOT AN INTENTIONAL error message. Please report it at https://github.com/pharmpy/pharmpy/issues. Thanks!")
-		}
-		return(invisible())
-	},
-	warning=function(cond) {
-		err <- reticulate::py_last_error()
-		if (is.null(err)) {
-			    message(cond)
-		} else if (err$type %in% c("InputValidationError", "DispatchingError")) {
-			    message(err$value)
-		} else {
-			    message('Python stack:')
-			    message(err)
-			    message("pharmr version: ", packageVersion("pharmr"))
-			    message("Pharmpy version: ", print_pharmpy_version())
-			    message("Pharmpy has crashed!")
-			    message("This is caused by a BUG! What you see above is NOT AN INTENTIONAL error message. Please report it at https://github.com/pharmpy/pharmpy/issues. Thanks!")
-		}
-		return(invisible())
-	}
-	)
+	mechanistic_covariates <- convert_input(mechanistic_covariates, "list")
+	units <- convert_input(units, "Mapping")
+	func_out <- pharmpy$tools$run_amd(input, results=results, modeltype=modeltype, administration=administration, strategy=strategy, cl_init=cl_init, vc_init=vc_init, mat_init=mat_init, b_init=b_init, emax_init=emax_init, ec50_init=ec50_init, met_init=met_init, search_space=search_space, lloq_method=lloq_method, lloq_limit=lloq_limit, allometric_variable=allometric_variable, occasion=occasion, strictness=strictness, dv_types=dv_types, mechanistic_covariates=mechanistic_covariates, retries_strategy=retries_strategy, parameter_uncertainty_method=parameter_uncertainty_method, units=units, ignore_datainfo_fallback=ignore_datainfo_fallback, `_E`=.E, ...)
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -8749,48 +9148,10 @@ run_amd <- function(input, results=NULL, modeltype='basic_pk', administration='o
 #' @export
 run_bootstrap <- function(model, results=NULL, samples=1, dofv=FALSE, strictness='', ...) {
 	reticulate::py_clear_last_error()
-	tryCatch(
-	{
-		samples <- convert_input(samples, "int")
-		func_out <- pharmpy$tools$run_bootstrap(model, results=results, samples=samples, dofv=dofv, strictness=strictness, ...)
-		if ('pharmpy.workflows.results.Results' %in% class(func_out)) {
-			func_out <- reset_indices_results(func_out)
-		}
-		return(py_to_r(func_out))
-	},
-	error=function(cond) {
-		err <- reticulate::py_last_error()
-		if (is.null(err)) {
-			    message(cond)
-		} else if (err$type %in% c("InputValidationError", "DispatchingError")) {
-			    message(err$value)
-		} else {
-			    message('Python stack:')
-			    message(err)
-			    message("pharmr version: ", packageVersion("pharmr"))
-			    message("Pharmpy version: ", print_pharmpy_version())
-			    message("Pharmpy has crashed!")
-			    message("This is caused by a BUG! What you see above is NOT AN INTENTIONAL error message. Please report it at https://github.com/pharmpy/pharmpy/issues. Thanks!")
-		}
-		return(invisible())
-	},
-	warning=function(cond) {
-		err <- reticulate::py_last_error()
-		if (is.null(err)) {
-			    message(cond)
-		} else if (err$type %in% c("InputValidationError", "DispatchingError")) {
-			    message(err$value)
-		} else {
-			    message('Python stack:')
-			    message(err)
-			    message("pharmr version: ", packageVersion("pharmr"))
-			    message("Pharmpy version: ", print_pharmpy_version())
-			    message("Pharmpy has crashed!")
-			    message("This is caused by a BUG! What you see above is NOT AN INTENTIONAL error message. Please report it at https://github.com/pharmpy/pharmpy/issues. Thanks!")
-		}
-		return(invisible())
-	}
-	)
+	samples <- convert_input(samples, "int")
+	func_out <- pharmpy$tools$run_bootstrap(model, results=results, samples=samples, dofv=dofv, strictness=strictness, ...)
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -8841,51 +9202,13 @@ run_bootstrap <- function(model, results=NULL, samples=1, dofv=FALSE, strictness
 #' @export
 run_covsearch <- function(model, results, search_space, p_forward=0.01, p_backward=0.001, max_steps=-1, algorithm='scm-forward-then-backward', max_eval=FALSE, adaptive_scope_reduction=FALSE, strictness='minimization_successful or (rounding_errors and sigdigs>=0.1)', parameter_uncertainty_method=NULL, naming_index_offset=0, nsamples=10, .samba_max_covariates=3, .samba_selection_criterion='bic', .samba_linreg_method='ols', .samba_stepwise_lcs=NULL, ...) {
 	reticulate::py_clear_last_error()
-	tryCatch(
-	{
-		max_steps <- convert_input(max_steps, "int")
-		naming_index_offset <- convert_input(naming_index_offset, "int")
-		nsamples <- convert_input(nsamples, "int")
-		.samba_max_covariates <- convert_input(.samba_max_covariates, "int")
-		func_out <- pharmpy$tools$run_covsearch(model, results, search_space, p_forward=p_forward, p_backward=p_backward, max_steps=max_steps, algorithm=algorithm, max_eval=max_eval, adaptive_scope_reduction=adaptive_scope_reduction, strictness=strictness, parameter_uncertainty_method=parameter_uncertainty_method, naming_index_offset=naming_index_offset, nsamples=nsamples, `_samba_max_covariates`=.samba_max_covariates, `_samba_selection_criterion`=.samba_selection_criterion, `_samba_linreg_method`=.samba_linreg_method, `_samba_stepwise_lcs`=.samba_stepwise_lcs, ...)
-		if ('pharmpy.workflows.results.Results' %in% class(func_out)) {
-			func_out <- reset_indices_results(func_out)
-		}
-		return(py_to_r(func_out))
-	},
-	error=function(cond) {
-		err <- reticulate::py_last_error()
-		if (is.null(err)) {
-			    message(cond)
-		} else if (err$type %in% c("InputValidationError", "DispatchingError")) {
-			    message(err$value)
-		} else {
-			    message('Python stack:')
-			    message(err)
-			    message("pharmr version: ", packageVersion("pharmr"))
-			    message("Pharmpy version: ", print_pharmpy_version())
-			    message("Pharmpy has crashed!")
-			    message("This is caused by a BUG! What you see above is NOT AN INTENTIONAL error message. Please report it at https://github.com/pharmpy/pharmpy/issues. Thanks!")
-		}
-		return(invisible())
-	},
-	warning=function(cond) {
-		err <- reticulate::py_last_error()
-		if (is.null(err)) {
-			    message(cond)
-		} else if (err$type %in% c("InputValidationError", "DispatchingError")) {
-			    message(err$value)
-		} else {
-			    message('Python stack:')
-			    message(err)
-			    message("pharmr version: ", packageVersion("pharmr"))
-			    message("Pharmpy version: ", print_pharmpy_version())
-			    message("Pharmpy has crashed!")
-			    message("This is caused by a BUG! What you see above is NOT AN INTENTIONAL error message. Please report it at https://github.com/pharmpy/pharmpy/issues. Thanks!")
-		}
-		return(invisible())
-	}
-	)
+	max_steps <- convert_input(max_steps, "int")
+	naming_index_offset <- convert_input(naming_index_offset, "int")
+	nsamples <- convert_input(nsamples, "int")
+	.samba_max_covariates <- convert_input(.samba_max_covariates, "int")
+	func_out <- pharmpy$tools$run_covsearch(model, results, search_space, p_forward=p_forward, p_backward=p_backward, max_steps=max_steps, algorithm=algorithm, max_eval=max_eval, adaptive_scope_reduction=adaptive_scope_reduction, strictness=strictness, parameter_uncertainty_method=parameter_uncertainty_method, naming_index_offset=naming_index_offset, nsamples=nsamples, `_samba_max_covariates`=.samba_max_covariates, `_samba_selection_criterion`=.samba_selection_criterion, `_samba_linreg_method`=.samba_linreg_method, `_samba_stepwise_lcs`=.samba_stepwise_lcs, ...)
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -8923,47 +9246,9 @@ run_covsearch <- function(model, results, search_space, p_forward=0.01, p_backwa
 #' @export
 run_estmethod <- function(algorithm, methods=NULL, solvers=NULL, parameter_uncertainty_methods=NULL, compare_ofv=TRUE, results=NULL, model=NULL, ...) {
 	reticulate::py_clear_last_error()
-	tryCatch(
-	{
-		func_out <- pharmpy$tools$run_estmethod(algorithm, methods=methods, solvers=solvers, parameter_uncertainty_methods=parameter_uncertainty_methods, compare_ofv=compare_ofv, results=results, model=model, ...)
-		if ('pharmpy.workflows.results.Results' %in% class(func_out)) {
-			func_out <- reset_indices_results(func_out)
-		}
-		return(py_to_r(func_out))
-	},
-	error=function(cond) {
-		err <- reticulate::py_last_error()
-		if (is.null(err)) {
-			    message(cond)
-		} else if (err$type %in% c("InputValidationError", "DispatchingError")) {
-			    message(err$value)
-		} else {
-			    message('Python stack:')
-			    message(err)
-			    message("pharmr version: ", packageVersion("pharmr"))
-			    message("Pharmpy version: ", print_pharmpy_version())
-			    message("Pharmpy has crashed!")
-			    message("This is caused by a BUG! What you see above is NOT AN INTENTIONAL error message. Please report it at https://github.com/pharmpy/pharmpy/issues. Thanks!")
-		}
-		return(invisible())
-	},
-	warning=function(cond) {
-		err <- reticulate::py_last_error()
-		if (is.null(err)) {
-			    message(cond)
-		} else if (err$type %in% c("InputValidationError", "DispatchingError")) {
-			    message(err$value)
-		} else {
-			    message('Python stack:')
-			    message(err)
-			    message("pharmr version: ", packageVersion("pharmr"))
-			    message("Pharmpy version: ", print_pharmpy_version())
-			    message("Pharmpy has crashed!")
-			    message("This is caused by a BUG! What you see above is NOT AN INTENTIONAL error message. Please report it at https://github.com/pharmpy/pharmpy/issues. Thanks!")
-		}
-		return(invisible())
-	}
-	)
+	func_out <- pharmpy$tools$run_estmethod(algorithm, methods=methods, solvers=solvers, parameter_uncertainty_methods=parameter_uncertainty_methods, compare_ofv=compare_ofv, results=results, model=model, ...)
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -9004,47 +9289,9 @@ run_estmethod <- function(algorithm, methods=NULL, solvers=NULL, parameter_uncer
 #' @export
 run_iivsearch <- function(model, results, algorithm='top_down_exhaustive', search_space='IIV?(@IIV,EXP);COVARIANCE?(IIV,@IIV)', as_fullblock=FALSE, rank_type='bic', linearize=FALSE, cutoff=NULL, strictness='minimization_successful or (rounding_errors and sigdigs>=0.1)', correlation_algorithm=NULL, E_p=NULL, E_q=NULL, parameter_uncertainty_method=NULL, ...) {
 	reticulate::py_clear_last_error()
-	tryCatch(
-	{
-		func_out <- pharmpy$tools$run_iivsearch(model, results, algorithm=algorithm, search_space=search_space, as_fullblock=as_fullblock, rank_type=rank_type, linearize=linearize, cutoff=cutoff, strictness=strictness, correlation_algorithm=correlation_algorithm, E_p=E_p, E_q=E_q, parameter_uncertainty_method=parameter_uncertainty_method, ...)
-		if ('pharmpy.workflows.results.Results' %in% class(func_out)) {
-			func_out <- reset_indices_results(func_out)
-		}
-		return(py_to_r(func_out))
-	},
-	error=function(cond) {
-		err <- reticulate::py_last_error()
-		if (is.null(err)) {
-			    message(cond)
-		} else if (err$type %in% c("InputValidationError", "DispatchingError")) {
-			    message(err$value)
-		} else {
-			    message('Python stack:')
-			    message(err)
-			    message("pharmr version: ", packageVersion("pharmr"))
-			    message("Pharmpy version: ", print_pharmpy_version())
-			    message("Pharmpy has crashed!")
-			    message("This is caused by a BUG! What you see above is NOT AN INTENTIONAL error message. Please report it at https://github.com/pharmpy/pharmpy/issues. Thanks!")
-		}
-		return(invisible())
-	},
-	warning=function(cond) {
-		err <- reticulate::py_last_error()
-		if (is.null(err)) {
-			    message(cond)
-		} else if (err$type %in% c("InputValidationError", "DispatchingError")) {
-			    message(err$value)
-		} else {
-			    message('Python stack:')
-			    message(err)
-			    message("pharmr version: ", packageVersion("pharmr"))
-			    message("Pharmpy version: ", print_pharmpy_version())
-			    message("Pharmpy has crashed!")
-			    message("This is caused by a BUG! What you see above is NOT AN INTENTIONAL error message. Please report it at https://github.com/pharmpy/pharmpy/issues. Thanks!")
-		}
-		return(invisible())
-	}
-	)
+	func_out <- pharmpy$tools$run_iivsearch(model, results, algorithm=algorithm, search_space=search_space, as_fullblock=as_fullblock, rank_type=rank_type, linearize=linearize, cutoff=cutoff, strictness=strictness, correlation_algorithm=correlation_algorithm, E_p=E_p, E_q=E_q, parameter_uncertainty_method=parameter_uncertainty_method, ...)
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -9079,48 +9326,10 @@ run_iivsearch <- function(model, results, algorithm='top_down_exhaustive', searc
 #' @export
 run_iovsearch <- function(model, results, column='OCC', list_of_parameters=NULL, rank_type='bic', cutoff=NULL, distribution='same-as-iiv', strictness='minimization_successful or (rounding_errors and sigdigs>=0.1)', E=NULL, parameter_uncertainty_method=NULL, ...) {
 	reticulate::py_clear_last_error()
-	tryCatch(
-	{
-		list_of_parameters <- convert_input(list_of_parameters, "list")
-		func_out <- pharmpy$tools$run_iovsearch(model, results, column=column, list_of_parameters=list_of_parameters, rank_type=rank_type, cutoff=cutoff, distribution=distribution, strictness=strictness, E=E, parameter_uncertainty_method=parameter_uncertainty_method, ...)
-		if ('pharmpy.workflows.results.Results' %in% class(func_out)) {
-			func_out <- reset_indices_results(func_out)
-		}
-		return(py_to_r(func_out))
-	},
-	error=function(cond) {
-		err <- reticulate::py_last_error()
-		if (is.null(err)) {
-			    message(cond)
-		} else if (err$type %in% c("InputValidationError", "DispatchingError")) {
-			    message(err$value)
-		} else {
-			    message('Python stack:')
-			    message(err)
-			    message("pharmr version: ", packageVersion("pharmr"))
-			    message("Pharmpy version: ", print_pharmpy_version())
-			    message("Pharmpy has crashed!")
-			    message("This is caused by a BUG! What you see above is NOT AN INTENTIONAL error message. Please report it at https://github.com/pharmpy/pharmpy/issues. Thanks!")
-		}
-		return(invisible())
-	},
-	warning=function(cond) {
-		err <- reticulate::py_last_error()
-		if (is.null(err)) {
-			    message(cond)
-		} else if (err$type %in% c("InputValidationError", "DispatchingError")) {
-			    message(err$value)
-		} else {
-			    message('Python stack:')
-			    message(err)
-			    message("pharmr version: ", packageVersion("pharmr"))
-			    message("Pharmpy version: ", print_pharmpy_version())
-			    message("Pharmpy has crashed!")
-			    message("This is caused by a BUG! What you see above is NOT AN INTENTIONAL error message. Please report it at https://github.com/pharmpy/pharmpy/issues. Thanks!")
-		}
-		return(invisible())
-	}
-	)
+	list_of_parameters <- convert_input(list_of_parameters, "list")
+	func_out <- pharmpy$tools$run_iovsearch(model, results, column=column, list_of_parameters=list_of_parameters, rank_type=rank_type, cutoff=cutoff, distribution=distribution, strictness=strictness, E=E, parameter_uncertainty_method=parameter_uncertainty_method, ...)
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -9129,8 +9338,8 @@ run_iovsearch <- function(model, results, column='OCC', list_of_parameters=NULL,
 #' @description
 #' Linearize a model
 #' 
-#' @param model (Model (optional)) Pharmpy model. Should use FOCEI or other EM-methods for estimation
-#' @param results (ModelfitResults (optional)) Results of estimation of model
+#' @param model (Model) Pharmpy model. Should use FOCEI or other EM-methods for estimation
+#' @param results (ModelfitResults) Results of estimation of model
 #' @param model_name (str) New name of linearized model. The default is "linbase".
 #' @param description (str) Description of linearized model. The default is ""
 #' @param ... Arguments to pass to tool
@@ -9139,49 +9348,11 @@ run_iovsearch <- function(model, results, column='OCC', list_of_parameters=NULL,
 #' 
 #' 
 #' @export
-run_linearize <- function(model=NULL, results=NULL, model_name='linbase', description='', ...) {
+run_linearize <- function(model, results, model_name='linbase', description='', ...) {
 	reticulate::py_clear_last_error()
-	tryCatch(
-	{
-		func_out <- pharmpy$tools$run_linearize(model=model, results=results, model_name=model_name, description=description, ...)
-		if ('pharmpy.workflows.results.Results' %in% class(func_out)) {
-			func_out <- reset_indices_results(func_out)
-		}
-		return(py_to_r(func_out))
-	},
-	error=function(cond) {
-		err <- reticulate::py_last_error()
-		if (is.null(err)) {
-			    message(cond)
-		} else if (err$type %in% c("InputValidationError", "DispatchingError")) {
-			    message(err$value)
-		} else {
-			    message('Python stack:')
-			    message(err)
-			    message("pharmr version: ", packageVersion("pharmr"))
-			    message("Pharmpy version: ", print_pharmpy_version())
-			    message("Pharmpy has crashed!")
-			    message("This is caused by a BUG! What you see above is NOT AN INTENTIONAL error message. Please report it at https://github.com/pharmpy/pharmpy/issues. Thanks!")
-		}
-		return(invisible())
-	},
-	warning=function(cond) {
-		err <- reticulate::py_last_error()
-		if (is.null(err)) {
-			    message(cond)
-		} else if (err$type %in% c("InputValidationError", "DispatchingError")) {
-			    message(err$value)
-		} else {
-			    message('Python stack:')
-			    message(err)
-			    message("pharmr version: ", packageVersion("pharmr"))
-			    message("Pharmpy version: ", print_pharmpy_version())
-			    message("Pharmpy has crashed!")
-			    message("This is caused by a BUG! What you see above is NOT AN INTENTIONAL error message. Please report it at https://github.com/pharmpy/pharmpy/issues. Thanks!")
-		}
-		return(invisible())
-	}
-	)
+	func_out <- pharmpy$tools$run_linearize(model, results, model_name=model_name, description=description, ...)
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -9208,48 +9379,10 @@ run_linearize <- function(model=NULL, results=NULL, model_name='linbase', descri
 #' @export
 run_modelfit <- function(model_or_models=NULL, n=NULL, ...) {
 	reticulate::py_clear_last_error()
-	tryCatch(
-	{
-		n <- convert_input(n, "int")
-		func_out <- pharmpy$tools$run_modelfit(model_or_models=model_or_models, n=n, ...)
-		if ('pharmpy.workflows.results.Results' %in% class(func_out)) {
-			func_out <- reset_indices_results(func_out)
-		}
-		return(py_to_r(func_out))
-	},
-	error=function(cond) {
-		err <- reticulate::py_last_error()
-		if (is.null(err)) {
-			    message(cond)
-		} else if (err$type %in% c("InputValidationError", "DispatchingError")) {
-			    message(err$value)
-		} else {
-			    message('Python stack:')
-			    message(err)
-			    message("pharmr version: ", packageVersion("pharmr"))
-			    message("Pharmpy version: ", print_pharmpy_version())
-			    message("Pharmpy has crashed!")
-			    message("This is caused by a BUG! What you see above is NOT AN INTENTIONAL error message. Please report it at https://github.com/pharmpy/pharmpy/issues. Thanks!")
-		}
-		return(invisible())
-	},
-	warning=function(cond) {
-		err <- reticulate::py_last_error()
-		if (is.null(err)) {
-			    message(cond)
-		} else if (err$type %in% c("InputValidationError", "DispatchingError")) {
-			    message(err$value)
-		} else {
-			    message('Python stack:')
-			    message(err)
-			    message("pharmr version: ", packageVersion("pharmr"))
-			    message("Pharmpy version: ", print_pharmpy_version())
-			    message("Pharmpy has crashed!")
-			    message("This is caused by a BUG! What you see above is NOT AN INTENTIONAL error message. Please report it at https://github.com/pharmpy/pharmpy/issues. Thanks!")
-		}
-		return(invisible())
-	}
-	)
+	n <- convert_input(n, "int")
+	func_out <- pharmpy$tools$run_modelfit(model_or_models=model_or_models, n=n, ...)
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -9280,49 +9413,11 @@ run_modelfit <- function(model_or_models=NULL, n=NULL, ...) {
 #' @export
 run_modelrank <- function(models, results, ref_model, strictness='minimization_successful or (rounding_errors and sigdigs >= 0.1)', rank_type='ofv', alpha=0.05, search_space=NULL, E=NULL, parameter_uncertainty_method=NULL, exclude_reference_model=FALSE, ...) {
 	reticulate::py_clear_last_error()
-	tryCatch(
-	{
-		models <- convert_input(models, "list")
-		results <- convert_input(results, "list")
-		func_out <- pharmpy$tools$run_modelrank(models, results, ref_model, strictness=strictness, rank_type=rank_type, alpha=alpha, search_space=search_space, E=E, parameter_uncertainty_method=parameter_uncertainty_method, exclude_reference_model=exclude_reference_model, ...)
-		if ('pharmpy.workflows.results.Results' %in% class(func_out)) {
-			func_out <- reset_indices_results(func_out)
-		}
-		return(py_to_r(func_out))
-	},
-	error=function(cond) {
-		err <- reticulate::py_last_error()
-		if (is.null(err)) {
-			    message(cond)
-		} else if (err$type %in% c("InputValidationError", "DispatchingError")) {
-			    message(err$value)
-		} else {
-			    message('Python stack:')
-			    message(err)
-			    message("pharmr version: ", packageVersion("pharmr"))
-			    message("Pharmpy version: ", print_pharmpy_version())
-			    message("Pharmpy has crashed!")
-			    message("This is caused by a BUG! What you see above is NOT AN INTENTIONAL error message. Please report it at https://github.com/pharmpy/pharmpy/issues. Thanks!")
-		}
-		return(invisible())
-	},
-	warning=function(cond) {
-		err <- reticulate::py_last_error()
-		if (is.null(err)) {
-			    message(cond)
-		} else if (err$type %in% c("InputValidationError", "DispatchingError")) {
-			    message(err$value)
-		} else {
-			    message('Python stack:')
-			    message(err)
-			    message("pharmr version: ", packageVersion("pharmr"))
-			    message("Pharmpy version: ", print_pharmpy_version())
-			    message("Pharmpy has crashed!")
-			    message("This is caused by a BUG! What you see above is NOT AN INTENTIONAL error message. Please report it at https://github.com/pharmpy/pharmpy/issues. Thanks!")
-		}
-		return(invisible())
-	}
-	)
+	models <- convert_input(models, "list")
+	results <- convert_input(results, "list")
+	func_out <- pharmpy$tools$run_modelrank(models, results, ref_model, strictness=strictness, rank_type=rank_type, alpha=alpha, search_space=search_space, E=E, parameter_uncertainty_method=parameter_uncertainty_method, exclude_reference_model=exclude_reference_model, ...)
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -9358,47 +9453,9 @@ run_modelrank <- function(models, results, ref_model, strictness='minimization_s
 #' @export
 run_modelsearch <- function(model, results, search_space, algorithm='reduced_stepwise', iiv_strategy='absorption_delay', rank_type='bic', cutoff=NULL, strictness='minimization_successful or (rounding_errors and sigdigs >= 0.1)', E=NULL, parameter_uncertainty_method=NULL, ...) {
 	reticulate::py_clear_last_error()
-	tryCatch(
-	{
-		func_out <- pharmpy$tools$run_modelsearch(model, results, search_space, algorithm=algorithm, iiv_strategy=iiv_strategy, rank_type=rank_type, cutoff=cutoff, strictness=strictness, E=E, parameter_uncertainty_method=parameter_uncertainty_method, ...)
-		if ('pharmpy.workflows.results.Results' %in% class(func_out)) {
-			func_out <- reset_indices_results(func_out)
-		}
-		return(py_to_r(func_out))
-	},
-	error=function(cond) {
-		err <- reticulate::py_last_error()
-		if (is.null(err)) {
-			    message(cond)
-		} else if (err$type %in% c("InputValidationError", "DispatchingError")) {
-			    message(err$value)
-		} else {
-			    message('Python stack:')
-			    message(err)
-			    message("pharmr version: ", packageVersion("pharmr"))
-			    message("Pharmpy version: ", print_pharmpy_version())
-			    message("Pharmpy has crashed!")
-			    message("This is caused by a BUG! What you see above is NOT AN INTENTIONAL error message. Please report it at https://github.com/pharmpy/pharmpy/issues. Thanks!")
-		}
-		return(invisible())
-	},
-	warning=function(cond) {
-		err <- reticulate::py_last_error()
-		if (is.null(err)) {
-			    message(cond)
-		} else if (err$type %in% c("InputValidationError", "DispatchingError")) {
-			    message(err$value)
-		} else {
-			    message('Python stack:')
-			    message(err)
-			    message("pharmr version: ", packageVersion("pharmr"))
-			    message("Pharmpy version: ", print_pharmpy_version())
-			    message("Pharmpy has crashed!")
-			    message("This is caused by a BUG! What you see above is NOT AN INTENTIONAL error message. Please report it at https://github.com/pharmpy/pharmpy/issues. Thanks!")
-		}
-		return(invisible())
-	}
-	)
+	func_out <- pharmpy$tools$run_modelsearch(model, results, search_space, algorithm=algorithm, iiv_strategy=iiv_strategy, rank_type=rank_type, cutoff=cutoff, strictness=strictness, E=E, parameter_uncertainty_method=parameter_uncertainty_method, ...)
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -9425,47 +9482,9 @@ run_modelsearch <- function(model, results, search_space, algorithm='reduced_ste
 #' @export
 run_pdsearch <- function(input, type, treatment_variable=NULL, kpd_driver='ir', algorithm='stepwise', data_strategy='full', results=NULL, strictness='minimization_successful or (rounding_errors and sigdigs>=0.1)', parameter_uncertainty_method=NULL, ...) {
 	reticulate::py_clear_last_error()
-	tryCatch(
-	{
-		func_out <- pharmpy$tools$run_pdsearch(input, type, treatment_variable=treatment_variable, kpd_driver=kpd_driver, algorithm=algorithm, data_strategy=data_strategy, results=results, strictness=strictness, parameter_uncertainty_method=parameter_uncertainty_method, ...)
-		if ('pharmpy.workflows.results.Results' %in% class(func_out)) {
-			func_out <- reset_indices_results(func_out)
-		}
-		return(py_to_r(func_out))
-	},
-	error=function(cond) {
-		err <- reticulate::py_last_error()
-		if (is.null(err)) {
-			    message(cond)
-		} else if (err$type %in% c("InputValidationError", "DispatchingError")) {
-			    message(err$value)
-		} else {
-			    message('Python stack:')
-			    message(err)
-			    message("pharmr version: ", packageVersion("pharmr"))
-			    message("Pharmpy version: ", print_pharmpy_version())
-			    message("Pharmpy has crashed!")
-			    message("This is caused by a BUG! What you see above is NOT AN INTENTIONAL error message. Please report it at https://github.com/pharmpy/pharmpy/issues. Thanks!")
-		}
-		return(invisible())
-	},
-	warning=function(cond) {
-		err <- reticulate::py_last_error()
-		if (is.null(err)) {
-			    message(cond)
-		} else if (err$type %in% c("InputValidationError", "DispatchingError")) {
-			    message(err$value)
-		} else {
-			    message('Python stack:')
-			    message(err)
-			    message("pharmr version: ", packageVersion("pharmr"))
-			    message("Pharmpy version: ", print_pharmpy_version())
-			    message("Pharmpy has crashed!")
-			    message("This is caused by a BUG! What you see above is NOT AN INTENTIONAL error message. Please report it at https://github.com/pharmpy/pharmpy/issues. Thanks!")
-		}
-		return(invisible())
-	}
-	)
+	func_out <- pharmpy$tools$run_pdsearch(input, type, treatment_variable=treatment_variable, kpd_driver=kpd_driver, algorithm=algorithm, data_strategy=data_strategy, results=results, strictness=strictness, parameter_uncertainty_method=parameter_uncertainty_method, ...)
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -9474,8 +9493,8 @@ run_pdsearch <- function(input, type, treatment_variable=NULL, kpd_driver='ir', 
 #' @description
 #' Run QA tool.
 #' 
-#' @param model (Model (optional)) Pharmpy model
-#' @param results (ModelfitResults (optional)) Results of model
+#' @param model (Model) Pharmpy model
+#' @param results (ModelfitResults) Results of model
 #' @param linearize (logical) Whether or not to use linearization when running the tool
 #' @param skip (array(str) (optional)) A vector of sections to ski
 #' @param ... Arguments to pass to tool
@@ -9490,50 +9509,12 @@ run_pdsearch <- function(input, type, treatment_variable=NULL, kpd_driver='ir', 
 #' }
 #' 
 #' @export
-run_qa <- function(model=NULL, results=NULL, linearize=FALSE, skip=NULL, ...) {
+run_qa <- function(model, results, linearize=FALSE, skip=NULL, ...) {
 	reticulate::py_clear_last_error()
-	tryCatch(
-	{
-		skip <- convert_input(skip, "list")
-		func_out <- pharmpy$tools$run_qa(model=model, results=results, linearize=linearize, skip=skip, ...)
-		if ('pharmpy.workflows.results.Results' %in% class(func_out)) {
-			func_out <- reset_indices_results(func_out)
-		}
-		return(py_to_r(func_out))
-	},
-	error=function(cond) {
-		err <- reticulate::py_last_error()
-		if (is.null(err)) {
-			    message(cond)
-		} else if (err$type %in% c("InputValidationError", "DispatchingError")) {
-			    message(err$value)
-		} else {
-			    message('Python stack:')
-			    message(err)
-			    message("pharmr version: ", packageVersion("pharmr"))
-			    message("Pharmpy version: ", print_pharmpy_version())
-			    message("Pharmpy has crashed!")
-			    message("This is caused by a BUG! What you see above is NOT AN INTENTIONAL error message. Please report it at https://github.com/pharmpy/pharmpy/issues. Thanks!")
-		}
-		return(invisible())
-	},
-	warning=function(cond) {
-		err <- reticulate::py_last_error()
-		if (is.null(err)) {
-			    message(cond)
-		} else if (err$type %in% c("InputValidationError", "DispatchingError")) {
-			    message(err$value)
-		} else {
-			    message('Python stack:')
-			    message(err)
-			    message("pharmr version: ", packageVersion("pharmr"))
-			    message("Pharmpy version: ", print_pharmpy_version())
-			    message("Pharmpy has crashed!")
-			    message("This is caused by a BUG! What you see above is NOT AN INTENTIONAL error message. Please report it at https://github.com/pharmpy/pharmpy/issues. Thanks!")
-		}
-		return(invisible())
-	}
-	)
+	skip <- convert_input(skip, "list")
+	func_out <- pharmpy$tools$run_qa(model, results, linearize=linearize, skip=skip, ...)
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -9542,8 +9523,8 @@ run_qa <- function(model=NULL, results=NULL, linearize=FALSE, skip=NULL, ...) {
 #' @description
 #' Run retries tool.
 #' 
-#' @param model (Model (optional)) Model object to run retries on. The default is NULL.
-#' @param results (ModelfitResults (optional)) Connected ModelfitResults object. The default is NULL.
+#' @param model (Model) Model object to run retries on. The default is NULL.
+#' @param results (ModelfitResults) Connected ModelfitResults object. The default is NULL.
 #' @param number_of_candidates (numeric) Number of retry candidates to run. The default is 5.
 #' @param fraction (numeric) Determines allowed increase/decrease from initial parameter estimate. Default is 0.1 (10%)
 #' @param use_initial_estimates (logical) Use initial parameter estimates instead of final estimates of input model when creating candidate models.
@@ -9558,50 +9539,12 @@ run_qa <- function(model=NULL, results=NULL, linearize=FALSE, skip=NULL, ...) {
 #' 
 #' 
 #' @export
-run_retries <- function(model=NULL, results=NULL, number_of_candidates=5, fraction=0.1, use_initial_estimates=FALSE, strictness='minimization_successful or (rounding_errors and sigdigs >= 0.1)', scale='UCP', prefix_name='', parameter_uncertainty_method=NULL, ...) {
+run_retries <- function(model, results, number_of_candidates=5, fraction=0.1, use_initial_estimates=FALSE, strictness='minimization_successful or (rounding_errors and sigdigs >= 0.1)', scale='UCP', prefix_name='', parameter_uncertainty_method=NULL, ...) {
 	reticulate::py_clear_last_error()
-	tryCatch(
-	{
-		number_of_candidates <- convert_input(number_of_candidates, "int")
-		func_out <- pharmpy$tools$run_retries(model=model, results=results, number_of_candidates=number_of_candidates, fraction=fraction, use_initial_estimates=use_initial_estimates, strictness=strictness, scale=scale, prefix_name=prefix_name, parameter_uncertainty_method=parameter_uncertainty_method, ...)
-		if ('pharmpy.workflows.results.Results' %in% class(func_out)) {
-			func_out <- reset_indices_results(func_out)
-		}
-		return(py_to_r(func_out))
-	},
-	error=function(cond) {
-		err <- reticulate::py_last_error()
-		if (is.null(err)) {
-			    message(cond)
-		} else if (err$type %in% c("InputValidationError", "DispatchingError")) {
-			    message(err$value)
-		} else {
-			    message('Python stack:')
-			    message(err)
-			    message("pharmr version: ", packageVersion("pharmr"))
-			    message("Pharmpy version: ", print_pharmpy_version())
-			    message("Pharmpy has crashed!")
-			    message("This is caused by a BUG! What you see above is NOT AN INTENTIONAL error message. Please report it at https://github.com/pharmpy/pharmpy/issues. Thanks!")
-		}
-		return(invisible())
-	},
-	warning=function(cond) {
-		err <- reticulate::py_last_error()
-		if (is.null(err)) {
-			    message(cond)
-		} else if (err$type %in% c("InputValidationError", "DispatchingError")) {
-			    message(err$value)
-		} else {
-			    message('Python stack:')
-			    message(err)
-			    message("pharmr version: ", packageVersion("pharmr"))
-			    message("Pharmpy version: ", print_pharmpy_version())
-			    message("Pharmpy has crashed!")
-			    message("This is caused by a BUG! What you see above is NOT AN INTENTIONAL error message. Please report it at https://github.com/pharmpy/pharmpy/issues. Thanks!")
-		}
-		return(invisible())
-	}
-	)
+	number_of_candidates <- convert_input(number_of_candidates, "int")
+	func_out <- pharmpy$tools$run_retries(model, results, number_of_candidates=number_of_candidates, fraction=fraction, use_initial_estimates=use_initial_estimates, strictness=strictness, scale=scale, prefix_name=prefix_name, parameter_uncertainty_method=parameter_uncertainty_method, ...)
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -9634,51 +9577,13 @@ run_retries <- function(model=NULL, results=NULL, number_of_candidates=5, fracti
 #' @export
 run_ruvsearch <- function(model, results, groups=4, p_value=0.001, skip=NULL, max_iter=3, dv=NULL, strictness='minimization_successful or (rounding_errors and sigdigs>=0.1)', parameter_uncertainty_method=NULL, ...) {
 	reticulate::py_clear_last_error()
-	tryCatch(
-	{
-		groups <- convert_input(groups, "int")
-		skip <- convert_input(skip, "list")
-		max_iter <- convert_input(max_iter, "int")
-		dv <- convert_input(dv, "int")
-		func_out <- pharmpy$tools$run_ruvsearch(model, results, groups=groups, p_value=p_value, skip=skip, max_iter=max_iter, dv=dv, strictness=strictness, parameter_uncertainty_method=parameter_uncertainty_method, ...)
-		if ('pharmpy.workflows.results.Results' %in% class(func_out)) {
-			func_out <- reset_indices_results(func_out)
-		}
-		return(py_to_r(func_out))
-	},
-	error=function(cond) {
-		err <- reticulate::py_last_error()
-		if (is.null(err)) {
-			    message(cond)
-		} else if (err$type %in% c("InputValidationError", "DispatchingError")) {
-			    message(err$value)
-		} else {
-			    message('Python stack:')
-			    message(err)
-			    message("pharmr version: ", packageVersion("pharmr"))
-			    message("Pharmpy version: ", print_pharmpy_version())
-			    message("Pharmpy has crashed!")
-			    message("This is caused by a BUG! What you see above is NOT AN INTENTIONAL error message. Please report it at https://github.com/pharmpy/pharmpy/issues. Thanks!")
-		}
-		return(invisible())
-	},
-	warning=function(cond) {
-		err <- reticulate::py_last_error()
-		if (is.null(err)) {
-			    message(cond)
-		} else if (err$type %in% c("InputValidationError", "DispatchingError")) {
-			    message(err$value)
-		} else {
-			    message('Python stack:')
-			    message(err)
-			    message("pharmr version: ", packageVersion("pharmr"))
-			    message("Pharmpy version: ", print_pharmpy_version())
-			    message("Pharmpy has crashed!")
-			    message("This is caused by a BUG! What you see above is NOT AN INTENTIONAL error message. Please report it at https://github.com/pharmpy/pharmpy/issues. Thanks!")
-		}
-		return(invisible())
-	}
-	)
+	groups <- convert_input(groups, "int")
+	skip <- convert_input(skip, "list")
+	max_iter <- convert_input(max_iter, "int")
+	dv <- convert_input(dv, "int")
+	func_out <- pharmpy$tools$run_ruvsearch(model, results, groups=groups, p_value=p_value, skip=skip, max_iter=max_iter, dv=dv, strictness=strictness, parameter_uncertainty_method=parameter_uncertainty_method, ...)
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -9702,47 +9607,9 @@ run_ruvsearch <- function(model, results, groups=4, p_value=0.001, skip=NULL, ma
 #' @export
 run_simulation <- function(model=NULL, ...) {
 	reticulate::py_clear_last_error()
-	tryCatch(
-	{
-		func_out <- pharmpy$tools$run_simulation(model=model, ...)
-		if ('pharmpy.workflows.results.Results' %in% class(func_out)) {
-			func_out <- reset_indices_results(func_out)
-		}
-		return(py_to_r(func_out))
-	},
-	error=function(cond) {
-		err <- reticulate::py_last_error()
-		if (is.null(err)) {
-			    message(cond)
-		} else if (err$type %in% c("InputValidationError", "DispatchingError")) {
-			    message(err$value)
-		} else {
-			    message('Python stack:')
-			    message(err)
-			    message("pharmr version: ", packageVersion("pharmr"))
-			    message("Pharmpy version: ", print_pharmpy_version())
-			    message("Pharmpy has crashed!")
-			    message("This is caused by a BUG! What you see above is NOT AN INTENTIONAL error message. Please report it at https://github.com/pharmpy/pharmpy/issues. Thanks!")
-		}
-		return(invisible())
-	},
-	warning=function(cond) {
-		err <- reticulate::py_last_error()
-		if (is.null(err)) {
-			    message(cond)
-		} else if (err$type %in% c("InputValidationError", "DispatchingError")) {
-			    message(err$value)
-		} else {
-			    message('Python stack:')
-			    message(err)
-			    message("pharmr version: ", packageVersion("pharmr"))
-			    message("Pharmpy version: ", print_pharmpy_version())
-			    message("Pharmpy has crashed!")
-			    message("This is caused by a BUG! What you see above is NOT AN INTENTIONAL error message. Please report it at https://github.com/pharmpy/pharmpy/issues. Thanks!")
-		}
-		return(invisible())
-	}
-	)
+	func_out <- pharmpy$tools$run_simulation(model=model, ...)
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -9782,47 +9649,9 @@ run_simulation <- function(model=NULL, ...) {
 #' @export
 run_structsearch <- function(model, results, type, search_space=NULL, b_init=NULL, emax_init=NULL, ec50_init=NULL, met_init=NULL, extra_model=NULL, rank_type='bic', cutoff=NULL, strictness='minimization_successful or (rounding_errors and sigdigs >= 0.1)', extra_model_results=NULL, dv_types=NULL, parameter_uncertainty_method=NULL, ...) {
 	reticulate::py_clear_last_error()
-	tryCatch(
-	{
-		func_out <- pharmpy$tools$run_structsearch(model, results, type, search_space=search_space, b_init=b_init, emax_init=emax_init, ec50_init=ec50_init, met_init=met_init, extra_model=extra_model, rank_type=rank_type, cutoff=cutoff, strictness=strictness, extra_model_results=extra_model_results, dv_types=dv_types, parameter_uncertainty_method=parameter_uncertainty_method, ...)
-		if ('pharmpy.workflows.results.Results' %in% class(func_out)) {
-			func_out <- reset_indices_results(func_out)
-		}
-		return(py_to_r(func_out))
-	},
-	error=function(cond) {
-		err <- reticulate::py_last_error()
-		if (is.null(err)) {
-			    message(cond)
-		} else if (err$type %in% c("InputValidationError", "DispatchingError")) {
-			    message(err$value)
-		} else {
-			    message('Python stack:')
-			    message(err)
-			    message("pharmr version: ", packageVersion("pharmr"))
-			    message("Pharmpy version: ", print_pharmpy_version())
-			    message("Pharmpy has crashed!")
-			    message("This is caused by a BUG! What you see above is NOT AN INTENTIONAL error message. Please report it at https://github.com/pharmpy/pharmpy/issues. Thanks!")
-		}
-		return(invisible())
-	},
-	warning=function(cond) {
-		err <- reticulate::py_last_error()
-		if (is.null(err)) {
-			    message(cond)
-		} else if (err$type %in% c("InputValidationError", "DispatchingError")) {
-			    message(err$value)
-		} else {
-			    message('Python stack:')
-			    message(err)
-			    message("pharmr version: ", packageVersion("pharmr"))
-			    message("Pharmpy version: ", print_pharmpy_version())
-			    message("Pharmpy has crashed!")
-			    message("This is caused by a BUG! What you see above is NOT AN INTENTIONAL error message. Please report it at https://github.com/pharmpy/pharmpy/issues. Thanks!")
-		}
-		return(invisible())
-	}
-	)
+	func_out <- pharmpy$tools$run_structsearch(model, results, type, search_space=search_space, b_init=b_init, emax_init=emax_init, ec50_init=ec50_init, met_init=met_init, extra_model=extra_model, rank_type=rank_type, cutoff=cutoff, strictness=strictness, extra_model_results=extra_model_results, dv_types=dv_types, parameter_uncertainty_method=parameter_uncertainty_method, ...)
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -9849,47 +9678,9 @@ run_structsearch <- function(model, results, type, search_space=NULL, b_init=NUL
 #' @export
 run_tool <- function(tool_name, ...) {
 	reticulate::py_clear_last_error()
-	tryCatch(
-	{
-		func_out <- pharmpy$tools$run_tool(tool_name, ...)
-		if ('pharmpy.workflows.results.Results' %in% class(func_out)) {
-			func_out <- reset_indices_results(func_out)
-		}
-		return(py_to_r(func_out))
-	},
-	error=function(cond) {
-		err <- reticulate::py_last_error()
-		if (is.null(err)) {
-			    message(cond)
-		} else if (err$type %in% c("InputValidationError", "DispatchingError")) {
-			    message(err$value)
-		} else {
-			    message('Python stack:')
-			    message(err)
-			    message("pharmr version: ", packageVersion("pharmr"))
-			    message("Pharmpy version: ", print_pharmpy_version())
-			    message("Pharmpy has crashed!")
-			    message("This is caused by a BUG! What you see above is NOT AN INTENTIONAL error message. Please report it at https://github.com/pharmpy/pharmpy/issues. Thanks!")
-		}
-		return(invisible())
-	},
-	warning=function(cond) {
-		err <- reticulate::py_last_error()
-		if (is.null(err)) {
-			    message(cond)
-		} else if (err$type %in% c("InputValidationError", "DispatchingError")) {
-			    message(err$value)
-		} else {
-			    message('Python stack:')
-			    message(err)
-			    message("pharmr version: ", packageVersion("pharmr"))
-			    message("Pharmpy version: ", print_pharmpy_version())
-			    message("Pharmpy has crashed!")
-			    message("This is caused by a BUG! What you see above is NOT AN INTENTIONAL error message. Please report it at https://github.com/pharmpy/pharmpy/issues. Thanks!")
-		}
-		return(invisible())
-	}
-	)
+	func_out <- pharmpy$tools$run_tool(tool_name, ...)
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -9917,48 +9708,10 @@ run_tool <- function(tool_name, ...) {
 #' @export
 run_vpc <- function(model, results=NULL, samples=20, stratify=NULL, frem=FALSE, ...) {
 	reticulate::py_clear_last_error()
-	tryCatch(
-	{
-		samples <- convert_input(samples, "int")
-		func_out <- pharmpy$tools$run_vpc(model, results=results, samples=samples, stratify=stratify, frem=frem, ...)
-		if ('pharmpy.workflows.results.Results' %in% class(func_out)) {
-			func_out <- reset_indices_results(func_out)
-		}
-		return(py_to_r(func_out))
-	},
-	error=function(cond) {
-		err <- reticulate::py_last_error()
-		if (is.null(err)) {
-			    message(cond)
-		} else if (err$type %in% c("InputValidationError", "DispatchingError")) {
-			    message(err$value)
-		} else {
-			    message('Python stack:')
-			    message(err)
-			    message("pharmr version: ", packageVersion("pharmr"))
-			    message("Pharmpy version: ", print_pharmpy_version())
-			    message("Pharmpy has crashed!")
-			    message("This is caused by a BUG! What you see above is NOT AN INTENTIONAL error message. Please report it at https://github.com/pharmpy/pharmpy/issues. Thanks!")
-		}
-		return(invisible())
-	},
-	warning=function(cond) {
-		err <- reticulate::py_last_error()
-		if (is.null(err)) {
-			    message(cond)
-		} else if (err$type %in% c("InputValidationError", "DispatchingError")) {
-			    message(err$value)
-		} else {
-			    message('Python stack:')
-			    message(err)
-			    message("pharmr version: ", packageVersion("pharmr"))
-			    message("Pharmpy version: ", print_pharmpy_version())
-			    message("Pharmpy has crashed!")
-			    message("This is caused by a BUG! What you see above is NOT AN INTENTIONAL error message. Please report it at https://github.com/pharmpy/pharmpy/issues. Thanks!")
-		}
-		return(invisible())
-	}
-	)
+	samples <- convert_input(samples, "int")
+	func_out <- pharmpy$tools$run_vpc(model, results=results, samples=samples, stratify=stratify, frem=frem, ...)
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -9984,8 +9737,8 @@ run_vpc <- function(model, results=NULL, samples=20, stratify=NULL, frem=FALSE, 
 summarize_modelfit_results <- function(context, include_all_execution_steps=FALSE) {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$tools$summarize_modelfit_results(context, include_all_execution_steps=include_all_execution_steps)
-	func_out <- reset_index_df(func_out)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 
 #' @title
@@ -10005,6 +9758,7 @@ summarize_modelfit_results <- function(context, include_all_execution_steps=FALS
 write_results <- function(results, path, compression=FALSE, csv=FALSE) {
 	reticulate::py_clear_last_error()
 	func_out <- pharmpy$tools$write_results(results, path, compression=compression, csv=csv)
-	return(py_to_r(func_out))
+	func_out <- convert_output(func_out)
+	return(func_out)
 }
 

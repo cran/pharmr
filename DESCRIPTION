@@ -1,7 +1,7 @@
 Package: pharmr
 Encoding: UTF-8
-Version: 2.1.1
-Date: 2026-05-19
+Version: 2.2.0
+Date: 2026-08-26
 Title: Interface to the 'Pharmpy' 'Pharmacometrics' Library
 Authors@R: c(
   person("Rikard", "Nordgren", role=c("aut", "cre", "cph"), email="rikard.nordgren@uu.se"),
@@ -18,16 +18,16 @@ Authors@R: c(
   )
 Maintainer: Rikard Nordgren <rikard.nordgren@uu.se>
 Depends: R (>= 3.6.0),
-SystemRequirements: Python (>= 3.11.0)
-Imports: htmltools (>= 0.5.8.1), reticulate (>= 1.38), cli, utils
-Suggests: testthat, magrittr, here, knitr
+SystemRequirements: Python (>= 3.12.0)
+Imports: htmltools (>= 0.5.8.1), reticulate (>= 1.46.0), cli, utils
+Suggests: testthat, here, knitr
 NeedsCompilation: no
 Description: Interface to the 'Pharmpy' 'pharmacometrics' library. The 'Reticulate' package is used to interface Python from R.
 URL: https://github.com/pharmpy/pharmr
 BugReports: https://github.com/pharmpy/pharmr/issues
 License: LGPL (>= 3)
-Config/roxygen2/version: 8.0.0
-Packaged: 2026-05-19 17:11:58 UTC; runner
+Config/roxygen2/version: 8.1.0
+Packaged: 2026-08-31 12:59:52 UTC; rikard
 Author: Rikard Nordgren [aut, cre, cph],
   Stella Belin [aut, cph],
   Mats O. Karlsson [sad],
@@ -41,4 +41,4 @@ Author: Rikard Nordgren [aut, cre, cph],
   F. Hoffmann-La Roche Ltd. [fnd],
   Bayer AG [fnd]
 Repository: CRAN
-Date/Publication: 2026-05-28 14:20:02 UTC
+Date/Publication: 2026-08-31 18:30:02 UTC

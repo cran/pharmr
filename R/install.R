@@ -29,7 +29,7 @@ install_pharmpy_devel <- function(envname='r-reticulate', method='auto', version
   if (version == 'latest') {
     pharmpy_to_install <- 'pharmpy-core'
   } else if (version == 'devel') {
-    PHARMPY_COMMIT <- "f3b3a26831873d1dd1f0f3580496c5a849e379bf"
+    PHARMPY_COMMIT <- "d94f63dc63417b6824267680ba6216c1d8e6551c"
     pharmpy_to_install <- paste0('git+https://github.com/pharmpy/pharmpy.git@', PHARMPY_COMMIT)
     ignore_installed <- TRUE
   } else { 
